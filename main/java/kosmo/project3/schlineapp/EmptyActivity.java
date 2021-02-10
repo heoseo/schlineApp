@@ -1,7 +1,8 @@
 package kosmo.project3.schlineapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class EmptyActivity extends AppCompatActivity {
 

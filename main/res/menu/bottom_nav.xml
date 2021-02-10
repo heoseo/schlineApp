@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_1"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="강의실" />
+
+    <item
+        android:id="@+id/navigation_2"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="일정" />
+
+    <item
+        android:id="@+id/navigation_3"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="공부방" />
+    <item
+        android:id="@+id/navigation_4"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="계정" />
+</menu>
