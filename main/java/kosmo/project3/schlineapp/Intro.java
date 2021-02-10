@@ -3,7 +3,8 @@ package kosmo.project3.schlineapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Intro extends AppCompatActivity {
 
