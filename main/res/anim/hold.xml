@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--움직임없음 효과
+        : 인트로 실행시 사라지는 액티비티에 적용할 애니메이션-->
+<translate
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_interpolator"
+    android:fromXDelta="0"
+    android:toXDelta="0"
+    android:duration="2000"/>
