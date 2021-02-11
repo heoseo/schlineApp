@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".StudyroomChatActivity"></activity>
+        <activity android:name=".StudyRoomActivity" /> <!-- 애뮬 사용시 -->
+        <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
             <intent-filter>

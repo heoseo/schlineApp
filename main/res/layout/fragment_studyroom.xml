@@ -7,13 +7,63 @@
     android:gravity="center"
     android:layout_height="match_parent">
 
+    <!--랭킹-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_dark_background"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:baselineAligned="false">
+        <!--baselineAligned: 텍스트 하단 기준으로 정렬-->
+        <!--텍스트아닌듯..맞게바꾸자-->
+        <TextView
+            android:id="@+id/text_lank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="랭킹 나올 부분"
+            android:gravity="center"/>
+    </LinearLayout>
 
+    <!--간단한 프로필 이미지-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:background="@color/cardview_light_background">
 
-    <TextView
+        <ImageView
+            android:id="@+id/img_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            />
+        <!--
+        android:srcCompat=""
+        요기 머넣어야되징?-->
+        <TextView
+            android:id="@+id/text_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center">
+    <!--스터디룸 입장 버튼-->
+    <Button
+        android:id="@+id/btn_studyRoomGo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Page_1"
-        android:textSize="100dp"/>
-
+        android:text="입장하기"
+        android:textSize="30sp"
+        android:background="#00FFCC" />
+    </LinearLayout>
 
 </LinearLayout>
