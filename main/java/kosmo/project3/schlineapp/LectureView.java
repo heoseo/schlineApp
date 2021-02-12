@@ -1,21 +1,20 @@
 package kosmo.project3.schlineapp;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,36 +25,29 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
-public class FragmentClassRoom extends Fragment
-{
-    String TAG = "FragmentClassRoom";
+public class LectureView extends AppCompatActivity {
 
-    ArrayList<String> subject_name = new  ArrayList<String>();
-   ArrayList<String> subject_idx = new ArrayList<String>();
-    ViewGroup viewGroup;
-    @Nullable
+    String TAG = "LectureView";
+    String subject_idx;
+    ArrayList<String> video_idx = new ArrayList<String>();
+    ArrayList<String> video_end = new ArrayList<String>();
+    ArrayList<String> video_title = new ArrayList<String>();
+    ArrayList<String> server_saved = new ArrayList<String>();
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-       viewGroup = (ViewGroup)
-                inflater.inflate(R.layout.fragment_classroom, container, false);
-            String user_id = StaticUserInformation.userID;
-        new syncCourseServer().execute(
-                "http://"+ StaticInfo.my_ip +"/schline/android/CourseList.do",
-                "userID="+user_id
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lecture_view);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        subject_idx = bundle.getString("idx");
+        new asynclecServer().execute(
+                "http://"+ StaticInfo.my_ip +"/schline/android/time.do",
+                "subject_idx="+subject_idx
         );
-
-        return viewGroup;
     }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-
-    class syncCourseServer extends AsyncTask<String,Void,String>{
+    class asynclecServer extends AsyncTask<String,Void,String>{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -68,7 +60,7 @@ public class FragmentClassRoom extends Fragment
             try {
                 URL url = new URL(strings[0]);
                 HttpURLConnection
-                conn=(HttpURLConnection)url.openConnection();
+                        conn=(HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
                 OutputStream out = conn.getOutputStream();
@@ -93,9 +85,10 @@ public class FragmentClassRoom extends Fragment
                 receiveData.setLength(0);
                 for(int i=0; i<jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                      subject_idx.add(jsonObject.getString("subject_idx"));
-                    subject_name.add(jsonObject.getString("subject_name"));
-
+                    video_idx.add(jsonObject.getString("video_idx"));
+                    video_title.add(jsonObject.getString("video_title"));
+                    video_end.add(jsonObject.getString("video_end"));
+                    server_saved.add(jsonObject.getString("server_saved"));
 
                 }
 
@@ -109,7 +102,6 @@ public class FragmentClassRoom extends Fragment
 
             return receiveData.toString();
         }
-
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
@@ -118,47 +110,50 @@ public class FragmentClassRoom extends Fragment
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            ListView listView = (ListView)viewGroup.findViewById(R.id.courseListView);
-            CourseAdapter courseAdapter = new CourseAdapter();
-            listView.setAdapter(courseAdapter);
+            ListView listView = (ListView) findViewById(R.id.LectureListview);
+
+            final lectureAdapter adapter = new lectureAdapter();
+            listView.setAdapter(adapter);
+
             listView.setOnItemClickListener(new
-            AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent intent = new Intent(view.getContext(),LectureView.class);
-                    intent.putExtra("idx",subject_idx.get(i));
-                    startActivity(intent);
+                        Intent intent = new Intent(view.getContext(),LectureView.class);
+                        /*intent.putExtra("idx",subject_idx.get(i));
+                        startActivity(intent);*/
 
-                }
-            });
+                    }
+                });
         }
     }
-    class CourseAdapter extends BaseAdapter{
+    class lectureAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return subject_idx.size();
+            return video_idx.size();
         }
 
         @Override
         public long getItemId(int i) {
             return i;
-         }
+        }
 
         @Override
         public Object getItem(int i) {
-            return subject_idx.get(i);
+            return video_idx.get(i);
         }
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            Log.i(TAG,"코스뷰 :"+subject_idx.get(i)+subject_name.get(i));
-            CourseView courseView = new CourseView(getContext());
-            courseView.setIdx(subject_idx.get(i));
-            courseView.setName(subject_name.get(i));
+            lectureLayout lectureLayout = new lectureLayout(getApplicationContext());
+            lectureLayout.setVideo_end(video_end.get(i));
+            lectureLayout.setVideo_title(i+1+"."+video_title.get(i));
 
-            return courseView;
+            return lectureLayout;
+
+
         }
     }
 
