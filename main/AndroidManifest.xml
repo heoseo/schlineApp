@@ -13,12 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
-<<<<<<< HEAD
+
         <activity android:name=".TeamActivity"></activity>
-=======
         <activity android:name=".SchlineExoPlayer"></activity>
         <activity android:name=".LectureView" />
->>>>>>> f358eff5ede98cd1684c526f712063ca63ce2402
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
