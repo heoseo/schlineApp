@@ -21,9 +21,8 @@
             android:layout_weight="1"
             android:text="TextView"
             android:textColor="@android:color/darker_gray"
-            android:textSize="24sp"
+            android:textSize="24dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             />
 
         <TextView
@@ -33,7 +32,7 @@
             android:layout_weight="1"
             android:text="자바"
             android:textColor="@android:color/black"
-            android:textSize="30sp"
+            android:textSize="30dp"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
 </LinearLayout>
