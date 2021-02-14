@@ -11,6 +11,4 @@ public class StaticInfo {
     // 서윤 -> 172.30.1.1:9999
     //public static String my_ip = "172.30.1.1:9999";
 
-    // 성준
-    public static String sj_ip = "192.168.0.24:9999";
 }

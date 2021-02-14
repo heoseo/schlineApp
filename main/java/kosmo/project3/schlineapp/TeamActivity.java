@@ -3,15 +3,11 @@ package kosmo.project3.schlineapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,17 +20,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+
+import kosmo.project3.schlineapp.vo.TeamVO;
 
 public class TeamActivity extends AppCompatActivity {
 
     String TAG = "SEONGJUN";
     ProgressDialog dialog;
     ListView teamview;
-    ArrayList<String> board_idx = new  ArrayList<String>();
-    ArrayList<String> board_content = new  ArrayList<String>();
-    ArrayList<String> board_title = new  ArrayList<String>();
-    ArrayList<String> board_postdate = new  ArrayList<String>();
+    private ArrayList<TeamVO> list = new ArrayList<>();
+    private TeamBoardLayout.TeamAdapter teamadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +40,7 @@ public class TeamActivity extends AppCompatActivity {
 
 
         new AsyncTeamRequest().execute(
-                "http://"+ StaticInfo.sj_ip +"/schline/android/teamList.do",
+                "http://"+ StaticInfo.my_ip +"/schline/android/teamList.do",
                 "userID="+user_id);
 
         //서버와 통신시 진행대화창을 띄우기 위한 객체생성
@@ -105,26 +100,32 @@ public class TeamActivity extends AppCompatActivity {
                     //서버 접속에 실패한경우..
                     Log.i(TAG, "HTTP OK 안됨");
                 }
-                ////////데이터로 변경///////
-                //누른 버튼이 "회원리스트가져오기"라면...
-                //if(buttonResId==R.id.btn_json){
-                    //읽어온 JSON데이터를 로그로 출력
-                    Log.i(TAG, sBuffer.toString());
-                    //먼저 JSON배열로 파싱
-                    JSONArray jsonArray = new JSONArray(sBuffer.toString());
-                    //StringBuffer 객체를 비움
-                    sBuffer.setLength(0);
-                    //배열 크기만큼 반복
-                    for(int i=0; i<jsonArray.length(); i++){
-                        //배열의 요소는 객체이므로 JSON객체로 파싱
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        //각 Key에 해당하는 값을 가져와서 StringBuffer객체에 저장
-                        board_idx.add(jsonObject.getString("board_idx"));
-                        board_title.add(jsonObject.getString("board_title"));
-                        board_content.add(jsonObject.getString("board_content"));
-                        board_postdate.add(jsonObject.getString("board_postdate"));
-                    }
-                //}
+                ////////데이터로 변경//////
+                //읽어온 JSON데이터를 로그로 출력
+                Log.i(TAG, sBuffer.toString());
+                //먼저 JSON배열로 파싱
+                JSONArray jsonArray = new JSONArray(sBuffer.toString());
+                //StringBuffer 객체를 비움
+                sBuffer.setLength(0);
+                //배열 크기만큼 반복
+                for(int i=0; i<jsonArray.length(); i++){
+                    //배열의 요소는 객체이므로 JSON객체로 파싱
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    //각 Key에 해당하는 값을 가져와서 StringBuffer객체에 저장
+                    String board_idx = jsonObject.getString("board_idx");
+                    String user_name = jsonObject.getString("user_name");
+                    String board_title = jsonObject.getString("board_title");
+                    String board_content = jsonObject.getString("board_content");
+                    String board_postdate = jsonObject.getString("board_postdate");
+                    TeamVO vo = new TeamVO();
+                    vo.setBoard_idx(board_idx);
+                    vo.setBoard_title(board_title);
+                    vo.setUser_name(user_name);
+                    vo.setBoard_content(board_content);
+                    vo.setBoard_postdate(board_postdate);
+                    list.add(vo);
+                }
+
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -140,10 +141,9 @@ public class TeamActivity extends AppCompatActivity {
             super.onPostExecute(s);
             //진행대화창을 닫아준다.
             dialog.dismiss();
-            //결과값을 텍스트뷰에 출력한다..
+            //결과값을 텍스트뷰에 출력한다..?
             teamview = (ListView)findViewById(R.id.teamView);
-            TeamAdapter teamAdapter = new TeamAdapter();
-            teamview.setAdapter(teamAdapter);
+            teamview.setAdapter(teamadapter);
 
             teamview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -152,30 +152,6 @@ public class TeamActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "테스트", Toast.LENGTH_LONG).show();
                 }
             });
-        }
-    }
-
-    class TeamAdapter extends BaseAdapter{
-
-        @Override
-        public int getCount() {
-           return board_idx.size();
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return board_idx.get(i);
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            Log.i("SEONGJUN","진입이 되나요?");
-            return null;
         }
     }
 }
