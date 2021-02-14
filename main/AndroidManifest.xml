@@ -15,6 +15,9 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".StudyroomChatActivity"></activity>
         <activity android:name=".StudyRoomActivity" /> <!-- 애뮬 사용시 -->
+        <activity android:name=".TeamActivity"></activity>
+        <activity android:name=".SchlineExoPlayer"></activity>
+        <activity android:name=".LectureView" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
