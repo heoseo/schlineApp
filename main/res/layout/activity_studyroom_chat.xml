@@ -1,9 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--뷰의구성
+1. 처음 입력창에 닉네임 입력하고 접속버튼 누름
+2. 접속되면 환영문구 받음
+3. 접속완료시 EditText창의 흰트가 닉네임 -> 메세지로 변경하여 주고
+    버튼의 text값을 전송으로 고쳐줌
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StudyroomChatActivity">
+    android:orientation="vertical"
+    tools:context=".studyroom.StudyroomChatActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--뮤직플레이어-->
+    <!--id속성을 꼭 적어줘야함-->
+    <fragment
+        android:id="@+id/frag_study_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        class="kosmo.project3.schlineapp.studyroom.FragmentMusic"
+        />
+
+
+
+    <!--스크롤 대화창-->
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="닉네임"
+            android:inputType="textPersonName" />
+        <!--접속버튼 누르면 스레드 가동-->
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnMethod"
+            android:text="접속" />
+    </LinearLayout>
+</LinearLayout>
