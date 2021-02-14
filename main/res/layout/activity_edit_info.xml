@@ -9,36 +9,41 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30sp"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:background="#E8D9FF"
+            android:text="내 프로필"/>
         <!-- 안드로이드에서 선택한 이미지가 업로드 되기전 임시로 출력 -->
         <ImageView
-            android:id="@+id/ivPicture"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:id="@+id/img_change"
+            android:layout_width="300sp"
+            android:layout_height="300sp"
             android:layout_weight="1"
-            android:scaleType="center"
-            app:srcCompat="@mipmap/ic_launcher" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#e7f6d8">
-            <!-- 스프링 서버로 업로드 완료후 결과JSON을 받아 출력할 부분 -->
-            <TextView
-                android:id="@+id/tvHtml1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </ScrollView>
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/user" />
     </LinearLayout>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:background="#E8D9FF">
+        <!-- 스프링 서버로 업로드 완료후 결과JSON을 받아 출력할 부분 -->
+        <TextView
+            android:id="@+id/tvHtml1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark"
+        android:background="#E8D9FF"
         android:orientation="horizontal">
 
         <Button
@@ -46,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:onClick="onBtnGetPicture"
             android:text="이미지 선택" />
 
@@ -54,18 +60,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:onClick="onBtnUpload"
             android:text="파일 업로드" />
 
-        <Button
+<!--        <Button
             android:id="@+id/btnFinish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:onClick="onBtnFinish"
-            android:text="종료" />
+            android:text="종료" />-->
+
     </LinearLayout>
 
 
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="닉네임 : "/>
+            <EditText
+                android:id="@+id/change_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="닉네임을 입력하세요"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#E8D9FF"
+            android:text="수정"/>
+    </LinearLayout>
 </LinearLayout>

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_schline"
@@ -15,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_schline_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        >
         <activity android:name=".TeamActivity"></activity>
         <activity android:name=".SchlineExoPlayer"></activity>
         <activity android:name=".LectureView" />
