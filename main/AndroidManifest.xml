@@ -3,7 +3,10 @@
     package="kosmo.project3.schlineapp">
     <!-- 네트워크 사용위한 퍼미션 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 채팅추가 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,10 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
-
         <activity android:name=".TeamActivity"></activity>
         <activity android:name=".SchlineExoPlayer"></activity>
         <activity android:name=".LectureView" />
+        <activity android:name=".studyroom.EditInfoActivity"></activity>
+        <activity android:name=".studyroom.ChatEnterActivity" />
+        <activity android:name=".studyroom.ChatActivity" />
+        <activity android:name=".studyroom.StudyroomChatActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
