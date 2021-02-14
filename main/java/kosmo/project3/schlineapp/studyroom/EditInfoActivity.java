@@ -87,7 +87,8 @@ public class EditInfoActivity extends AppCompatActivity {
         imageView2 = findViewById(R.id.ivPicture);
 
         try {
-            url = new URL("http://"+ R.string.server_addr+"/resources/profile_image"+File.separator+pro_img);
+            //url = new URL("http://"+ R.string.server_addr+"/resources/profile_image"+File.separator+pro_img);
+            url = new URL("http://"+ StaticInfo.my_ip+"/resources/profile_image"+File.separator+pro_img);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -220,7 +221,7 @@ public class EditInfoActivity extends AppCompatActivity {
             try {
                 //기존 프로필수정 컨트롤러
                 //String sUrl = StaticInfo.my_ip + "/schline/android/class/editProfile.do";
-                String sUrl = getString(R.string.server_addr) + "/schline/android/class/editProfile.do";
+                String sUrl = "http://"+StaticInfo.my_ip + "/schline/android/class/editProfile.do";
                 //단말기의 사진을 서버로 업로드하기위한 객체생성 및 메소드호출
                 FileUpload multiImageUpload = new FileUpload(sUrl, "UTF-8");
                 rtn = multiImageUpload.upload(param, files);

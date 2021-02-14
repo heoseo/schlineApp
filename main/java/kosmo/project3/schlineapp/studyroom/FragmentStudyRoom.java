@@ -101,7 +101,8 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
         Button editBtn;
         //이클립스, DB연동 사용자정보 요청
         new syncInfoServer().execute(
-                getString(R.string.server_addr)  +"/schline/android/class/study.do",
+                //getString(R.string.server_addr)  +"/schline/android/class/study.do",
+                "http://"+StaticInfo.my_ip  +"/schline/android/class/study.do",
                 "user_id="+StaticUserInformation.userID
         );
 
@@ -139,7 +140,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(),
                                 EditInfoActivity.class);
-                        Log.i("넘길 info 이미지=", info_img);
+                        Log.i(TAG,"넘길 info 이미지="+ info_img);
                         intent.putExtra("img", info_img);
                         intent.putExtra("url", url);
                         //프로필수정 이동
@@ -166,7 +167,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
         URL url =null;
         try{
             // 스트링 주소를 url 형식으로 변환
-            url = new URL("http://"+StaticInfo.my_ip2+"/resources/profile_image"+File.separator+info_img);
+            url = new URL("http://"+StaticInfo.my_ip+"/resources/profile_image"+File.separator+info_img);
             //url = new URL("http://localhost:9999//resources/profile_image"+File.separator+info_img);
             Log.i(TAG, "url최종="+url);
             // url에 접속 시도
@@ -297,6 +298,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
             Thread th =new Thread(FragmentStudyRoom.this);
             // 동작 수행
             th.start();
+
             return sBuffer.toString();
         }
 
