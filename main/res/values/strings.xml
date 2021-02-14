@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">SchLine</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="server_addr">http://192.168.25.47:9999</string><!--다혜-->
 </resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp">
+        <!--png 배경 투명하게 해주기 : #00FF0000(투명색) or transparent-->
+        <ImageButton
+            android:id="@+id/btn_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_replay_black_18dp"
+            android:background="@android:color/transparent"
+            android:text="처음부터 재생"/>
+
+        <ImageButton
+            android:id="@+id/btn_replay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_play_circle_outline_black_18dp"
+            android:background="#00FF0000"
+            android:text="재생"/>
+
+        <ImageButton
+            android:id="@+id/btn_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_pause_circle_outline_black_18dp"
+            android:background="@android:color/transparent"
+            android:text="일시정지"/>
+
+        <ImageButton
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_stop_black_18dp"
+            android:background="#00FF0000"
+            android:text="정지"/>
+    </LinearLayout>
+
+</LinearLayout>

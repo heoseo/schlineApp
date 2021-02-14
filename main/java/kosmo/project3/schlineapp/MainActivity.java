@@ -12,6 +12,8 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import kosmo.project3.schlineapp.studyroom.FragmentStudyRoom;
+
 public class MainActivity extends AppCompatActivity {
 
     String TAG = "MainActivity";

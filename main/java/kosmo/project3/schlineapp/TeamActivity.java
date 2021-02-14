@@ -45,7 +45,7 @@ public class TeamActivity extends AppCompatActivity {
 
 
         new AsyncTeamRequest().execute(
-                "http://"+ StaticInfo.sj_ip +"/schline/android/teamList.do",
+                "http://"+ StaticInfo.my_ip +"/schline/android/teamList.do",
                 "userID="+user_id);
 
         //서버와 통신시 진행대화창을 띄우기 위한 객체생성
