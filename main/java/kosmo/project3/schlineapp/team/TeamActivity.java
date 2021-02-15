@@ -1,14 +1,18 @@
-package kosmo.project3.schlineapp;
+package kosmo.project3.schlineapp.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -21,15 +25,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import kosmo.project3.schlineapp.vo.TeamVO;
+import kosmo.project3.schlineapp.R;
+import kosmo.project3.schlineapp.StaticInfo;
+import kosmo.project3.schlineapp.StaticUserInformation;
 
 public class TeamActivity extends AppCompatActivity {
 
     String TAG = "SEONGJUN";
-    ProgressDialog dialog;
-    ListView teamview;
+    ListView teamlist;
     private ArrayList<TeamVO> list = new ArrayList<>();
-    private TeamBoardLayout.TeamAdapter teamadapter;
+    ArrayList<String> boardidxs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +42,13 @@ public class TeamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_team);
 
         String user_id = StaticUserInformation.userID;
-
-
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String subject_idx = intent.getStringExtra("subject_idx");
+        Log.i(TAG, subject_idx);
         new AsyncTeamRequest().execute(
                 "http://"+ StaticInfo.my_ip +"/schline/android/teamList.do",
-                "userID="+user_id);
-
-        //서버와 통신시 진행대화창을 띄우기 위한 객체생성
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//스타일설정
-        dialog.setIcon(android.R.drawable.ic_dialog_alert);//아이콘설정
-        dialog.setTitle("회원정보 리스트 가져오기");//제목
-        dialog.setMessage("서버로부터 응답을 기다리고 있습니다.");//출력할 내용
-        dialog.setCancelable(false);//back버튼으로 닫히지 않도록 설정
-
+                "user_id="+user_id, "subject_idx="+subject_idx);
     }
 
     class AsyncTeamRequest extends AsyncTask<String, Void, String>{
@@ -58,9 +56,6 @@ public class TeamActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //서버와 통신 직전에 진행대화창을 띄워준다.
-            if(!dialog.isShowing())
-                dialog.show(); //대화창이 없다면 show()를 통해 창을 띄운다.
         }
 
         @Override
@@ -78,6 +73,8 @@ public class TeamActivity extends AppCompatActivity {
 
                 OutputStream out = connection.getOutputStream();
                 out.write(strings[1].getBytes());//아이디 전달
+                out.write("&".getBytes());//&를 사용하여 쿼리스트링으로 만들어줌
+                out.write(strings[2].getBytes());//과목전달
 
                 out.flush();
                 out.close();
@@ -117,6 +114,9 @@ public class TeamActivity extends AppCompatActivity {
                     String board_title = jsonObject.getString("board_title");
                     String board_content = jsonObject.getString("board_content");
                     String board_postdate = jsonObject.getString("board_postdate");
+                    //보드일련번호 넣어보기..
+                    boardidxs.add(board_idx);
+                    //VO객체에 넣기
                     TeamVO vo = new TeamVO();
                     vo.setBoard_idx(board_idx);
                     vo.setBoard_title(board_title);
@@ -124,6 +124,7 @@ public class TeamActivity extends AppCompatActivity {
                     vo.setBoard_content(board_content);
                     vo.setBoard_postdate(board_postdate);
                     list.add(vo);
+                    Log.i(TAG, "리스트담기까지..");
                 }
 
             }
@@ -139,19 +140,52 @@ public class TeamActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            //진행대화창을 닫아준다.
-            dialog.dismiss();
+            Log.i(TAG, "팀뷰어댑터?");
             //결과값을 텍스트뷰에 출력한다..?
-            teamview = (ListView)findViewById(R.id.teamView);
-            teamview.setAdapter(teamadapter);
-
-            teamview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            teamlist = (ListView)findViewById(R.id.teamlist);
+            TeamAdapter teamadapter = new TeamAdapter();
+            teamlist.setAdapter(teamadapter);
+            teamlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.i(TAG, "어떤값이 넘어오나요? : "+boardidxs.size());
+                    Intent intent = new Intent(adapterView.getContext(), TeamView.class);
+                    intent.putExtra("board_idx", boardidxs.get(i));
 
-                    Toast.makeText(getApplicationContext(), "테스트", Toast.LENGTH_LONG).show();
+                    startActivity(intent);
                 }
             });
+        }
+    }
+
+    public class TeamAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return list.get(i).getBoard_title();
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            Log.i(TAG,"진입이 되나요?");
+
+            TeamBoardLayout teamBoardLayout = new TeamBoardLayout(getApplicationContext());
+
+            teamBoardLayout.settitle(list.get(i).getBoard_title());
+            teamBoardLayout.setuser(list.get(i).getUser_name());
+            teamBoardLayout.setpostdate(list.get(i).getBoard_postdate());
+
+            return teamBoardLayout;
         }
     }
 }

@@ -1,6 +1,4 @@
-package kosmo.project3.schlineapp.vo;
-
-import java.sql.Date;
+package kosmo.project3.schlineapp.team;
 
 public class TeamVO {
 

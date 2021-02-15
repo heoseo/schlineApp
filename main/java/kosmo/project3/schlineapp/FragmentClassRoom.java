@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,6 +29,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import kosmo.project3.schlineapp.task.TaskActivity;
+import kosmo.project3.schlineapp.team.TeamActivity;
+
 public class FragmentClassRoom extends Fragment
 {
     String TAG = "FragmentClassRoom";
@@ -35,10 +39,15 @@ public class FragmentClassRoom extends Fragment
     ArrayList<String> subject_name = new  ArrayList<String>();
    ArrayList<String> subject_idx = new ArrayList<String>();
     ViewGroup viewGroup;
+
+    Button teamBtn;
+    Button taskBtn;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
        viewGroup = (ViewGroup)
                 inflater.inflate(R.layout.fragment_classroom, container, false);
             String user_id = StaticUserInformation.userID;
@@ -46,6 +55,33 @@ public class FragmentClassRoom extends Fragment
                 "http://"+ StaticInfo.my_ip +"/schline/android/CourseList.do",
                 "userID="+user_id
         );
+        ///////////////////////////////////////////////////////////////////////
+        /*
+        버튼테스트용 추후삭제해야함...
+         */
+
+        teamBtn = viewGroup.findViewById(R.id.teamBtn);
+        teamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TeamActivity.class);
+                intent.putExtra("subject_idx", "1");
+                startActivity(intent);
+            }
+        });
+        taskBtn = viewGroup.findViewById(R.id.taskBtn);
+        taskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TaskActivity.class);
+                intent.putExtra("subject_idx", "1");
+                startActivity(intent);
+            }
+        });
+        /*
+        여기까지
+         */
+        ///////////////////////////////////////////////////////////////
 
         return viewGroup;
     }
