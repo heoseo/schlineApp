@@ -1,9 +1,11 @@
-package kosmo.project3.schlineapp;
+package kosmo.project3.schlineapp.classroom;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import kosmo.project3.schlineapp.R;
 
 public class CourseView extends LinearLayout {
 

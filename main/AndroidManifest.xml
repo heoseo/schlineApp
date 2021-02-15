@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kosmo.project3.schlineapp">
-    <!-- 네트워크 사용위한 퍼미션 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 네트워크 사용위한 퍼미션 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -13,8 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SchlineExoPlayer"></activity>
-        <activity android:name=".LectureView" />
+        <activity android:name=".classroom.VideoPlay"></activity>
+        <activity android:name=".classroom.SchlineExoPlayer" />
+        <activity android:name=".classroom.LectureView" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
@@ -25,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+
     </application>
 
 </manifest>
