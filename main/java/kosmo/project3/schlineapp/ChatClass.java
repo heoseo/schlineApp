@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.studyroom;
+package kosmo.project3.schlineapp;
 
 import android.util.Log;
 

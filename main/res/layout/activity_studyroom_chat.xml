@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".studyroom.StudyroomChatActivity">
+    tools:context=".StudyroomChatActivity">
 
 
     <!--뮤직플레이어-->
@@ -20,7 +20,7 @@
         android:id="@+id/frag_study_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        class="kosmo.project3.schlineapp.studyroom.FragmentMusic"
+        class="kosmo.project3.schlineapp.FragmentMusic"
         />
 
 

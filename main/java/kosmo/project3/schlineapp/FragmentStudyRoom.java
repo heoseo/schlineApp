@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.studyroom;
+package kosmo.project3.schlineapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -26,17 +26,12 @@ import androidx.fragment.app.Fragment;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import kosmo.project3.schlineapp.R;
-import kosmo.project3.schlineapp.StaticInfo;
-import kosmo.project3.schlineapp.StaticUserInformation;
 
 //프레그먼트 상속
 @SuppressLint("HandlerLeak")
@@ -123,7 +118,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(),
-                                ChatActivity.class);
+                                ChatEnterActivity.class);
                         //채팅2이동
                         startActivity(intent);
                     }

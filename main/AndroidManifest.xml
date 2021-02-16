@@ -23,12 +23,12 @@
         <activity android:name=".TeamActivity"></activity>
         <activity android:name=".SchlineExoPlayer"></activity>
         <activity android:name=".LectureView" />
-        <activity android:name=".studyroom.EditInfoActivity"
+        <activity android:name=".EditInfoActivity"
             android:windowSoftInputMode="adjustResize|adjustPan"
             ></activity>
-        <activity android:name=".studyroom.ChatEnterActivity" />
-        <activity android:name=".studyroom.ChatActivity" />
-        <activity android:name=".studyroom.StudyroomChatActivity" />
+        <activity android:name=".ChatEnterActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".StudyroomChatActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
@@ -40,7 +40,14 @@
         </activity>
         <activity android:name=".MainActivity" />
 
-
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGIN_EVENT" />
+            </intent-filter>
+        </service>
 
 
     </application>

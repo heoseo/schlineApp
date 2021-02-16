@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.studyroom;
+package kosmo.project3.schlineapp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -23,10 +22,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
-import kosmo.project3.schlineapp.R;
-import kosmo.project3.schlineapp.StaticInfo;
-import kosmo.project3.schlineapp.studyroom.StydyLankList;
 
 public class FragmentStudyLank extends Fragment {
 

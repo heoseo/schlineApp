@@ -1,4 +1,4 @@
-package com.kosmo.testfcm;
+package kosmo.project3.schlineapp;
 
 import android.content.Intent;
 import android.util.Log;
@@ -6,6 +6,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+
+import kosmo.project3.schlineapp.MainActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "iKosmo";
@@ -16,6 +18,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // 앱이 실행 중일 때 알림 메시지가 올 경우 처리
         // 메시지 안에 payload 데이터가 있을 경우 : 가령 message:value
+
+        //고급옵션 : 제목, 키-밸유
         if (remoteMessage.getData().size() > 0) {
             Map<String, String> data = remoteMessage.getData();
             Log.d(TAG, "Message data payload: " + data.toString());
@@ -29,6 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // 시스템 알림으로 오는 제목과 내용을 후킹할 수 있다.
         // 그러나 앱이 실행되고 있을 때는 굳이 처리할 필요가 없다.
 
+        //시스템 알림에서 처리되는 제목과 내용
         if (remoteMessage.getNotification() != null) {
             String notiTitle = remoteMessage.getNotification().getTitle();
             String notiBody = remoteMessage.getNotification().getBody();

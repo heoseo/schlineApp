@@ -25,7 +25,7 @@
             android:id="@+id/frag_study_lank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            class="kosmo.project3.schlineapp.studyroom.FragmentStudyLank"/>
+            class="kosmo.project3.schlineapp.FragmentStudyLank"/>
 
     </LinearLayout>
 
