@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.classroom;
+package kosmo.project3.schlineapp;
 
 import com.google.gson.annotations.SerializedName;
 

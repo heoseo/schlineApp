@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.classroom;
+package kosmo.project3.schlineapp;
 import android.net.Uri;
 
 public class ModelVideo {

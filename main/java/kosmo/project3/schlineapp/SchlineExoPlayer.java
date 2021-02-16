@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.classroom;
+package kosmo.project3.schlineapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +18,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
-
-import kosmo.project3.schlineapp.R;
-import kosmo.project3.schlineapp.classroom.AdapterVideolist;
-import kosmo.project3.schlineapp.classroom.ModelVideo;
 
 public class SchlineExoPlayer extends AppCompatActivity {
     private ArrayList<ModelVideo> videosList = new ArrayList<ModelVideo>();

@@ -4,6 +4,6 @@ import android.content.res.Resources;
 
 public class StaticInfo {
 
-    public static String my_ip = "192.168.219.101:8080";
+    public static String my_ip = "192.168.219.115:8080";
 
 }

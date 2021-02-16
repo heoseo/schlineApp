@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.classroom;
+package kosmo.project3.schlineapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;

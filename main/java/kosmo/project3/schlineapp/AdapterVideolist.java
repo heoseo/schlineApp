@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.classroom;
+package kosmo.project3.schlineapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-
-import kosmo.project3.schlineapp.R;
 
 public class AdapterVideolist extends RecyclerView.Adapter<AdapterVideolist.MyViewHolder> {
 

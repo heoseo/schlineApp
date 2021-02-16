@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kosmo.project3.schlineapp">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 네트워크 사용위한 퍼미션 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 채팅추가 -->
@@ -8,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_schline"
@@ -16,27 +18,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".classroom.VideoPlay"></activity>
-        <activity android:name=".classroom.SchlineExoPlayer" />
-        <activity android:name=".classroom.LectureView" />
-        <activity android:name=".TeamActivity"></activity>
-
-        <activity android:name=".studyroom.EditInfoActivity"></activity>
-        <activity android:name=".studyroom.ChatEnterActivity" />
-        <activity android:name=".studyroom.ChatActivity" />
-        <activity android:name=".studyroom.StudyroomChatActivity" />
+        <activity android:name=".FCM"/>
+        <activity android:name=".VideoPlay" />
+        <activity android:name=".SchlineExoPlayer" />
+        <activity android:name=".LectureView" />
+        <activity android:name=".TeamActivity" />
+        <activity android:name=".EditInfoActivity" />
+        <activity android:name=".ChatEnterActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".StudyroomChatActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.iMntent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" >
+        </activity>
 
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGIN_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
