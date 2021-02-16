@@ -18,11 +18,14 @@
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
+        android:windowSoftInputMode="adjustResize"
         >
         <activity android:name=".TeamActivity"></activity>
         <activity android:name=".SchlineExoPlayer"></activity>
         <activity android:name=".LectureView" />
-        <activity android:name=".studyroom.EditInfoActivity"></activity>
+        <activity android:name=".studyroom.EditInfoActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            ></activity>
         <activity android:name=".studyroom.ChatEnterActivity" />
         <activity android:name=".studyroom.ChatActivity" />
         <activity android:name=".studyroom.StudyroomChatActivity" />

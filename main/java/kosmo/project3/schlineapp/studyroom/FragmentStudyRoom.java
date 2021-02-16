@@ -1,7 +1,6 @@
 package kosmo.project3.schlineapp.studyroom;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,40 +9,34 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 import kosmo.project3.schlineapp.R;
 import kosmo.project3.schlineapp.StaticInfo;
 import kosmo.project3.schlineapp.StaticUserInformation;
-import kosmo.project3.schlineapp.studyroom.StudyroomChatActivity;
 
 //프레그먼트 상속
 @SuppressLint("HandlerLeak")
@@ -58,11 +51,10 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
     Button btnStudyGO;
     //제이슨 파싱용 변수
     String info_nick, reported_count, info_img, info_attend, info_time;
-    URL url;
     //Integer info_attend, info_time;
     String user_id = StaticUserInformation.userID;
-    //info_img도 있어야함
     ViewGroup studyRoomView;
+    URL url;
 
     // 메인 스레드와 백그라운드 스레드 간의 통신
     Handler handler;
@@ -73,7 +65,6 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 Log.i(TAG, "핸들러 들어옴");
-                Log.i(TAG, "최종bitmap=" + bitmap);
                 // 서버에서 받아온 이미지를 핸들러를 경유해 이미지뷰에 비트맵 리소스 연결
                 imgINFO.setImageBitmap(bitmap);
             }
@@ -146,9 +137,15 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(),
                                 EditInfoActivity.class);
+
                         Log.i(TAG,"넘길 info 이미지="+ info_img);
-                        intent.putExtra("img", info_img);
+                        Log.i(TAG,"넘길 bitmap 이미지="+ bitmap);
+
+                        intent.putExtra("info_img", info_img);
+                        intent.putExtra("info_nick", info_nick);
                         intent.putExtra("url", url);
+                        //intent.putExtra("bitmap", bitmap);//이미지 비트맵 넘기기. 여기서 에러남!!
+
                         //프로필수정 이동
                         startActivity(intent);
                     }
@@ -165,17 +162,14 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
     }
 
 
-
-
     // 백그라운드 스레드
     @Override
     public void run() {
-        URL url =null;
         try{
             // 스트링 주소를 url 형식으로 변환
             url = new URL("http://"+StaticInfo.my_ip+"/schline/resources/profile_image"+File.separator+info_img);
             //url = new URL("http://localhost:9999//resources/profile_image"+File.separator+info_img);
-            Log.i(TAG, "url최종="+url);
+            Log.i(TAG, "이미지 url최종="+url);
             // url에 접속 시도
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.connect();

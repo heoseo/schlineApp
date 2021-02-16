@@ -27,6 +27,8 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,9 +38,12 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -46,29 +51,28 @@ import java.util.HashMap;
 
 import kosmo.project3.schlineapp.R;
 import kosmo.project3.schlineapp.StaticInfo;
+import kosmo.project3.schlineapp.StaticUserInformation;
 
-public class EditInfoActivity extends AppCompatActivity {
+public class EditInfoActivity extends AppCompatActivity implements Runnable{
 
     private String TAG = "EditInfoActivity";
 
-    ImageView imageView;
-    ImageView imageView2;
     ImageView img_change;
     EditText change_nick;
     TextView tvHtml1;
-    String pro_img;
     String filePath1;//파일의 절대경로
-    String info_img;
+    String info_img, info_nick;
+    URL url;
+    Bitmap bitmap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
 
-        img_change = findViewById(R.id.img_change);
-        tvHtml1 = findViewById(R.id.tvHtml1);
-        change_nick = findViewById(R.id.change_nick);
-
+        //editText 키보드가 가릴때 맞춰주기
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         //메니페스트에 설정된 권한에 대해 사용자에게 물어본다.
         //만약 사용자가 허용하지 않는다면 해당기능을 사용할 수 없다.
@@ -77,26 +81,52 @@ public class EditInfoActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
 
+        //위젯
+        img_change = findViewById(R.id.img_change);
+        tvHtml1 = findViewById(R.id.tvHtml1);
+        change_nick = findViewById(R.id.change_nick);
+
         //인텐트 가져오기
         Intent intent = getIntent();
         //번들로 부가데이터 전달
         Bundle bundle = intent.getExtras();
-        pro_img = bundle.getString("img");
         info_img = bundle.getString("info_img");
+        info_nick = bundle.getString("info_nick");
+        url = (URL)bundle.get("url");
+        //bitmap = (Bitmap)intent.getParcelableExtra("bitmap");
 
-        Log.i(TAG, "넘어온이미지" + pro_img);
+        //Log.i(TAG, "넘어온 비트맵"+bt);
+        Log.i(TAG, "넘어온이미지" + info_img);
+        Log.i(TAG, "넘어온 닉네임"+ info_nick);
+        Log.i(TAG, "넘어온 url"+ url);
 
-        imageView = findViewById(R.id.img_info);
-        imageView2 = findViewById(R.id.img_change);
+        //위젯 셋팅
+        change_nick.setText(info_nick);
+        Log.i(TAG,"닉네임 셋팅값 확인"+change_nick.getText().toString());
 
         //프로필이미지 모서리 둥글게
         img_change.setBackground(new ShapeDrawable(new OvalShape()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             img_change.setClipToOutline(true);
         }
+
+        // 백그라운드 스레드 생성
+        Thread th =new Thread(this);
+        th.start();
+
     }////onCreate
 
 
+    // 키보드 내리기 버튼(사용안함)
+    public void onKeydownClicked(View v) {
+        // IME Hide
+        InputMethodManager mgr =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+
+    //////////////////////이미지 변경하기
     //이미지선택
     public void onBtnGetPicture(View v) {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -104,7 +134,8 @@ public class EditInfoActivity extends AppCompatActivity {
         intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
     }
-    //파일업로드
+
+    //파일업로드(1)
     public void onBtnUpload(View v) {
 
         //텍스트뷰 내용 비우기
@@ -112,21 +143,32 @@ public class EditInfoActivity extends AppCompatActivity {
 
         //파라미터를 맵에 저장
         HashMap<String, String> param1 = new HashMap<>();
-        param1.put("userid", "홍길동");
-        param1.put("userpwd", "패스워드");
+        param1.put("change_nick", change_nick.getText().toString());//editText 값가져오기
+        param1.put("info_img", info_img);
+        param1.put("user_id", StaticUserInformation.userID);
+
+        //param1.put("change_img", img_change.toString());
 
         HashMap<String, String> param2 = new HashMap<>();
-        param2.put("filename", filePath1);
+        UploadAsync networkTask;//프로필수정 진행 핸들러
 
+        //절대경로가 null이 아닐때 파일업로드 진행
+        if(filePath1!=null) {//파일이 있을때
+            param2.put("filename", filePath1);
+            Log.i(TAG, "신규 업로드 파일 절대경로=" + filePath1);
+            networkTask = new UploadAsync(getApplicationContext(), param1, param2);
+        }
+        else{//파일이 없을때
+            networkTask = new UploadAsync(getApplicationContext(), param1);
+        }
         // AsyncTask를 통해 HttpURLConnection 수행.
-        UploadAsync networkTask = new UploadAsync(getApplicationContext(), param1, param2);
         //doInBackground() 호출
         networkTask.execute();
     }
-/*    //끝내기
+    //끝내기
     public void onBtnFinish(View v) {
         finish();
-    }*/
+    }
 
     // 갤러리 리스트뷰에서 사진 데이터를 가져오는 방법
     @Override
@@ -148,9 +190,10 @@ public class EditInfoActivity extends AppCompatActivity {
         if(cursor.moveToFirst()){
             column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         }
-
+        Log.i(TAG, "사용자정의함수 절대경로="+cursor.getString(column_index));
         return cursor.getString(column_index);
     }
+
     // 사용자정의함수 - 사진의 회전값을 처리하지 않으면 사진을 찍은 방향대로 이미지뷰에 처리되지 않는다.
     private int exifOrientationToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
@@ -175,7 +218,7 @@ public class EditInfoActivity extends AppCompatActivity {
     }
 
     private void showCapturedImage(Uri imageUri) {
-        // 사진의 절대경로를 획득한다!!! 중요~
+        // 사진의 절대경로 획득
         filePath1 = getRealPathFromURI(imageUri);//사용자정의함수
         Log.d(TAG, "path1:"+filePath1);
 
@@ -200,17 +243,25 @@ public class EditInfoActivity extends AppCompatActivity {
         img_change.setImageBitmap(scaledBitmap);
     }
 
-    // 네트웍 처리결과를 화면에 반영하기 위한 안드로이드 핸들러
+    //파일업로드(2)
+    // 네트웍 처리결과를 화면에 반영하기 위한 핸들러<param, progress, result>
     public class UploadAsync extends AsyncTask<Object, Integer, JSONObject> {
 
         //객체생성시 전달한 파라미터로 멤버변수 초기화
         private Context mContext;
         private HashMap<String, String> param;//파라미터
         private HashMap<String, String> files;//사진파일
+
+        //생성자1(사진파일 없음)
+        public UploadAsync(Context context, HashMap<String, String> param){
+            mContext = context;
+            this.param = param;//파라미터
+        }
+        //생성자2(사진파일 있음)
         public UploadAsync(Context context, HashMap<String, String> param, HashMap<String, String> files){
             mContext = context;
-            this.param = param;
-            this.files = files;
+            this.param = param;//파라미터
+            this.files = files;//사진파일
         }
 
         @Override
@@ -221,17 +272,20 @@ public class EditInfoActivity extends AppCompatActivity {
         @Override
         protected JSONObject doInBackground(Object... objects) {
             JSONObject rtn = null;
+            String sUrl = "http://" + StaticInfo.my_ip + "/schline/android/class/editProfile.do";
             try {
-                //프로젝트명이나 요청명이 변경될 수 있음
-                //따라서 서비스URL은 리소스의 상수로 저장하는것이 좋다.
-                String sUrl = "http://"+StaticInfo.my_ip+
-                        "/schline/android/class/editProfile.do";
                 //단말기의 사진을 서버로 업로드하기위한 객체생성 및 메소드호출
                 //FileUpload 클래스는 기존내용을 그대로 가져다 쓰면 됨(수정필요없음)
                 FileUpload multipartUpload = new FileUpload(sUrl, "UTF-8");
-                rtn = multipartUpload.upload(param, files);
-                //서버에서 반환받은 결과데이터를 로그로 출력
-                Log.d(TAG, "반환 json결과값="+rtn.toString());
+                if(filePath1!=null) {
+                    rtn = multipartUpload.upload(param, files);
+                    Log.d(TAG, "반환 json결과값="+rtn.toString());
+                }
+                else{//파일 없을때(기존방식)
+                    rtn = multipartUpload.upload(param);
+                    Log.d(TAG, "반환 json결과값="+rtn.toString());
+                    //JSON객체 파싱
+                }
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -247,23 +301,67 @@ public class EditInfoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
-
+            //여기까지 오기전에 이미 널에러 발생
             if (jsonObject != null) {
                 //결과데이터를 텍스트뷰에 출력
                 tvHtml1.setText(jsonObject.toString());
                 try {
-                    if (jsonObject.getInt("success") == 1) {
-                        Toast.makeText(mContext, "파일 업로드 성공!",
+                    if (jsonObject.getInt("result") == 1) {//map에 저장된 값 받아오기
+                        Toast.makeText(mContext, "프로필 수정 성공:)",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(jsonObject.getInt("result") == 0){
+                        Toast.makeText(mContext, "중복닉네임이 있습니다.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(mContext, "프로필 수정 실패",
                                 Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            else {
-                Toast.makeText(mContext, "파일 업로드 실패!",
-                        Toast.LENGTH_SHORT).show();
-            }
+
+        }
+    }
+
+
+    //////////기존 프로필 이미지 가져오기
+    // 메인 스레드와 백그라운드 스레드 간의 통신
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.i(TAG, "핸들러 들어옴");
+            // 서버에서 받아온 이미지를 핸들러를 경유해 이미지뷰에 비트맵 리소스 연결
+            img_change.setImageBitmap(bitmap);
+        }
+    };
+
+    // 백그라운드 스레드
+    @Override
+    public void run() {
+        try{
+            Log.i(TAG, "이미지 url최종="+url);
+            // url에 접속 시도
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.connect();
+            // 스트림 생성
+            InputStream is = conn.getInputStream();
+            // 스트림에서 받은 데이터를 비트맵 변환
+            // 인터넷에서 이미지 가져올 때는 Bitmap을 사용해야함
+            bitmap = BitmapFactory.decodeStream(is);
+
+            // 핸들러에게 화면 갱신을 요청한다.
+            handler.sendEmptyMessage(0);
+            // 연결 종료
+            is.close();
+            conn.disconnect();
+            handler.sendEmptyMessage(0);
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
