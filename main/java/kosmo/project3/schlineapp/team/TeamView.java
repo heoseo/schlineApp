@@ -50,7 +50,6 @@ public class TeamView extends AppCompatActivity {
     private long enqueue;
     private DownloadManager dm;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +62,6 @@ public class TeamView extends AppCompatActivity {
         new AsyncTeamViewRequest().execute(
                 "http://"+ StaticInfo.my_ip +"/schline/android/teamView.do",
                 "user_id="+user_id, "board_idx="+board_idx);
-
     }
 
     class AsyncTeamViewRequest extends AsyncTask<String, Void, String>{
@@ -114,12 +112,6 @@ public class TeamView extends AppCompatActivity {
 
                 //읽어온 JSON데이터를 로그로 출력
                 Log.i(TAG, sBuffer.toString());
-
-
-                //버퍼를 비운다.
-                //sBuffer.setLength(0);
-
-                Log.i(TAG, "스트링으로....");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -172,6 +164,8 @@ public class TeamView extends AppCompatActivity {
 
                         String ready_filename = board_file;
 
+                        //다운로드매니저 실행
+
                         dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fileURL));
                         request.setTitle(ready_filename);              // 다운로드 제목
@@ -190,7 +184,6 @@ public class TeamView extends AppCompatActivity {
             }
         }
     }
-
 
     //AsyncTask로 다운로드...
     /*class Teamdownload extends AsyncTask<String, String, Boolean> {
@@ -217,10 +210,7 @@ public class TeamView extends AppCompatActivity {
 
             try {
 
-
                 folder = fileFolderDirectory();
-
-
 
                 URL url = new URL(fileUrl);
                 Log.i(TAG, "유알엘:"+url);

@@ -114,6 +114,7 @@ public class TaskActivity extends AppCompatActivity {
                     String exam_date = jsonObject.getString("exam_date");
                     String exam_content = jsonObject.getString("exam_content");
                     String exam_scoring = jsonObject.getString("exam_scoring");
+                    String subject_idx = jsonObject.getString("subject_idx");
                     //과제일련번호 넣어보기..
                     boardidxs.add(exam_idx);
                     //VO객체에 넣기
@@ -123,6 +124,7 @@ public class TaskActivity extends AppCompatActivity {
                     vo.setExam_date(exam_date);
                     vo.setExam_content(exam_content);
                     vo.setExam_scoring(exam_scoring);
+                    vo.setSubject_idx(subject_idx);
                     list.add(vo);
                     Log.i(TAG, "리스트담기까지..");
                 }
@@ -151,6 +153,9 @@ public class TaskActivity extends AppCompatActivity {
                     Log.i(TAG, "어떤값이 넘어오나요? : "+boardidxs.size());
                     Intent intent = new Intent(adapterView.getContext(), TaskView.class);
                     intent.putExtra("board_idx", boardidxs.get(i));
+                    intent.putExtra("subject_idx", list.get(i).getSubject_idx());
+                    intent.putExtra("exam_name", list.get(i).getExam_name());
+                    intent.putExtra("exam_idx", list.get(i).getExam_idx());
 
                     startActivity(intent);
                 }

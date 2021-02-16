@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="150dp">
+    android:layout_height="160dp">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/tasktitle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="5dp"
             android:text="제목"
             android:textSize="20dp"
@@ -34,23 +34,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:text="마감일 : "
-            android:textSize="15dp"/>
-        <TextView
-            android:id="@+id/taskdate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:text="날짜"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="마감일 : "
+                android:textSize="15dp"/>
+            <TextView
+                android:id="@+id/taskdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="날짜"/>
         </LinearLayout>
-        <Button
-            android:id="@+id/taskview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f0f0f0"
-            android:text="제출하기"/>
+
     </LinearLayout>
 </LinearLayout>
