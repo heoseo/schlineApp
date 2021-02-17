@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import kosmo.project3.schlineapp.R;
+
 public class CourseView extends LinearLayout {
 
     TextView sub_idx;//과목번호
