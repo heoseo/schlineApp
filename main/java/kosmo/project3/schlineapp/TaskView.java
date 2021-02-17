@@ -32,7 +32,7 @@ import java.util.HashMap;
 import kosmo.project3.schlineapp.R;
 import kosmo.project3.schlineapp.StaticInfo;
 import kosmo.project3.schlineapp.StaticUserInformation;
-import kosmo.project3.schlineapp.studyroom.FileUpload;
+import kosmo.project3.schlineapp.FileUpload;
 
 public class TaskView extends AppCompatActivity {
 
