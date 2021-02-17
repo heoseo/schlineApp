@@ -25,21 +25,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:baselineAligned="true">
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/cardview_dark_background"
-            android:textColor="@color/cardview_light_background"
-            android:text="출석인정일" />
+
+            <TextView
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="#5864A7"
+                android:textSize="23dp"
+                android:text="출석인정일"
+                android:textColor="@color/cardview_light_background" />
 
         <TextView
             android:id="@+id/lecture_textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="2020-2-24"
+            android:layout_marginLeft="10dp"
             android:textColor="@android:color/darker_gray"
             android:textSize="23dp" />
         </LinearLayout>

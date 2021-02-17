@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.task;
+package kosmo.project3.schlineapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;

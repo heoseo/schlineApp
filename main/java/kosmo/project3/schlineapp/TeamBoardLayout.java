@@ -1,20 +1,9 @@
-package kosmo.project3.schlineapp.team;
+package kosmo.project3.schlineapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-
-import java.util.List;
-
-import kosmo.project3.schlineapp.R;
-import kosmo.project3.schlineapp.team.TeamVO;
 
 public class TeamBoardLayout extends LinearLayout {
 

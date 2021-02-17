@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.team;
+package kosmo.project3.schlineapp;
 
 public class TeamVO {
 

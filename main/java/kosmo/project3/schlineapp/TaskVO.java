@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.task;
+package kosmo.project3.schlineapp;
 
 public class TaskVO {
 

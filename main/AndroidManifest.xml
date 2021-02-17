@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kosmo.project3.schlineapp">
-    <!-- 네트워크 사용위한 퍼미션 -->
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 네트워크 사용위한 퍼미션 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 채팅추가 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_schline"
@@ -17,16 +19,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".task.TaskView" />
-        <activity android:name=".team.TeamView" />
-        <activity android:name=".task.TaskActivity" />
-        <activity android:name=".team.TeamActivity" />
+        <activity android:name=".TaskView" />
+        <activity android:name=".TeamView" />
+        <activity android:name=".TaskActivity" />
+        <activity android:name=".TeamActivity" />
         <activity android:name=".SchlineExoPlayer" />
         <activity android:name=".LectureView" />
-        <activity android:name=".studyroom.EditInfoActivity" />
-        <activity android:name=".studyroom.ChatEnterActivity" />
-        <activity android:name=".studyroom.ChatActivity" />
-        <activity android:name=".studyroom.StudyroomChatActivity" />
+        <activity android:name=".FCM"/>
+        <activity android:name=".VideoPlay" />
+        <activity android:name=".EditInfoActivity" />
+        <activity android:name=".ChatEnterActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".StudyroomChatActivity" />
+>>>>>>> a33b95a5446ffa6b147834b4c70f04e6459aa8c3
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
@@ -36,7 +41,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" >
+        </activity>
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGIN_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

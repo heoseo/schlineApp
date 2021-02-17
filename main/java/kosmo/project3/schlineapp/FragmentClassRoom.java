@@ -10,9 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,10 +26,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import kosmo.project3.schlineapp.task.TaskActivity;
-import kosmo.project3.schlineapp.team.TeamActivity;
 
 public class FragmentClassRoom extends Fragment
 {
@@ -162,7 +157,7 @@ public class FragmentClassRoom extends Fragment
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent intent = new Intent(view.getContext(),LectureView.class);
+                    Intent intent = new Intent(view.getContext(), LectureView.class);
                     intent.putExtra("idx",subject_idx.get(i));
                     startActivity(intent);
 

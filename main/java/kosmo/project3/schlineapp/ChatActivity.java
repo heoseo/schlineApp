@@ -1,9 +1,6 @@
-package kosmo.project3.schlineapp.studyroom;
-
-import androidx.appcompat.app.AppCompatActivity;
+package kosmo.project3.schlineapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,10 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-
-import kosmo.project3.schlineapp.R;
 
 public class ChatActivity extends  Activity{
 

@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.studyroom;
+package kosmo.project3.schlineapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,8 +20,6 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-
-import kosmo.project3.schlineapp.R;
 
 //클라이언트
 public class StudyroomChatActivity extends AppCompatActivity {

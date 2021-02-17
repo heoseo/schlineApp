@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.task;
+package kosmo.project3.schlineapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,36 +22,29 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import kosmo.project3.schlineapp.R;
-import kosmo.project3.schlineapp.StaticInfo;
-import kosmo.project3.schlineapp.StaticUserInformation;
-import kosmo.project3.schlineapp.team.TeamBoardLayout;
-
-public class TaskActivity extends AppCompatActivity {
-
+public class TeamActivity extends AppCompatActivity {
 
     String TAG = "SEONGJUN";
-    ListView tasklist;
-    private ArrayList<TaskVO> list = new ArrayList<>();
+    ListView teamlist;
+    private ArrayList<TeamVO> list = new ArrayList<>();
     ArrayList<String> boardidxs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
-
+        setContentView(R.layout.activity_team);
 
         String user_id = StaticUserInformation.userID;
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String subject_idx = intent.getStringExtra("subject_idx");
         Log.i(TAG, subject_idx);
-        new AsyncExamRequest().execute(
-                "http://"+ StaticInfo.my_ip +"/schline/android/taskList.do",
+        new AsyncTeamRequest().execute(
+                "http://"+ StaticInfo.my_ip +"/schline/android/teamList.do",
                 "user_id="+user_id, "subject_idx="+subject_idx);
     }
 
-    class AsyncExamRequest extends AsyncTask<String, Void, String> {
+    class AsyncTeamRequest extends AsyncTask<String, Void, String>{
 
         @Override
         protected void onPreExecute() {
@@ -109,22 +102,20 @@ public class TaskActivity extends AppCompatActivity {
                     //배열의 요소는 객체이므로 JSON객체로 파싱
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     //각 Key에 해당하는 값을 가져와서 StringBuffer객체에 저장
-                    String exam_idx = jsonObject.getString("exam_idx");
-                    String exam_name = jsonObject.getString("exam_name");
-                    String exam_date = jsonObject.getString("exam_date");
-                    String exam_content = jsonObject.getString("exam_content");
-                    String exam_scoring = jsonObject.getString("exam_scoring");
-                    String subject_idx = jsonObject.getString("subject_idx");
-                    //과제일련번호 넣어보기..
-                    boardidxs.add(exam_idx);
+                    String board_idx = jsonObject.getString("board_idx");
+                    String user_name = jsonObject.getString("user_name");
+                    String board_title = jsonObject.getString("board_title");
+                    String board_content = jsonObject.getString("board_content");
+                    String board_postdate = jsonObject.getString("board_postdate");
+                    //보드일련번호 넣어보기..
+                    boardidxs.add(board_idx);
                     //VO객체에 넣기
-                    TaskVO vo = new TaskVO();
-                    vo.setExam_idx(exam_idx);
-                    vo.setExam_name(exam_name);
-                    vo.setExam_date(exam_date);
-                    vo.setExam_content(exam_content);
-                    vo.setExam_scoring(exam_scoring);
-                    vo.setSubject_idx(subject_idx);
+                    TeamVO vo = new TeamVO();
+                    vo.setBoard_idx(board_idx);
+                    vo.setBoard_title(board_title);
+                    vo.setUser_name(user_name);
+                    vo.setBoard_content(board_content);
+                    vo.setBoard_postdate(board_postdate);
                     list.add(vo);
                     Log.i(TAG, "리스트담기까지..");
                 }
@@ -144,18 +135,15 @@ public class TaskActivity extends AppCompatActivity {
             super.onPostExecute(s);
             Log.i(TAG, "팀뷰어댑터?");
             //결과값을 텍스트뷰에 출력한다..?
-            tasklist = (ListView)findViewById(R.id.tasklist);
-            TaskAdaper taskAdaper = new TaskAdaper();
-            tasklist.setAdapter(taskAdaper);
-            tasklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            teamlist = (ListView)findViewById(R.id.teamlist);
+            TeamAdapter teamadapter = new TeamAdapter();
+            teamlist.setAdapter(teamadapter);
+            teamlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Log.i(TAG, "어떤값이 넘어오나요? : "+boardidxs.size());
-                    Intent intent = new Intent(adapterView.getContext(), TaskView.class);
+                    Intent intent = new Intent(adapterView.getContext(), TeamView.class);
                     intent.putExtra("board_idx", boardidxs.get(i));
-                    intent.putExtra("subject_idx", list.get(i).getSubject_idx());
-                    intent.putExtra("exam_name", list.get(i).getExam_name());
-                    intent.putExtra("exam_idx", list.get(i).getExam_idx());
 
                     startActivity(intent);
                 }
@@ -163,7 +151,7 @@ public class TaskActivity extends AppCompatActivity {
         }
     }
 
-    public class TaskAdaper extends BaseAdapter {
+    public class TeamAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -177,20 +165,20 @@ public class TaskActivity extends AppCompatActivity {
 
         @Override
         public Object getItem(int i) {
-            return list.get(i).getExam_name();
+            return list.get(i).getBoard_title();
         }
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             Log.i(TAG,"진입이 되나요?");
 
-            TaskBoardLayout taskBoardLayout = new TaskBoardLayout(getApplicationContext());
+            TeamBoardLayout teamBoardLayout = new TeamBoardLayout(getApplicationContext());
 
-            taskBoardLayout.settitle(list.get(i).getExam_name());
-            taskBoardLayout.setuser(list.get(i).getExam_content());
-            taskBoardLayout.setpostdate(list.get(i).getExam_date());
+            teamBoardLayout.settitle(list.get(i).getBoard_title());
+            teamBoardLayout.setuser(list.get(i).getUser_name());
+            teamBoardLayout.setpostdate(list.get(i).getBoard_postdate());
 
-            return taskBoardLayout;
+            return teamBoardLayout;
         }
     }
 }

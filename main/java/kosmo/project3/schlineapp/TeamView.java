@@ -1,4 +1,4 @@
-package kosmo.project3.schlineapp.team;
+package kosmo.project3.schlineapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
