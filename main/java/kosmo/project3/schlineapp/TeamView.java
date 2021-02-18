@@ -158,7 +158,7 @@ public class TeamView extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        String fileURL = "http://" + StaticInfo.my_ip + "/schline/resources/uploadsFile" + File.separator + board_file; // URL
+                        String fileURL = "http://" + StaticInfo.my_ip + "/schline/resources/uploadsFile/team" + File.separator + board_file; // URL
 
                         Log.i(TAG, "URL:" + fileURL + " 파일명:" + board_file);
 
