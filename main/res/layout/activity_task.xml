@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".TaskActivity">
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
-        android:text="[협업 게시판]"
-        android:textSize="24sp"
-        android:layout_margin="20dp"
-        android:layout_gravity="center"/>
+        android:text="여기는 과제출력용"
+        android:textSize="20dp"
+        android:gravity="center"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:alpha="0.2"
-            android:src="@drawable/intro"/>
+            android:src="@drawable/intro"
+            android:alpha="0.2"/>
         <ListView
-            android:id="@+id/teamlist"
+            android:id="@+id/tasklist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center">
