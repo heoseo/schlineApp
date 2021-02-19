@@ -8,9 +8,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +39,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mBottomNV.setSelectedItemId(R.id.navigation_1);
+
+
+
+        //안드로이드 아이디
+        FirebaseApp.initializeApp(this);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w("FirebaseSettingEx", "getInstanceId failed", task.getException());
+                return;
+            }
+
+            // 토큰을 읽고, 콘솔에 찍기
+            String token = task.getResult().getToken();
+            Log.d("토큰: ", token);
+
+        });
     }
     private void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
         String tag = String.valueOf(id);
