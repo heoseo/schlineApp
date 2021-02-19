@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ninepatch_common_box_gray"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/dialog_confirm_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:textSize="13sp"
+        android:textColor="#111111"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/dialog_yes_btn"
+        android:layout_width="66dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_confirm_msg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@null"
+        android:text="네"
+        android:textSize="12dp" />
+    <Button
+        android:id="@+id/dialog_no_btn"
+        android:layout_width="66dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_confirm_msg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@null"
+        android:text="아니오"
+        android:textSize="12dp" />
+
+</RelativeLayout>
