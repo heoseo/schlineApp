@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_schline_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
+
         android:usesCleartextTraffic="true">
+        <activity android:name=".AccountView" />
         <activity android:name=".TaskView" />
         <activity android:name=".TeamView" />
         <activity android:name=".TaskActivity" />
@@ -31,7 +33,7 @@
         <activity android:name=".ChatEnterActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".StudyroomChatActivity" />
->>>>>>> a33b95a5446ffa6b147834b4c70f04e6459aa8c3
+
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
