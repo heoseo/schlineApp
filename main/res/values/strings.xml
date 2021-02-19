@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">SchLine</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="server_addr">http://192.168.25.47:9999</string>
-    <string name="custom_dialog_msg">다음부터 생체정보로 로그인하시겠습니까?</string><!--다혜-->
+    <string name="server_addr">http://192.168.25.47:9999</string><!--다혜-->
 </resources>
