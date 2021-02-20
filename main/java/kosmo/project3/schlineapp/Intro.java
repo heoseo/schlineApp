@@ -21,7 +21,7 @@ public class Intro extends AppCompatActivity {
             Log.d(TAG, "account pref > " + preferences.getString("userID", "defValue"));
             Log.d(TAG, "account static> " + StaticUserInformation.userID);
 
-            if(preferences.getString("userID", "defValue").equals("defValue"))
+            if(preferences.getString("userID", "defValue").equals("defValue") || StaticUserInformation.userID == null)
                 intent = new Intent(getApplicationContext(), LoginActivity.class);
             else
                 intent = new Intent(getApplicationContext(), MainActivity.class);
