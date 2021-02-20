@@ -1,6 +1,9 @@
 package kosmo.project3.schlineapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -23,6 +27,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class TeamActivity extends AppCompatActivity {
+
+
 
     String TAG = "SEONGJUN";
     ListView teamlist;
@@ -39,6 +45,43 @@ public class TeamActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         String subject_idx = intent.getStringExtra("subject_idx");
         Log.i(TAG, subject_idx);
+
+        ///////////////////////////////////////////////////////////////////////
+        /*
+        버튼테스트용 추후삭제해야함...
+         */
+        Button lectureBtn = (Button)findViewById(R.id.lectureBtn);
+        lectureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), LectureView.class);
+                intent.putExtra("idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        Button teamBtn = (Button)findViewById(R.id.teamBtn);
+        teamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TeamActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        Button taskBtn = (Button)findViewById(R.id.taskBtn);
+        taskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TaskActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        /*
+        여기까지
+         */
+        ///////////////////////////////////////////////////////////////
+
         new AsyncTeamRequest().execute(
                 "http://"+ StaticInfo.my_ip +"/schline/android/teamList.do",
                 "user_id="+user_id, "subject_idx="+subject_idx);

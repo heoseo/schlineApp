@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -41,6 +42,43 @@ public class TaskActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         String subject_idx = intent.getStringExtra("subject_idx");
         Log.i(TAG, subject_idx);
+
+        ///////////////////////////////////////////////////////////////////////
+        /*
+        버튼테스트용 추후삭제해야함...
+         */
+        Button lectureBtn = (Button)findViewById(R.id.lectureBtn);
+        lectureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), LectureView.class);
+                intent.putExtra("idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        Button teamBtn = (Button)findViewById(R.id.teamBtn);
+        teamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TeamActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        Button taskBtn = (Button)findViewById(R.id.taskBtn);
+        taskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TaskActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        /*
+        여기까지
+         */
+        ///////////////////////////////////////////////////////////////
+
         new AsyncExamRequest().execute(
                 "http://"+ StaticInfo.my_ip +"/schline/android/taskList.do",
                 "user_id="+user_id, "subject_idx="+subject_idx);

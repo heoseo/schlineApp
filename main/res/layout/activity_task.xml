@@ -8,22 +8,25 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="여기는 과제출력용"
+        android:text="과제 목록"
         android:textSize="20dp"
         android:gravity="center"/>
-    <FrameLayout
+    <ListView
+        android:id="@+id/tasklist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/intro"
-            android:alpha="0.2"/>
-        <ListView
-            android:id="@+id/tasklist"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="1">
+    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <fragment
+            android:id="@+id/bottomFregment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-        </ListView>
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            class="kosmo.project3.schlineapp.CourseFregment"/>
+    </LinearLayout>
+
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 
@@ -29,6 +30,8 @@ public class LectureView extends AppCompatActivity {
     ArrayList<String> video_title = new ArrayList<String>();
     ArrayList<String> server_saved = new ArrayList<String>();
 
+
+
     RetrofitAPI retrofitAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +39,45 @@ public class LectureView extends AppCompatActivity {
         setContentView(R.layout.activity_lecture_view);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-
+        ViewGroup viewGroup;
         subject_idx = bundle.getString("idx");
         retrofitAPI = RetrofitAPI.getClient().create(RetrofitAPI.class);
 
+        ///////////////////////////////////////////////////////////////////////
+        /*
+        버튼테스트용 추후삭제해야함...
+         */
+        Button lectureBtn = (Button)findViewById(R.id.lectureBtn);
+        lectureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), LectureView.class);
+                intent.putExtra("idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        Button teamBtn = (Button)findViewById(R.id.teamBtn);
+        teamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TeamActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        Button taskBtn = (Button)findViewById(R.id.taskBtn);
+        taskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TaskActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                startActivity(intent);
+            }
+        });
+        /*
+        여기까지
+         */
+        ///////////////////////////////////////////////////////////////
 
 
         Call<Post> call = retrofitAPI.doGetUserList(subject_idx);

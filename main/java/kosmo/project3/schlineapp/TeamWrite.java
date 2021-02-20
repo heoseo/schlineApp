@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,8 +16,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +26,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 
-import kosmo.project3.schlineapp.R;
-import kosmo.project3.schlineapp.StaticInfo;
-import kosmo.project3.schlineapp.StaticUserInformation;
-import kosmo.project3.schlineapp.FileUpload;
-
-public class TaskView extends AppCompatActivity {
+public class TeamWrite extends AppCompatActivity {
 
     private static final String TAG = "SEONGJUN";
 
@@ -46,17 +38,42 @@ public class TaskView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_view);
+        setContentView(R.layout.activity_team_write);
 
-        //메니페스트에 설정된 권한에 대해 사용자에게 물어본다.
-        //만약 사용자가 허용하지 않으면 해당기능은 사용할 수 없게된다.
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
     }
 
-    public void btnUpload(View view){
+    public void btnTeamWrite(View view){
+        Intent intent = getIntent();
+        title = findViewById(R.id.teamwritetitle);
+        content = findViewById(R.id.teamwritecontent);
+
+        HashMap<String, String> param1 = new HashMap<>();
+        param1.put("user_id", StaticUserInformation.userID);
+        param1.put("board_title", title.getText().toString());
+        param1.put("board_content", content.getText().toString());
+        param1.put("subject_idx", intent.getStringExtra("subject_idx"));
+
+        Log.i(TAG, param1.get("user_id")+" "+param1.get("board_title")+" "+param1.get("board_content")+" "+param1.get("subject_idx")+" "+param1.get("exam_name"));
+
+        if(filePath1==null){
+            Toast.makeText(getApplicationContext(), "과제를 첨부하세요", Toast.LENGTH_LONG).show();
+        }
+        else {
+
+            HashMap<String, String> param2 = new HashMap<>();
+            param2.put("filename", filePath1);
+
+            AsyncTeamWrite taskWrite = new AsyncTeamWrite(getApplicationContext(), param1, param2);
+
+            taskWrite.execute();
+        }
+    }
+
+    public void btnTeamUpload(View view){
 
         Intent it = new Intent(Intent.ACTION_PICK);
         it.setType("application/*");
@@ -81,11 +98,10 @@ public class TaskView extends AppCompatActivity {
         String[] filenames = filePath1.split("/");
         String filename = filenames[filenames.length-1];
         Log.i(TAG, filename);
-        settingfile = findViewById(R.id.settingfile);
+        settingfile = findViewById(R.id.teamfile);
         settingfile.setText(filename);
     }
 
-    //
     private String getRealPathFromURI(Uri contentUri) {
         int column_index=0;
         String[] proj = {MediaStore.Images.Media.DATA};
@@ -96,44 +112,14 @@ public class TaskView extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
-    public void btnTaskWrite(View view){
 
-        Intent intent = getIntent();
-        title = findViewById(R.id.taskviewtitle);
-        content = findViewById(R.id.taskviewcontent);
-
-        HashMap<String, String> param1 = new HashMap<>();
-        param1.put("user_id", StaticUserInformation.userID);
-        param1.put("board_title", title.getText().toString());
-        param1.put("board_content", content.getText().toString());
-        param1.put("subject_idx", intent.getStringExtra("subject_idx"));
-        param1.put("exam_name", intent.getStringExtra("exam_name"));
-        param1.put("exam_idx", intent.getStringExtra("exam_idx"));
-
-        Log.i(TAG, param1.get("user_id")+" "+param1.get("board_title")+" "+param1.get("board_content")+" "+param1.get("subject_idx")+" "+param1.get("exam_name"));
-
-        if(filePath1==null){
-            Toast.makeText(getApplicationContext(), "과제를 첨부하세요", Toast.LENGTH_LONG).show();
-        }
-        else {
-
-            HashMap<String, String> param2 = new HashMap<>();
-            param2.put("filename", filePath1);
-
-            AsyncTaskWrite taskWrite = new AsyncTaskWrite(getApplicationContext(), param1, param2);
-
-            taskWrite.execute();
-        }
-    }
-
-    //파일 업로드를 위한 AsyncTask 클래스
-    class AsyncTaskWrite extends AsyncTask<Object, Integer, JSONObject>{
+    class AsyncTeamWrite extends AsyncTask<Object, Integer, JSONObject>{
 
         private Context mContext;
         private HashMap<String, String> param;
         private HashMap<String, String> files;
 
-        public AsyncTaskWrite(Context context, HashMap<String, String> param, HashMap<String, String> files) {
+        public AsyncTeamWrite(Context context, HashMap<String, String> param, HashMap<String, String> files) {
             mContext = context;
             this.param = param;
             this.files = files;
@@ -145,8 +131,7 @@ public class TaskView extends AppCompatActivity {
         }
 
         @Override
-        protected JSONObject doInBackground(Object... Objects) {
-
+        protected JSONObject doInBackground(Object... objects) {
             JSONObject rtn = null;
             try {
                 //프로젝트명이나 요청명이 변경될 수 있음
@@ -167,19 +152,15 @@ public class TaskView extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
+
 
             if (jsonObject != null) {
                 //결과데이터를 텍스트뷰에 출력
                 try {
                     if (jsonObject.getInt("success") == 1) {
-                        Toast.makeText(mContext, "파일 업로드 성공!",
+                        Toast.makeText(mContext, "작성완료",
                                 Toast.LENGTH_LONG).show();
                         finish();
                     }
@@ -188,9 +169,11 @@ public class TaskView extends AppCompatActivity {
                 }
             }
             else {
-                Toast.makeText(mContext, "파일 업로드 실패!",
+                Toast.makeText(mContext, "작성실패",
                         Toast.LENGTH_LONG).show();
             }
         }
+
+
     }
 }

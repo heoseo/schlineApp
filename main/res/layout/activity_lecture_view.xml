@@ -12,11 +12,23 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:text="커리큘럼" />
+
     <ListView
         android:id="@+id/LectureListview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
     </ListView>
-
+    <!-- 협업게시판/과제게시판 링크 테스트용 버튼 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <fragment
+            android:id="@+id/bottomFregment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            class="kosmo.project3.schlineapp.CourseFregment"/>
+    </LinearLayout>
 
 </LinearLayout>
