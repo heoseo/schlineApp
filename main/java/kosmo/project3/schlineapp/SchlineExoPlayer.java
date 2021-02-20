@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class SchlineExoPlayer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schline_exo_player);
+
 
         initializeViews();
         checkPermissions();

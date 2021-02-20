@@ -1,8 +1,11 @@
 package kosmo.project3.schlineapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +34,9 @@ public class FragmentClassRoom extends Fragment
 
     ArrayList<String> subject_name = new  ArrayList<String>();
    ArrayList<String> subject_idx = new ArrayList<String>();
+
+
+
     ViewGroup viewGroup;
     @Nullable
     @Override
@@ -95,6 +101,7 @@ public class FragmentClassRoom extends Fragment
 
 
                 }
+
 
 
 
