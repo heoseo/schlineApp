@@ -1,12 +1,15 @@
 package kosmo.project3.schlineapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Intro extends AppCompatActivity {
+    String TAG = "IntroLog";
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -14,10 +17,14 @@ public class Intro extends AppCompatActivity {
         public void run() {
             Intent intent;
 
-            if(StaticUserInformation.userID != null)
-                intent = new Intent(getApplicationContext(), MainActivity.class);
-            else
+            SharedPreferences preferences = getSharedPreferences("account",MODE_PRIVATE);
+            Log.d(TAG, "account pref > " + preferences.getString("userID", "defValue"));
+            Log.d(TAG, "account static> " + StaticUserInformation.userID);
+
+            if(preferences.getString("userID", "defValue").equals("defValue"))
                 intent = new Intent(getApplicationContext(), LoginActivity.class);
+            else
+                intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
 
             finish();

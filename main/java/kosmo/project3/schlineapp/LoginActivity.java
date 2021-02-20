@@ -1,16 +1,24 @@
 package kosmo.project3.schlineapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONObject;
 
@@ -19,22 +27,44 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.Executor;
 
 public class LoginActivity extends AppCompatActivity {
 
-    String TAG = "LoginActivity";
+    String TAG = "LoginActivityLog";
 
     EditText etId, etPass;
     Button btnLogin;
+    CheckBox checkBox;
+
+    MainActivity MA = (MainActivity) MainActivity.activity;
+
+    // 생체인식
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+        Intent loginIntent = getIntent();
+        String back_login = loginIntent.getStringExtra("back_login");
+
+        Log.d(TAG, "back_login : " + back_login);
+
+        if(back_login != null)
+            if(back_login.equals("true")){
+                MA.finish();
+        }
+
         etId = findViewById(R.id.et_login_id);
         etPass = findViewById(R.id.et_login_pass);
 
+
+        checkBox = findViewById(R.id.checkbox_auto_login);
         btnLogin = findViewById(R.id.btn_login);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +79,52 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // 생체정보로 로그인하기 true => 로그인 띄우기.
+        if(StaticUserInformation.biometric != null){
+            if(StaticUserInformation.biometric.equals("true"))
+                startBiometric();
+        }
+
+    }
+
+    private void startBiometric(){
+
+        Log.d(TAG, "startBiometric()");
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+
+        promptInfo = new androidx.biometric.BiometricPrompt.PromptInfo.Builder()
+                .setTitle("지문 인증")
+                .setSubtitle("기기에 등록된 지문을 이용하여 지문을 인증해주세요.")
+                .setNegativeButtonText("취소")
+                .setDeviceCredentialAllowed(false)
+                .build();
+
+        biometricPrompt.authenticate(promptInfo);
     }
 
 
@@ -129,17 +205,33 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 Log.i(TAG, "success > " + success);
+
+                // 로그인에 성공하면...
                 if(success == 1){
                     Toast.makeText(getApplicationContext(), "로그인하였습니다.", Toast.LENGTH_LONG).show();
+                    StaticUserInformation.biometric = "true";
 
-                    SharedPreferences preferences = getSharedPreferences("account",MODE_PRIVATE);
-                    SharedPreferences.Editor editor=preferences.edit();
 
-                    editor.putString("userID", etId.getText().toString());
-                    editor.apply();
+                    //자동로그인 체크돼있으면
+                    if(checkBox.isChecked()){
 
-                    StaticUserInformation.userID = preferences.getString("userID", etId.getText().toString());
+                        //로그인 정보를 저장하고..
+                        SharedPreferences preferences = getSharedPreferences("account",MODE_PRIVATE);
+                        SharedPreferences.Editor editor=preferences.edit();
+                        StaticUserInformation.userID = etId.getText().toString();
+                        editor.putString("userID", etId.getText().toString());
+                        editor.apply();
 
+                    }
+                    else if(checkBox.isChecked() == false){
+                        SharedPreferences preferences = getSharedPreferences("account",MODE_PRIVATE);
+                        StaticUserInformation.resetDate(preferences);
+
+                        StaticUserInformation.userID = etId.getText().toString();
+                    }
+
+
+                    //메인액티비티를 실행시킨다.
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
 
@@ -157,4 +249,5 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+
 }
