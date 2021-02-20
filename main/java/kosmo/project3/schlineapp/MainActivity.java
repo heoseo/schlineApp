@@ -8,13 +8,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
 
     private BottomNavigationView mBottomNV;
-    private Button btnLogout;
 
     public static Activity activity;
 
@@ -39,19 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         activity = MainActivity.this;
 
-        btnLogout = (Button)findViewById(R.id.logoutBtn);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences preferences = getSharedPreferences("account",MODE_PRIVATE);
-                StaticUserInformation.resetDate(preferences);
 
-                // 로그인 페이지로 이동하면 메인액티비티(현재) 종료
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                intent.putExtra("back_login", "true");
-                startActivity(intent);
-            }
-        });
+
+
 
 
         mBottomNV = findViewById(R.id.nav_view);
@@ -116,5 +107,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
+
+
 
 }

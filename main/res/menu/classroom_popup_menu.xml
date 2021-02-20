@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:context="com.example.ch9_popup_menu.Popupmenu" >
+
+
+
+    <item android:id="@+id/popup_course"
+
+        android:title="코스"/>
+
+    <item android:id="@+id/popup_video"
+
+        android:title="강의"/>
+
+    <item android:id="@+id/popup_team"
+
+        android:title="협업"/>
+    <item android:id="@+id/popup_grade"
+
+        android:title="성적"/>
+    <item android:id="@+id/popup_task"
+
+        android:title="과제"/>
+
+<!--    <item android:id="@+id/popup_text"-->
+
+<!--        android:title="게시판">-->
+
+<!--        <menu>-->
+
+<!--            <item android:id="@+id/popup_black"-->
+
+<!--                android:title="Text-Black"/>-->
+
+<!--            <item android:id="@+id/popup_white"-->
+
+<!--                android:title="Text-White"/>-->
+
+<!--            <item android:id="@+id/popup_gray"-->
+
+<!--                android:title="Text-Gray"/>-->
+
+<!--        </menu>-->
+
+<!--    </item>-->
+
+</menu>
+
+
+
