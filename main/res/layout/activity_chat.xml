@@ -1,17 +1,36 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<?xml version="1.0" encoding="utf-8"?>
 
-    <ScrollView
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ChatActivity"
+    android:id="@+id/chat_back">
+
+    <!--타이머-->
+    <TextView
+        android:id="@+id/time_out"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textColor="#777777"
+        android:text="00:00:00" />
+
+    <TextView
+        android:id="@+id/record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <!--음악-->
+    <fragment
+        android:id="@+id/frag_study_music"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FCM Text 시작\n"
-            android:id="@+id/log"
-            />
-    </ScrollView>
+        android:layout_height="wrap_content"
+        class="kosmo.project3.schlineapp.FragmentMusic"
+        />
 
 </LinearLayout>

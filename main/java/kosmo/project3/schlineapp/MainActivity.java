@@ -22,10 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 public class MainActivity extends AppCompatActivity {
 
     String TAG = "MainActivity";
@@ -42,14 +39,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "id 정보 : "+StaticUserInformation.userID);
 
         activity = MainActivity.this;
-
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("채팅 테스트");
-
-
 
         //안드로이드 아이디
         FirebaseApp.initializeApp(this);

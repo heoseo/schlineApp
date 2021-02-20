@@ -25,18 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_schline_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
-<<<<<<< HEAD
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true"
-        android:windowSoftInputMode="adjustResize"
-        >
-        <activity android:name=".TeamActivity"></activity>
-        <activity android:name=".SchlineExoPlayer"></activity>
-        <activity android:name=".LectureView" />
-        <activity android:name=".EditInfoActivity"
-            android:windowSoftInputMode="adjustResize|adjustPan"
-            ></activity>
-=======
+
         android:usesCleartextTraffic="true">
 
         <activity android:name=".TeamWrite"></activity>
@@ -52,25 +41,18 @@
         <activity android:name=".FCM" />
         <activity android:name=".VideoPlay" />
         <activity android:name=".EditInfoActivity" />
->>>>>>> master
-        <activity android:name=".ChatEnterActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".StudyroomChatActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
+
         <activity android:name=".MainActivity" />
-=======
-        <activity android:name=".MainActivity"/>
 
-
->>>>>>> master
 
         <service
             android:name=".MyFirebaseMessagingService"
@@ -80,11 +62,7 @@
                 <action android:name="com.google.firebase.MESSAGIN_EVENT" />
             </intent-filter>
         </service>
-<<<<<<< HEAD
 
-
-=======
->>>>>>> master
     </application>
 
 </manifest>
