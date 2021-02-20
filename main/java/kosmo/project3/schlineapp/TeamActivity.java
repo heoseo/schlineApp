@@ -11,10 +11,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,14 +31,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class TeamActivity extends AppCompatActivity {
-
-
+public class TeamActivity extends AppCompatActivity implements View.OnClickListener{
 
     String TAG = "SEONGJUN";
     ListView teamlist;
     private ArrayList<TeamVO> list = new ArrayList<>();
     ArrayList<String> boardidxs = new ArrayList<>();
+
+    //플로팅버튼 테스트
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab, floatteam, floattask, floatlecture;
+    String subject_idx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,49 +52,94 @@ public class TeamActivity extends AppCompatActivity {
         String user_id = StaticUserInformation.userID;
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        String subject_idx = intent.getStringExtra("subject_idx");
+        subject_idx = intent.getStringExtra("subject_idx");
         Log.i(TAG, subject_idx);
 
-        ///////////////////////////////////////////////////////////////////////
-        /*
-        버튼테스트용 추후삭제해야함...
-         */
-        Button lectureBtn = (Button)findViewById(R.id.lectureBtn);
-        lectureBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), LectureView.class);
-                intent.putExtra("idx", subject_idx);
-                startActivity(intent);
-            }
-        });
-        Button teamBtn = (Button)findViewById(R.id.teamBtn);
-        teamBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), TeamActivity.class);
-                intent.putExtra("subject_idx", subject_idx);
-                startActivity(intent);
-            }
-        });
-        Button taskBtn = (Button)findViewById(R.id.taskBtn);
-        taskBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), TaskActivity.class);
-                intent.putExtra("subject_idx", subject_idx);
-                startActivity(intent);
-            }
-        });
-        /*
-        여기까지
-         */
-        ///////////////////////////////////////////////////////////////
+        ////////////////플로팅버튼테스트//////////////////
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        floatteam = (FloatingActionButton)findViewById(R.id.floatteam);
+        floattask = (FloatingActionButton)findViewById(R.id.floattask);
+        floatlecture = (FloatingActionButton)findViewById(R.id.floatlecture);
+
+        fab.setOnClickListener(this);
+        floatteam.setOnClickListener(this);
+        floattask.setOnClickListener(this);
+        floatlecture.setOnClickListener(this);
+
+
+        /////////////프레그먼트로 작성/////////////
+        Button teamwrite = (Button)findViewById(R.id.teamwriteBtn);
+
+        teamwrite.setOnClickListener(this);
+
+        //////////////////////////////////////////////////////////////////////
 
         new AsyncTeamRequest().execute(
                 "http://"+ StaticInfo.my_ip +"/schline/android/teamList.do",
                 "user_id="+user_id, "subject_idx="+subject_idx);
     }
+
+    //플로팅버튼용
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        Intent intent;
+        switch (id) {
+            case R.id.fab:
+                anim();
+                break;
+            case R.id.floattask:
+                anim();
+                intent = new Intent(view.getContext(), TaskActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.floatteam:
+                anim();
+                intent = new Intent(view.getContext(), TeamActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.floatlecture:
+                anim();
+                intent = new Intent(view.getContext(), LectureView.class);
+                intent.putExtra("idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.teamwriteBtn:
+                intent = new Intent(view.getContext(), TeamWrite.class);
+                intent.putExtra("subject_idx", subject_idx);
+                startActivity(intent);
+        }
+    }
+
+    public void anim() {
+
+        if (isFabOpen) {
+            floatlecture.startAnimation(fab_close);
+            floatteam.startAnimation(fab_close);
+            floattask.startAnimation(fab_close);
+            floatlecture.setClickable(false);
+            floatteam.setClickable(false);
+            floattask.setClickable(false);
+            isFabOpen = false;
+        } else {
+            floatlecture.startAnimation(fab_open);
+            floatteam.startAnimation(fab_open);
+            floattask.startAnimation(fab_open);
+            floatlecture.setClickable(true);
+            floatteam.setClickable(true);
+            floattask.setClickable(true);
+            isFabOpen = true;
+        }
+    }
+
 
     class AsyncTeamRequest extends AsyncTask<String, Void, String>{
 

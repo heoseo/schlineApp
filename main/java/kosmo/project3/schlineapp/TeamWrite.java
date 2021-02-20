@@ -23,7 +23,12 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 
 public class TeamWrite extends AppCompatActivity {
@@ -59,18 +64,13 @@ public class TeamWrite extends AppCompatActivity {
 
         Log.i(TAG, param1.get("user_id")+" "+param1.get("board_title")+" "+param1.get("board_content")+" "+param1.get("subject_idx")+" "+param1.get("exam_name"));
 
-        if(filePath1==null){
-            Toast.makeText(getApplicationContext(), "과제를 첨부하세요", Toast.LENGTH_LONG).show();
-        }
-        else {
+        HashMap<String, String> param2 = new HashMap<>();
+        param2.put("filename", filePath1);
 
-            HashMap<String, String> param2 = new HashMap<>();
-            param2.put("filename", filePath1);
+        AsyncTeamWrite taskWrite = new AsyncTeamWrite(getApplicationContext(), param1, param2);
 
-            AsyncTeamWrite taskWrite = new AsyncTeamWrite(getApplicationContext(), param1, param2);
+        taskWrite.execute();
 
-            taskWrite.execute();
-        }
     }
 
     public void btnTeamUpload(View view){
@@ -137,13 +137,57 @@ public class TeamWrite extends AppCompatActivity {
                 //프로젝트명이나 요청명이 변경될 수 있음
                 //따라서 서비스URL은 리소스의 상수로 저장하는것이 좋다.
                 String sUrl =  "http://"+ StaticInfo.my_ip +
-                        "/schline/android/taskUpload.do";
+                        "/schline/android/teamUpload.do";
                 //단말기의 사진을 서버로 업로드하기위한 객체생성 및 메소드호출
                 //FileUpload 클래스는 기존내용을 그대로 가져다 쓰면 됨(수정필요없음)
-                FileUpload multipartUpload = new FileUpload(sUrl, "UTF-8");
-                rtn = multipartUpload.upload(param, files);
-                //서버에서 반환받은 결과데이터를 로그로 출력
-                Log.d(TAG, rtn.toString());
+                if(files.get("filename")!=null) {
+
+                    FileUpload multipartUpload = new FileUpload(sUrl, "UTF-8");
+                    rtn = multipartUpload.upload(param, files);
+                    //서버에서 반환받은 결과데이터를 로그로 출력
+                    Log.d(TAG, rtn.toString());
+                }
+                else{
+                    Log.i(TAG, "null이군요");
+                    /*
+
+                    //알수가없당...
+
+                    URL url = new URL(sUrl);
+                    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+
+                    OutputStream out = connection.getOutputStream();
+                    out.write(("board_title="+title.getText().toString()).getBytes());
+                    out.write("&".getBytes());
+                    out.write(("board_content="+title.getText().toString()).getBytes());
+                    out.write("&".getBytes());
+                    out.write(("user_id"+param.get("user_id")).getBytes());
+                    out.write("&".getBytes());
+                    out.write(("subject_idx"+param.get("subject_idx")).getBytes());
+
+                    out.flush();
+                    out.close();
+
+                    if(connection.getResponseCode()==HttpURLConnection.HTTP_OK){
+                        Log.i(TAG, "HTTP OK 성공");
+                        //서버로부터 받은 응답데이터(JSON)를 스트림을 통해 읽어 저장한다.
+                        BufferedReader reader = new BufferedReader(
+                                new InputStreamReader(connection.getInputStream(), "UTF-8")
+                        );
+                        String responseData;
+
+
+                        while ((responseData=reader.readLine())!=null){
+                            //내용을 한줄씩 읽어서 StringBuffer객체에 저장한다.
+                            sBuffer.append(responseData+"\n\r");
+                        }
+                        reader.close();
+
+                    }
+                    */
+                }
             }
             catch (IOException e) {
                 e.printStackTrace();
