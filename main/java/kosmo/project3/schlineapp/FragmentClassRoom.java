@@ -41,6 +41,8 @@ public class FragmentClassRoom extends Fragment
 
     ViewGroup viewGroup;
 
+    Button teamBtn;
+    Button taskBtn;
 
     @Nullable
     @Override
@@ -54,7 +56,33 @@ public class FragmentClassRoom extends Fragment
                 "http://"+ StaticInfo.my_ip +"/schline/android/CourseList.do",
                 "userID="+user_id
         );
+        ///////////////////////////////////////////////////////////////////////
+        /*
+        버튼테스트용 추후삭제해야함...
+         */
 
+        teamBtn = viewGroup.findViewById(R.id.teamBtn);
+        teamBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TeamActivity.class);
+                intent.putExtra("subject_idx", "1");
+                startActivity(intent);
+            }
+        });
+        taskBtn = viewGroup.findViewById(R.id.taskBtn);
+        taskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TaskActivity.class);
+                intent.putExtra("subject_idx", "1");
+                startActivity(intent);
+            }
+        });
+        /*
+        여기까지
+         */
+        ///////////////////////////////////////////////////////////////
 
         return viewGroup;
     }
