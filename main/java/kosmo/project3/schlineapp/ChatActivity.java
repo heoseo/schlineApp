@@ -139,6 +139,7 @@ public class ChatActivity extends AppCompatActivity {
             StringBuffer sBuffer = new StringBuffer();
 
             try{
+                Log.i(TAG, "아이디"+strings[1].getBytes().toString());
                 URL url = new URL(strings[0]);
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
@@ -177,7 +178,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    class syncAttenServer extends AsyncTask<String, Void, String>{
+  /*  class syncAttenServer extends AsyncTask<String, Void, String>{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -223,7 +224,7 @@ public class ChatActivity extends AppCompatActivity {
             super.onPreExecute();
         }
     }
-
+*/
     //현재시간을 계속 구해서 출력하는 메소드
     String getTimeOut(){
         long now = SystemClock.elapsedRealtime();
