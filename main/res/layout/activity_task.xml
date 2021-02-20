@@ -3,27 +3,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".TaskActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="여기는 과제출력용"
+        android:text="과제 목록"
         android:textSize="20dp"
         android:gravity="center"/>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    <ListView
+        android:id="@+id/tasklist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+    </ListView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatlecture"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/intro"
-            android:alpha="0.2"/>
-        <ListView
-            android:id="@+id/tasklist"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-        </ListView>
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="230dp"
+            android:layout_marginRight="15sp"
+            android:src="@drawable/lecture"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floattask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="160dp"
+            android:layout_marginRight="15sp"
+            android:src="@drawable/task"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatteam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="90dp"
+            android:layout_marginRight="15sp"
+            android:src="@drawable/handshake"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="15sp"
+            android:src="@drawable/plusicon"
+            app:backgroundTint="@color/colorPrimary" />
     </FrameLayout>
 </LinearLayout>

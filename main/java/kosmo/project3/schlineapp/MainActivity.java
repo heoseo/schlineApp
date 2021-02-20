@@ -45,6 +45,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //안드로이드 아이디
+        FirebaseApp.initializeApp(this);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w("FirebaseSettingEx", "getInstanceId failed", task.getException());
+                return;
+            }
+
+            // 토큰을 읽고, 콘솔에 찍기
+            String token = task.getResult().getToken();
+            Log.d("토큰: ", token);
+
+        });
+
+
         mBottomNV = findViewById(R.id.nav_view);
         mBottomNV.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() { //NavigationItemSelecte
             @Override

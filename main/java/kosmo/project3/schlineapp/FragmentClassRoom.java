@@ -35,8 +35,6 @@ public class FragmentClassRoom extends Fragment
    ArrayList<String> subject_idx = new ArrayList<String>();
     ViewGroup viewGroup;
 
-    Button teamBtn;
-    Button taskBtn;
 
     @Nullable
     @Override
@@ -50,6 +48,7 @@ public class FragmentClassRoom extends Fragment
                 "http://"+ StaticInfo.my_ip +"/schline/android/CourseList.do",
                 "userID="+user_id
         );
+
         ///////////////////////////////////////////////////////////////////////
         /*
         버튼테스트용 추후삭제해야함...
