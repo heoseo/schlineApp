@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
 public class FragmentSchedule extends Fragment {
@@ -48,9 +50,30 @@ public class FragmentSchedule extends Fragment {
         // value : LOAD_DEFAULT, LOAD_NORMAL,
         // LOAD_CACHE_ELSE_NETWORK, LOAD_NO_CACHE, or LOAD_CACHE_ONLY
         mWebSettings.setDefaultFixedFontSize(14); //기본 고정 글꼴 크기, value : 1~72 사이의 숫자
+
+
+
+        StringBuffer receiveData = new StringBuffer();
+
+        String str = null;
+        try{
+            str = "user_id=" + URLEncoder.encode(StaticUserInformation.userID, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+        //mWebView.loadUrl("http://"+StaticInfo.my_ip+"/schline/android/schedule.do", str);
+        //mWebView.loadUrl("http://172.30.1.1:9999/schline/android/schedule.do?user_id="+user_id);
         mWebView.loadUrl("http://172.30.1.1:9999/schline/android/schedule.do?user_id="+user_id);
+        
+        //mWebView.loadUrl("http://"+StaticInfo.my_ip+"schline/android/schedule.do?user_id="+user_id);
 
     }
 
 
 }
+
+
+
