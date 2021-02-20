@@ -11,7 +11,7 @@
     <GridView
         android:id="@+id/accountlistview"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:numColumns="2"></GridView>
 
 
@@ -23,7 +23,7 @@
     <GridView
         android:id="@+id/accountlistview2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:numColumns="2"></GridView>
 
 

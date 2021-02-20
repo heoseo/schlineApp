@@ -22,6 +22,8 @@
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
         <activity android:name=".TeamWrite"></activity>
+        <activity android:name=".UserinfoActivity" />
+        <activity android:name=".TotalgradeActivity" />
         <activity android:name=".AccountView" />
         <activity android:name=".TaskView" />
         <activity android:name=".TeamView" />
