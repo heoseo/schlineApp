@@ -82,15 +82,14 @@ public class FragmentMyAccount extends Fragment {
                 popupMenu.getMenuInflater().inflate(R.menu.account_popup, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    //toast  말고 링크걸기
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.action_menu1) {
-                            Toast.makeText(getActivity(), "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity(), totalgrade.class);
+                            //Toast.makeText(getActivity(), "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(), TotalgradeActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(getActivity(), "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity(), usersetting.class);
+                            //Toast.makeText(getActivity(), "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(), UserinfoActivity.class);
                             startActivity(intent);
                         }
 

@@ -10,7 +10,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />     <!-- 생체인식-->
 
-    <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS"/>
+    <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_schline"
@@ -19,8 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_schline_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
-
         android:usesCleartextTraffic="true">
+        <activity android:name=".UserinfoActivity" />
+        <activity android:name=".TotalgradeActivity" />
         <activity android:name=".AccountView" />
         <activity android:name=".TaskView" />
         <activity android:name=".TeamView" />
@@ -28,13 +30,12 @@
         <activity android:name=".TeamActivity" />
         <activity android:name=".SchlineExoPlayer" />
         <activity android:name=".LectureView" />
-        <activity android:name=".FCM"/>
+        <activity android:name=".FCM" />
         <activity android:name=".VideoPlay" />
         <activity android:name=".EditInfoActivity" />
         <activity android:name=".ChatEnterActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".StudyroomChatActivity" />
-
         <activity android:name=".LoginActivity" />
         <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
@@ -43,6 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".MainActivity"/>
 
 
