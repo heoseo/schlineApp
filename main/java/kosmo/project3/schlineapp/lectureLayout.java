@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import kosmo.project3.schlineapp.R;
+
 public class lectureLayout extends LinearLayout {
 
     TextView video_end;//강의명

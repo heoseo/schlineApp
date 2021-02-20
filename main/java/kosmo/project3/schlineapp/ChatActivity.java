@@ -1,71 +1,113 @@
 package kosmo.project3.schlineapp;
 
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import com.google.firebase.iid.FirebaseInstanceId;
+import android.widget.Toast;
 
-public class ChatActivity extends Activity {
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 
-    private static final String TAG = "ChatActivity";
+public class ChatActivity extends  Activity{
 
-    TextView log;
-    String regId;
+    private String html = "";
+    private Handler mHandler;
+
+    private Socket socket;
+
+    private BufferedReader networkReader;
+    private BufferedWriter networkWriter;
+
+    private String ip = "192.168.25.47"; // IP
+    private int port = 9999; // PORT번호
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onStop() {
+        super.onStop();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        mHandler = new Handler();
 
-        log = (TextView)findViewById(R.id.log);
+        try {
+            setSocket(ip, port);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
 
-        //앱 실행할때 알림 메세지 있으면 데이터 표시
-        Intent intent = getIntent();
-        if(intent != null && intent.getExtras() != null){
-            for(String key : getIntent().getExtras().keySet()){
-                String value = getIntent().getExtras().getString(key);
-                Log.d(TAG, "Noti - "+ key + ":" + value);
+        checkUpdate.start();
+
+        final EditText et = (EditText) findViewById(R.id.EditText01);
+        Button btn = (Button) findViewById(R.id.Button01);
+        final TextView tv = (TextView) findViewById(R.id.TextView01);
+
+        btn.setOnClickListener(
+                new View.OnClickListener() {
+
+            public void onClick(View v) {
+                if (et.getText().toString() != null || !et.getText().toString().equals("")) {
+                    PrintWriter out = new PrintWriter(networkWriter, true);
+                    String return_msg = et.getText().toString();
+                    out.println(return_msg);
+                }
             }
+        });
+    }
 
-            Log.i(TAG, "알림 메세지 도착");
+    private Thread checkUpdate = new Thread() {
 
-            String contents = intent.getStringExtra("message");
-            if(contents != null){
-                processIntent(contents);
+        public void run() {
+            try {
+                String line;
+                Log.w("ChattingStart", "Start Thread");
+                while (true) {
+                    Log.w("Chatting is running", "chatting is running");
+                    line = networkReader.readLine();
+                    html = line;
+                    mHandler.post(showUpdate);
+                }
+            } catch (Exception e) {
+
             }
         }
-        getResistrationId();
-    }
+    };
 
-    //전달된 데이터를 텍스트뷰에 출력
-    public void println(String data){
-        log.append(data + "\n");
-    }
-    private void processIntent(String contents){
-        println("DATA : " + contents);
-    }
+    private Runnable showUpdate = new Runnable() {
 
-    //파이어베이스에서 토큰값을 얻어와서 출력
-    public void getResistrationId(){
-        println("getRegistrationId() 호출됨");
-
-        regId = FirebaseInstanceId.getInstance().getToken();
-        Log.i(TAG, "RegID:" + regId);
-        println("regId : " + regId);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        println("onNewIntent() called.");
-
-        if(intent != null){
-            String contents = intent.getStringExtra("message");
-            processIntent(contents);
+        public void run() {
+            Toast.makeText(ChatActivity.this, "Coming word: " + html, Toast.LENGTH_SHORT).show();
         }
+
+    };
+
+    public void setSocket(String ip, int port) throws IOException {
+
+        try {
+            socket = new Socket(ip, port);
+            networkWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            networkReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (IOException e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+
     }
+
 }

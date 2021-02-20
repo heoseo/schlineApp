@@ -1,19 +1,25 @@
 package kosmo.project3.schlineapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,17 +30,19 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
-public class TeamActivity extends AppCompatActivity {
+public class TeamActivity extends AppCompatActivity implements View.OnClickListener{
 
     String TAG = "SEONGJUN";
-    ProgressDialog dialog;
-    ListView teamview;
-    ArrayList<String> board_idx = new  ArrayList<String>();
-    ArrayList<String> board_content = new  ArrayList<String>();
-    ArrayList<String> board_title = new  ArrayList<String>();
-    ArrayList<String> board_postdate = new  ArrayList<String>();
+    ListView teamlist;
+    private ArrayList<TeamVO> list = new ArrayList<>();
+    ArrayList<String> boardidxs = new ArrayList<>();
+
+    //플로팅버튼 테스트
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab, floatteam, floattask, floatlecture;
+    String subject_idx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,30 +50,102 @@ public class TeamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_team);
 
         String user_id = StaticUserInformation.userID;
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        subject_idx = intent.getStringExtra("subject_idx");
+        Log.i(TAG, subject_idx);
 
+        ////////////////플로팅버튼테스트//////////////////
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        floatteam = (FloatingActionButton)findViewById(R.id.floatteam);
+        floattask = (FloatingActionButton)findViewById(R.id.floattask);
+        floatlecture = (FloatingActionButton)findViewById(R.id.floatlecture);
+
+        fab.setOnClickListener(this);
+        floatteam.setOnClickListener(this);
+        floattask.setOnClickListener(this);
+        floatlecture.setOnClickListener(this);
+
+
+        /////////////프레그먼트로 작성/////////////
+        Button teamwrite = (Button)findViewById(R.id.teamwriteBtn);
+
+        teamwrite.setOnClickListener(this);
+
+        //////////////////////////////////////////////////////////////////////
 
         new AsyncTeamRequest().execute(
                 "http://"+ StaticInfo.my_ip +"/schline/android/teamList.do",
-                "userID="+user_id);
-
-        //서버와 통신시 진행대화창을 띄우기 위한 객체생성
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//스타일설정
-        dialog.setIcon(android.R.drawable.ic_dialog_alert);//아이콘설정
-        dialog.setTitle("회원정보 리스트 가져오기");//제목
-        dialog.setMessage("서버로부터 응답을 기다리고 있습니다.");//출력할 내용
-        dialog.setCancelable(false);//back버튼으로 닫히지 않도록 설정
-
+                "user_id="+user_id, "subject_idx="+subject_idx);
     }
+
+    //플로팅버튼용
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        Intent intent;
+        switch (id) {
+            case R.id.fab:
+                anim();
+                break;
+            case R.id.floattask:
+                anim();
+                intent = new Intent(view.getContext(), TaskActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.floatteam:
+                anim();
+                intent = new Intent(view.getContext(), TeamActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.floatlecture:
+                anim();
+                intent = new Intent(view.getContext(), LectureView.class);
+                intent.putExtra("idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.teamwriteBtn:
+                intent = new Intent(view.getContext(), TeamWrite.class);
+                intent.putExtra("subject_idx", subject_idx);
+                startActivity(intent);
+        }
+    }
+
+    public void anim() {
+
+        if (isFabOpen) {
+            floatlecture.startAnimation(fab_close);
+            floatteam.startAnimation(fab_close);
+            floattask.startAnimation(fab_close);
+            floatlecture.setClickable(false);
+            floatteam.setClickable(false);
+            floattask.setClickable(false);
+            isFabOpen = false;
+        } else {
+            floatlecture.startAnimation(fab_open);
+            floatteam.startAnimation(fab_open);
+            floattask.startAnimation(fab_open);
+            floatlecture.setClickable(true);
+            floatteam.setClickable(true);
+            floattask.setClickable(true);
+            isFabOpen = true;
+        }
+    }
+
 
     class AsyncTeamRequest extends AsyncTask<String, Void, String>{
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //서버와 통신 직전에 진행대화창을 띄워준다.
-            if(!dialog.isShowing())
-                dialog.show(); //대화창이 없다면 show()를 통해 창을 띄운다.
         }
 
         @Override
@@ -83,6 +163,8 @@ public class TeamActivity extends AppCompatActivity {
 
                 OutputStream out = connection.getOutputStream();
                 out.write(strings[1].getBytes());//아이디 전달
+                out.write("&".getBytes());//&를 사용하여 쿼리스트링으로 만들어줌
+                out.write(strings[2].getBytes());//과목전달
 
                 out.flush();
                 out.close();
@@ -105,26 +187,36 @@ public class TeamActivity extends AppCompatActivity {
                     //서버 접속에 실패한경우..
                     Log.i(TAG, "HTTP OK 안됨");
                 }
-                ////////데이터로 변경///////
-                //누른 버튼이 "회원리스트가져오기"라면...
-                //if(buttonResId==R.id.btn_json){
-                    //읽어온 JSON데이터를 로그로 출력
-                    Log.i(TAG, sBuffer.toString());
-                    //먼저 JSON배열로 파싱
-                    JSONArray jsonArray = new JSONArray(sBuffer.toString());
-                    //StringBuffer 객체를 비움
-                    sBuffer.setLength(0);
-                    //배열 크기만큼 반복
-                    for(int i=0; i<jsonArray.length(); i++){
-                        //배열의 요소는 객체이므로 JSON객체로 파싱
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        //각 Key에 해당하는 값을 가져와서 StringBuffer객체에 저장
-                        board_idx.add(jsonObject.getString("board_idx"));
-                        board_title.add(jsonObject.getString("board_title"));
-                        board_content.add(jsonObject.getString("board_content"));
-                        board_postdate.add(jsonObject.getString("board_postdate"));
-                    }
-                //}
+                ////////데이터로 변경//////
+                //읽어온 JSON데이터를 로그로 출력
+                Log.i(TAG, sBuffer.toString());
+                //먼저 JSON배열로 파싱
+                JSONArray jsonArray = new JSONArray(sBuffer.toString());
+                //StringBuffer 객체를 비움
+                sBuffer.setLength(0);
+                //배열 크기만큼 반복
+                for(int i=0; i<jsonArray.length(); i++){
+                    //배열의 요소는 객체이므로 JSON객체로 파싱
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    //각 Key에 해당하는 값을 가져와서 StringBuffer객체에 저장
+                    String board_idx = jsonObject.getString("board_idx");
+                    String user_name = jsonObject.getString("user_name");
+                    String board_title = jsonObject.getString("board_title");
+                    String board_content = jsonObject.getString("board_content");
+                    String board_postdate = jsonObject.getString("board_postdate");
+                    //보드일련번호 넣어보기..
+                    boardidxs.add(board_idx);
+                    //VO객체에 넣기
+                    TeamVO vo = new TeamVO();
+                    vo.setBoard_idx(board_idx);
+                    vo.setBoard_title(board_title);
+                    vo.setUser_name(user_name);
+                    vo.setBoard_content(board_content);
+                    vo.setBoard_postdate(board_postdate);
+                    list.add(vo);
+                    Log.i(TAG, "리스트담기까지..");
+                }
+
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -138,28 +230,29 @@ public class TeamActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            //진행대화창을 닫아준다.
-            dialog.dismiss();
-            //결과값을 텍스트뷰에 출력한다..
-            teamview = (ListView)findViewById(R.id.teamView);
-            TeamAdapter teamAdapter = new TeamAdapter();
-            teamview.setAdapter(teamAdapter);
-
-            teamview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            Log.i(TAG, "팀뷰어댑터?");
+            //결과값을 텍스트뷰에 출력한다..?
+            teamlist = (ListView)findViewById(R.id.teamlist);
+            TeamAdapter teamadapter = new TeamAdapter();
+            teamlist.setAdapter(teamadapter);
+            teamlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.i(TAG, "어떤값이 넘어오나요? : "+boardidxs.size());
+                    Intent intent = new Intent(adapterView.getContext(), TeamView.class);
+                    intent.putExtra("board_idx", boardidxs.get(i));
 
-                    Toast.makeText(getApplicationContext(), "테스트", Toast.LENGTH_LONG).show();
+                    startActivity(intent);
                 }
             });
         }
     }
 
-    class TeamAdapter extends BaseAdapter{
+    public class TeamAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-           return board_idx.size();
+            return list.size();
         }
 
         @Override
@@ -169,13 +262,20 @@ public class TeamActivity extends AppCompatActivity {
 
         @Override
         public Object getItem(int i) {
-            return board_idx.get(i);
+            return list.get(i).getBoard_title();
         }
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            Log.i("SEONGJUN","진입이 되나요?");
-            return null;
+            Log.i(TAG,"진입이 되나요?");
+
+            TeamBoardLayout teamBoardLayout = new TeamBoardLayout(getApplicationContext());
+
+            teamBoardLayout.settitle(list.get(i).getBoard_title());
+            teamBoardLayout.setuser(list.get(i).getUser_name());
+            teamBoardLayout.setpostdate(list.get(i).getBoard_postdate());
+
+            return teamBoardLayout;
         }
     }
 }
