@@ -11,22 +11,5 @@
         android:id="@+id/courseListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </ListView>
-
-    <!-- 협업게시판/과제게시판 링크 테스트용 버튼 추후삭제 -->
-        <Button
-            android:id="@+id/teamBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="협업게시판"/>
-        <Button
-            android:id="@+id/taskBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="과제리스트"/>
-
-
-
-
 </LinearLayout>

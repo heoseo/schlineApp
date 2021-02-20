@@ -7,10 +7,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LectureView extends AppCompatActivity {
+public class LectureView extends AppCompatActivity implements View.OnClickListener{
 
     String TAG = "LectureView";
     String subject_idx;
@@ -29,6 +34,11 @@ public class LectureView extends AppCompatActivity {
     ArrayList<String> video_title = new ArrayList<String>();
     ArrayList<String> server_saved = new ArrayList<String>();
 
+    //플로팅버튼 테스트
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab, floatteam, floattask, floatlecture;
+
     RetrofitAPI retrofitAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +46,24 @@ public class LectureView extends AppCompatActivity {
         setContentView(R.layout.activity_lecture_view);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-
+        ViewGroup viewGroup;
         subject_idx = bundle.getString("idx");
         retrofitAPI = RetrofitAPI.getClient().create(RetrofitAPI.class);
 
+        ///////////////////////////////////////////////////////////////////////
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        floatteam = (FloatingActionButton)findViewById(R.id.floatteam);
+        floattask = (FloatingActionButton)findViewById(R.id.floattask);
+        floatlecture = (FloatingActionButton)findViewById(R.id.floatlecture);
+
+        fab.setOnClickListener(this);
+        floatteam.setOnClickListener(this);
+        floattask.setOnClickListener(this);
+        floatlecture.setOnClickListener(this);
+        ///////////////////////////////////////////////////////////////
 
 
         Call<Post> call = retrofitAPI.doGetUserList(subject_idx);
@@ -122,5 +146,60 @@ public class LectureView extends AppCompatActivity {
 
         }
     }
+
+    //플로팅버튼용
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        Intent intent;
+        switch (id) {
+            case R.id.fab:
+                anim();
+                break;
+            case R.id.floattask:
+                anim();
+                intent = new Intent(view.getContext(), TaskActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.floatteam:
+                anim();
+                intent = new Intent(view.getContext(), TeamActivity.class);
+                intent.putExtra("subject_idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+            case R.id.floatlecture:
+                anim();
+                intent = new Intent(view.getContext(), LectureView.class);
+                intent.putExtra("idx", subject_idx);
+                finish();
+                startActivity(intent);
+                break;
+        }
+    }
+
+    public void anim() {
+
+        if (isFabOpen) {
+            floatlecture.startAnimation(fab_close);
+            floatteam.startAnimation(fab_close);
+            floattask.startAnimation(fab_close);
+            floatlecture.setClickable(false);
+            floatteam.setClickable(false);
+            floattask.setClickable(false);
+            isFabOpen = false;
+        } else {
+            floatlecture.startAnimation(fab_open);
+            floatteam.startAnimation(fab_open);
+            floattask.startAnimation(fab_open);
+            floatlecture.setClickable(true);
+            floatteam.setClickable(true);
+            floattask.setClickable(true);
+            isFabOpen = true;
+        }
+    }
+
 
 }

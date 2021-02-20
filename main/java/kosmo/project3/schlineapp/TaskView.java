@@ -75,7 +75,7 @@ public class TaskView extends AppCompatActivity {
     }
 
     private void showfile(Uri imageUri) {
-        // 사진의 절대경로를 획득한다!!! 중요~
+        // 절대경로를 획득한다!!! 중요~
         filePath1 = getRealPathFromURI(imageUri);//사용자정의함수
         Log.d(TAG, "path1:" + filePath1);
         String[] filenames = filePath1.split("/");
