@@ -6,26 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:gravity="center_vertical"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/et_login_id"
+    <LinearLayout
+        android:paddingHorizontal="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="201701700"
-        android:hint="ID" />
+        android:orientation="horizontal" >
 
-    <EditText
-        android:id="@+id/et_login_pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="PASS"
-        android:text="qwer1234"
-        android:inputType="textPassword" />
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="로그인" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_login_id"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="201701700"
+                android:hint="ID" />
+
+            <EditText
+                android:id="@+id/et_login_pass"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="PASS"
+                android:text="qwer1234"
+                android:inputType="textPassword" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/checkbox_auto_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="자동 로그인"/>
+
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로그인" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

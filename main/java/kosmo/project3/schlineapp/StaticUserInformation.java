@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 public class StaticUserInformation {
     public static String userID = null;
+    public static String biometric = null;
 
     public static HashSet<String> roomSet = new HashSet<String>();
 

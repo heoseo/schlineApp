@@ -12,4 +12,5 @@ public class StaticInfo {
     public static String my_ip = "172.30.1.1:9999"; //주희
     //public static String my_ip = "221.154.60.184:8080";
 
+
 }
