@@ -43,21 +43,28 @@ import kosmo.project3.schlineapp.R;
 import kosmo.project3.schlineapp.StaticInfo;
 import kosmo.project3.schlineapp.StaticUserInformation;
 
-public class TeamView extends AppCompatActivity {
+public class TeamViewActivity extends AppCompatActivity {
 
     String TAG = "SEONGJUN";
 
     private long enqueue;
     private DownloadManager dm;
+    Button teamdelBtn;
+    String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_view);
 
-        String user_id = StaticUserInformation.userID;
+        user_id = StaticUserInformation.userID;
         Intent intent = getIntent();
         String board_idx = intent.getStringExtra("board_idx");
+
+        teamdelBtn = (Button)findViewById(R.id.teamdelBtn);
+
+
+        teamdelBtn.setVisibility(View.INVISIBLE);
 
         new AsyncTeamViewRequest().execute(
                 "http://"+ StaticInfo.my_ip +"/schline/android/teamView.do",
@@ -137,14 +144,17 @@ public class TeamView extends AppCompatActivity {
                 String board_file = jsonObject.optString("board_file", "");
                 Log.i(TAG, "파일은?" + board_file);
 
-                String user_id = jsonObject.getString("user_id");
+
+                String getid = jsonObject.getString("user_id");
+                if(getid.equals(user_id)){
+                    teamdelBtn.setVisibility(View.VISIBLE);
+                }
 
                 TextView teamviewtitle = findViewById(R.id.teamviewtitle);
                 TextView teamviewuser = findViewById(R.id.teamviewuser);
                 TextView teamviewteamnum = findViewById(R.id.teamviewteamnum);
                 TextView teamviewpostdate = findViewById(R.id.teamviewpostdate);
                 TextView teamviewcontent = findViewById(R.id.teamviewcontent);
-                //TextView teamviewfile = findViewById(R.id.teamviewfile);
 
                 teamviewtitle.setText(board_title);
                 teamviewcontent.setText(board_content);
@@ -154,6 +164,9 @@ public class TeamView extends AppCompatActivity {
                 //teamviewfile.setText(board_file);
 
                 Button btn = (Button)findViewById(R.id.teamviewfile);
+                if(board_file.equals("")){
+                    btn.setVisibility(View.INVISIBLE);
+                }
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

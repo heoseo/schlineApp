@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TeamView">
+    tools:context=".TeamViewActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,9 +85,9 @@
                 <Button
                     android:id="@+id/teamviewfile"
                     android:layout_width="50dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="5dp"
-                    android:text="파일"
+                    android:layout_height="25dp"
+                    android:text="첨부파일"
+                    android:background="#00afff"
                     android:textSize="10sp" />
             </LinearLayout>
             <View
@@ -102,7 +102,14 @@
                 android:layout_margin="20dp"
                 android:text="내용"
                 android:textSize="20dp" />
+
         </LinearLayout>
+        <Button
+            android:id="@+id/teamdelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="삭제"/>
     </FrameLayout>
 
 </LinearLayout>

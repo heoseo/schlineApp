@@ -1,9 +1,6 @@
 package kosmo.project3.schlineapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -113,7 +109,7 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.teamwriteBtn:
-                intent = new Intent(view.getContext(), TeamWrite.class);
+                intent = new Intent(view.getContext(), TeamWriteActivity.class);
                 intent.putExtra("subject_idx", subject_idx);
                 startActivity(intent);
         }
@@ -239,7 +235,7 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Log.i(TAG, "어떤값이 넘어오나요? : "+boardidxs.size());
-                    Intent intent = new Intent(adapterView.getContext(), TeamView.class);
+                    Intent intent = new Intent(adapterView.getContext(), TeamViewActivity.class);
                     intent.putExtra("board_idx", boardidxs.get(i));
 
                     startActivity(intent);

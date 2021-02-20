@@ -31,7 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-public class TeamWrite extends AppCompatActivity {
+public class TeamWriteActivity extends AppCompatActivity {
 
     private static final String TAG = "SEONGJUN";
 
@@ -94,7 +94,7 @@ public class TeamWrite extends AppCompatActivity {
     private void showfile(Uri imageUri) {
         // 절대경로를 획득한다!!! 중요~
         filePath1 = getRealPathFromURI(imageUri);//사용자정의함수
-        Log.d(TAG, "path1:" + filePath1);
+        Log.i(TAG, "path1:" + filePath1);
         String[] filenames = filePath1.split("/");
         String filename = filenames[filenames.length-1];
         Log.i(TAG, filename);
@@ -140,53 +140,21 @@ public class TeamWrite extends AppCompatActivity {
                         "/schline/android/teamUpload.do";
                 //단말기의 사진을 서버로 업로드하기위한 객체생성 및 메소드호출
                 //FileUpload 클래스는 기존내용을 그대로 가져다 쓰면 됨(수정필요없음)
+                Log.i(TAG, "파일명확인:"+files.get("filename"));
                 if(files.get("filename")!=null) {
 
                     FileUpload multipartUpload = new FileUpload(sUrl, "UTF-8");
                     rtn = multipartUpload.upload(param, files);
                     //서버에서 반환받은 결과데이터를 로그로 출력
-                    Log.d(TAG, rtn.toString());
+                    Log.i(TAG, rtn.toString());
                 }
                 else{
-                    Log.i(TAG, "null이군요");
-                    /*
 
-                    //알수가없당...
+                    FileUpload multipartUpload = new FileUpload(sUrl, "UTF-8");
+                    rtn = multipartUpload.upload(param);
+                    //서버에서 반환받은 결과데이터를 로그로 출력
+                    Log.i(TAG, rtn.toString());
 
-                    URL url = new URL(sUrl);
-                    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                    connection.setRequestMethod("POST");
-                    connection.setDoOutput(true);
-
-                    OutputStream out = connection.getOutputStream();
-                    out.write(("board_title="+title.getText().toString()).getBytes());
-                    out.write("&".getBytes());
-                    out.write(("board_content="+title.getText().toString()).getBytes());
-                    out.write("&".getBytes());
-                    out.write(("user_id"+param.get("user_id")).getBytes());
-                    out.write("&".getBytes());
-                    out.write(("subject_idx"+param.get("subject_idx")).getBytes());
-
-                    out.flush();
-                    out.close();
-
-                    if(connection.getResponseCode()==HttpURLConnection.HTTP_OK){
-                        Log.i(TAG, "HTTP OK 성공");
-                        //서버로부터 받은 응답데이터(JSON)를 스트림을 통해 읽어 저장한다.
-                        BufferedReader reader = new BufferedReader(
-                                new InputStreamReader(connection.getInputStream(), "UTF-8")
-                        );
-                        String responseData;
-
-
-                        while ((responseData=reader.readLine())!=null){
-                            //내용을 한줄씩 읽어서 StringBuffer객체에 저장한다.
-                            sBuffer.append(responseData+"\n\r");
-                        }
-                        reader.close();
-
-                    }
-                    */
                 }
             }
             catch (IOException e) {

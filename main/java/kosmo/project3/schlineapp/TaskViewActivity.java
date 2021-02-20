@@ -34,7 +34,7 @@ import kosmo.project3.schlineapp.StaticInfo;
 import kosmo.project3.schlineapp.StaticUserInformation;
 import kosmo.project3.schlineapp.FileUpload;
 
-public class TaskView extends AppCompatActivity {
+public class TaskViewActivity extends AppCompatActivity {
 
     private static final String TAG = "SEONGJUN";
 
