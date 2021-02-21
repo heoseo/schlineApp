@@ -95,10 +95,10 @@
             <Button
                 android:id="@+id/teamviewfiledown"
                 android:layout_width="50dp"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:text="다운로드"
-                android:background="#00afff"
-                android:textSize="10sp" />
+                android:background="@color/colorPrimary"
+                android:textSize="12sp" />
         </LinearLayout>
             <View
                 android:layout_width="match_parent"
