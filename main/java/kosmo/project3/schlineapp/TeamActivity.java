@@ -2,6 +2,7 @@ package kosmo.project3.schlineapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,10 +30,12 @@ import java.util.ArrayList;
 
 public class TeamActivity extends AppCompatActivity implements View.OnClickListener{
 
+    public static Context teamcontext;
     String TAG = "SEONGJUN";
     ListView teamlist;
     private ArrayList<TeamVO> list = new ArrayList<>();
     ArrayList<String> boardidxs = new ArrayList<>();
+    TeamAdapter teamadapter = new TeamAdapter();
 
     //플로팅버튼 테스트
     private Animation fab_open, fab_close;
@@ -45,9 +48,10 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
 
+        teamcontext = this;
+
         String user_id = StaticUserInformation.userID;
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
         subject_idx = intent.getStringExtra("subject_idx");
         Log.i(TAG, subject_idx);
 
@@ -76,6 +80,13 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
         new AsyncTeamRequest().execute(
                 "http://"+ StaticInfo.my_ip +"/schline/android/teamList.do",
                 "user_id="+user_id, "subject_idx="+subject_idx);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String user_id = StaticUserInformation.userID;
+        teamadapter.notifyDataSetChanged();
     }
 
     //플로팅버튼용
@@ -229,7 +240,6 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
             Log.i(TAG, "팀뷰어댑터?");
             //결과값을 텍스트뷰에 출력한다..?
             teamlist = (ListView)findViewById(R.id.teamlist);
-            TeamAdapter teamadapter = new TeamAdapter();
             teamlist.setAdapter(teamadapter);
             teamlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -270,7 +280,7 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
             teamBoardLayout.settitle(list.get(i).getBoard_title());
             teamBoardLayout.setuser(list.get(i).getUser_name());
             teamBoardLayout.setpostdate(list.get(i).getBoard_postdate());
-
+            this.notifyDataSetChanged();
             return teamBoardLayout;
         }
     }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TeamWriteActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:text="[수정]"
+        android:textSize="24sp"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#BDBDBD"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.2"
+            android:src="@drawable/intro"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/teamEdittitle"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:hint="제목"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/teamEditcontent"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:padding="10dp"
+                android:hint="내용"
+                android:textSize="20dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="파일 등록"
+                    android:textSize="20dp"
+                    android:onClick="btnTeamEditUpload"/>
+                <Button
+                    android:id="@+id/taskup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="20dp"
+                    android:text="수정"
+                    android:onClick="btnTeamEdit"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/teamEditfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="파일명"
+                />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
