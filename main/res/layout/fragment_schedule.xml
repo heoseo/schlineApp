@@ -13,12 +13,12 @@
         android:background="#b3c7f3">
 
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_schedule_main"
-            android:layout_width="195dp"
+            android:layout_width="203dp"
             android:layout_height="match_parent"
             android:background="#b3c7f3"
-            android:src="@drawable/btn_schedule"/>
+            android:src="@drawable/btn_schedule" />
 
         <ImageButton
             android:id="@+id/btn_calendar_main"
@@ -33,22 +33,13 @@
     <WebView
         android:id="@+id/webView_main"
         android:layout_width="match_parent"
-        android:layout_height="674dp" />
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/colorPrimary"
-        app:itemTextColor="@color/colorPrimaryDark"
-        app:menu="@menu/bottom_nav" />
 
 
 

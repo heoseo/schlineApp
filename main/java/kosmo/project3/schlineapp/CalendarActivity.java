@@ -13,14 +13,14 @@ import java.net.URLEncoder;
 
 public class CalendarActivity extends AppCompatActivity {
 
-    String TAG = "JUHEE>>> Calendar>>  ";
+//주희-
+    String TAG = "JUHEE>>> Calendar >>  ";
 
     //달력
     public WebView mWebViewC;
     private WebSettings mWebSettingsC;
 
     String user_id = StaticUserInformation.userID.toString();
-
     ImageButton btnSchedule;
 
 
@@ -37,6 +37,7 @@ public class CalendarActivity extends AppCompatActivity {
                 finish();
             }
         });
+//주희-
 
 
 

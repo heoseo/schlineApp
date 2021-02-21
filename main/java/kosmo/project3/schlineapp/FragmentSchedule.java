@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -28,12 +29,12 @@ import java.net.URLEncoder;
 
 public class FragmentSchedule extends Fragment {
 
-    private static final String TAG = "juhee";
+    private static final String TAG = "juhee Schedule >>>";
     //일정
     public WebView mWebView;
     private  WebSettings mWebSettings;
-    ImageButton btnCalendar;
-
+    ImageButton btnCalendarMain;
+    ImageButton btnSheduleMain;
     String user_id = StaticUserInformation.userID.toString();
     ProgressDialog progressDialog;
 
@@ -42,7 +43,22 @@ public class FragmentSchedule extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_schedule, container, false);
+
+        ImageButton btnCalendar = (ImageButton)
+                view.findViewById(R.id.btn_calendar_main);
+
+        btnCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(),
+                        CalendarActivity.class);
+                //달력화면 전환.
+                startActivity(intent);
+            }
+        });
+        return view;
     }
 
     @Override
@@ -50,9 +66,10 @@ public class FragmentSchedule extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        ImageButton btnCalendar = (ImageButton)view.findViewById(R.id.btn_calendar_main);
+        ImageButton btnSheduleMain = (ImageButton)view.findViewById(R.id.btn_schedule_main);
+        ImageButton btnCalendarMain = (ImageButton)view.findViewById(R.id.btn_calendar_main);
 
-        btnCalendar.setOnClickListener(new View.OnClickListener(){
+        btnCalendarMain.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),CalendarActivity.class);
@@ -68,14 +85,20 @@ public class FragmentSchedule extends Fragment {
         mWebSettings.setJavaScriptEnabled(true); //웹뷰에서 javascript를 사용하도록 설정
         mWebSettings.setJavaScriptCanOpenWindowsAutomatically(false); //멀티윈도우 띄우는 것
         mWebSettings.setAllowFileAccess(true); //파일 엑세스
-        mWebSettings.setLoadWithOverviewMode(true);// 메타태그
-        mWebSettings.setUseWideViewPort(true); //화면 사이즈 맞추기
         mWebSettings.setSupportZoom(true); // 화면 줌 사용 여부
         mWebSettings.setBuiltInZoomControls(true); //화면 확대 축소 사용 여부
         mWebSettings.setDisplayZoomControls(true); //화면 확대 축소시, webview에서 확대/축소 컨트롤 표시 여부
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 사용 재정의
-        // value : LOAD_DEFAULT, LOAD_NORMAL,
-        // LOAD_CACHE_ELSE_NETWORK, LOAD_NO_CACHE, or LOAD_CACHE_ONLY
+        //meta태그의 viewport사용 가능
+        // wide viewport를 사용하도록 설정
+        mWebSettings.setUseWideViewPort(true);
+        // 컨텐츠가 웹뷰보다 클 경우 스크린 크기에 맞게 조정
+        // 웹뷰 멀티 터치 가능하게 (줌기능)
+        mWebSettings.setLoadWithOverviewMode(true);
+        mWebView.setNetworkAvailable(true);
+        mWebSettings.setDomStorageEnabled(true);
+        mWebView.setWebChromeClient(new WebChromeClient());
+        mWebSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         mWebSettings.setDefaultFixedFontSize(12); //기본 고정 글꼴 크기, value : 1~72 사이의 숫자
 
         String str = null;
@@ -93,10 +116,8 @@ public class FragmentSchedule extends Fragment {
 
     }
 
-
-
-
 }
+
 
 
 
