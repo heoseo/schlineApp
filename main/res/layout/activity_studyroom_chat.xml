@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--뷰의구성
-1. 처음 입력창에 닉네임 입력하고 접속버튼 누름
-2. 접속되면 환영문구 받음
-3. 접속완료시 EditText창의 흰트가 닉네임 -> 메세지로 변경하여 주고
-    버튼의 text값을 전송으로 고쳐줌
--->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,9 +8,24 @@
     android:orientation="vertical"
     tools:context=".StudyroomChatActivity">
 
+    <!--타이머-->
+    <TextView
+        android:id="@+id/time_out"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:background="#cccccc"
+        android:textColor="#777777"
+        android:text="00:00:00" />
 
-    <!--뮤직플레이어-->
-    <!--id속성을 꼭 적어줘야함-->
+    <TextView
+        android:id="@+id/record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <!--음악-->
     <fragment
         android:id="@+id/frag_study_music"
         android:layout_width="match_parent"
@@ -24,40 +34,11 @@
         />
 
 
-
-    <!--스크롤 대화창-->
-    <ScrollView
-        android:id="@+id/scroll"
+    <WebView
+        android:id="@+id/chatWebView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        />
 
-        <LinearLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" />
-    </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="닉네임"
-            android:inputType="textPersonName" />
-        <!--접속버튼 누르면 스레드 가동-->
-        <Button
-            android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="btnMethod"
-            android:text="접속" />
-    </LinearLayout>
 </LinearLayout>

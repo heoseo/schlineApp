@@ -1,7 +1,9 @@
 package kosmo.project3.schlineapp;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +35,9 @@ import java.util.ArrayList;
 public class FragmentMyAccount extends Fragment {
     String TAG = "FragmentMyAccount";
 
+    //로그아웃버튼
+    Button btnLogout;
+
     ArrayList<String> subjectName = new ArrayList<String>();
     ArrayList<String> professorName = new ArrayList<String>();
     ArrayList<String> subject_idx = new ArrayList<String>();
@@ -51,6 +56,23 @@ public class FragmentMyAccount extends Fragment {
                 "user_id=" + user_id
         );
 
+        //로그아웃버튼
+        btnLogout = (Button)viewGroup.findViewById(R.id.logoutBtn);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getActivity();
+
+                SharedPreferences preferences = context.getSharedPreferences("account",0x0000);
+                StaticUserInformation.resetDate(preferences);
+
+                // 로그인 페이지로 이동하면 메인액티비티(현재) 종료
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("back_login", "true");
+                startActivity(intent);
+            }
+        });
+
 
         Button button = (Button) viewGroup.findViewById(R.id.btn);
         button.setOnClickListener(new View.OnClickListener() {
@@ -60,15 +82,14 @@ public class FragmentMyAccount extends Fragment {
                 popupMenu.getMenuInflater().inflate(R.menu.account_popup, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    //toast  말고 링크걸기
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.action_menu1) {
-                            Toast.makeText(getActivity(), "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity(), totalgrade.class);
+                            //Toast.makeText(getActivity(), "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(), TotalgradeActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(getActivity(), "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity(), usersetting.class);
+                            //Toast.makeText(getActivity(), "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(), UserinfoActivity.class);
                             startActivity(intent);
                         }
 

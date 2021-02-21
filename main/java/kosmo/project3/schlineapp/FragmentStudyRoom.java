@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -30,30 +32,24 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 //프레그먼트 상속
 @SuppressLint("HandlerLeak")
 public class FragmentStudyRoom extends Fragment implements Runnable{
 
-    private static final String TAG = "FragmentStudyRoom";
-
-    Bitmap bitmap;// 비트맵 객체
     //전역변수 선언
-    ArrayList<String> listLank = new ArrayList<String>();
+    private static final String TAG = "FragmentStudyRoom";
+    Bitmap bitmap;// 비트맵 객체
     //위젯용변수
     TextView textNICK, textTime, textATTN, textBLOCK;
     ImageView imgINFO;
     Button btnStudyGO;
     //제이슨 파싱용 변수
-    String info_nick, reported_count, info_img;
-    String info_attend, info_time;
-    String image;
-    URL url;
+    String info_nick, reported_count, info_img, info_attend, info_time;
     //Integer info_attend, info_time;
     String user_id = StaticUserInformation.userID;
-    //info_img도 있어야함
     ViewGroup studyRoomView;
+    URL url;
 
     // 메인 스레드와 백그라운드 스레드 간의 통신
     Handler handler;
@@ -64,7 +60,6 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 Log.i(TAG, "핸들러 들어옴");
-                Log.i(TAG, "최종bitmap=" + bitmap);
                 // 서버에서 받아온 이미지를 핸들러를 경유해 이미지뷰에 비트맵 리소스 연결
                 imgINFO.setImageBitmap(bitmap);
             }
@@ -84,10 +79,18 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
         textNICK = (TextView)studyRoomView.findViewById(R.id.text_nick);//얘의값을 셋팅해줘야한다.
         //imgINFO = (ImageView)studyRoomView.findViewById(R.id.img_info);
         textTime = (TextView)studyRoomView.findViewById(R.id.text_time);
-        textBLOCK = (TextView)studyRoomView.findViewById(R.id.text_reported_count);
+        //textBLOCK = (TextView)studyRoomView.findViewById(R.id.text_reported_count);
         textATTN = (TextView)studyRoomView.findViewById(R.id.text_attend);
         btnStudyGO = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo);
+
         imgINFO = (ImageView)studyRoomView.findViewById(R.id.img_info);
+
+        //이미지뷰 모서리 둥글게
+        imgINFO.setBackground(new ShapeDrawable(new OvalShape()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            imgINFO.setClipToOutline(true);
+        }
+
         Button editBtn;
         //이클립스, DB연동 사용자정보 요청
         new syncInfoServer().execute(
@@ -108,20 +111,23 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                     }
                 }
         );
-
-        //채팅이동 2222 (임시)
-        Button bt2 = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo2);
-        bt2.setOnClickListener(
+        Button btnStudyGO2 = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo2);
+        //채팅 이동2
+        btnStudyGO2.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(),
                                 ChatActivity.class);
-                        //채팅2이동
+                        intent.putExtra("info_nick", info_nick);
+                        intent.putExtra("info_img", info_img);
+
+                        //채팅을 띄워준다.
                         startActivity(intent);
                     }
                 }
         );
+
 
         editBtn = (Button)studyRoomView.findViewById(R.id.btn_editInfo);
         editBtn.setOnClickListener(
@@ -130,9 +136,15 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(),
                                 EditInfoActivity.class);
+
                         Log.i(TAG,"넘길 info 이미지="+ info_img);
-                        intent.putExtra("img", info_img);
+                        Log.i(TAG,"넘길 bitmap 이미지="+ bitmap);
+
+                        intent.putExtra("info_img", info_img);
+                        intent.putExtra("info_nick", info_nick);
                         intent.putExtra("url", url);
+                        //intent.putExtra("bitmap", bitmap);//이미지 비트맵 넘기기. 여기서 에러남!!
+
                         //프로필수정 이동
                         startActivity(intent);
                     }
@@ -149,17 +161,14 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
     }
 
 
-
-
     // 백그라운드 스레드
     @Override
     public void run() {
-        URL url =null;
         try{
             // 스트링 주소를 url 형식으로 변환
-            url = new URL("http://"+StaticInfo.my_ip+"/resources/profile_image"+File.separator+info_img);
+            url = new URL("http://"+StaticInfo.my_ip+"/schline/resources/profile_image"+File.separator+info_img);
             //url = new URL("http://localhost:9999//resources/profile_image"+File.separator+info_img);
-            Log.i(TAG, "url최종="+url);
+            Log.i(TAG, "이미지 url최종="+url);
             // url에 접속 시도
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.connect();
@@ -250,7 +259,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                 info_img = jsonObject.getJSONObject("user").getString("info_img").toString();
                 info_time = jsonObject.getJSONObject("user").getString("info_time").toString();
                 info_attend = jsonObject.getJSONObject("user").getString("info_atten").toString();
-                reported_count = jsonObject.getJSONObject("user").getString("reported_count").toString();
+                //reported_count = jsonObject.getJSONObject("user").getString("reported_count").toString();
 
                 Log.i(TAG, "공부방메인 파싱 user_id="+user_id);
                 Log.i(TAG, "공부방메인 파싱 info_nick="+info_nick);
@@ -262,17 +271,11 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
             }
 
             //String path = Environment.getExternalStorageDirectory().getAbsolutePath()+
-              //      File.separator+"profile_img"+File.separator;
+            //      File.separator+"profile_img"+File.separator;
             ///path에는 "sdcard/ImageList/" 와 같은 값이 들어갑니다.
             //경로를 이용해 File객체 생성
             //File list = new File(path);
             //list객체에서 이미지목록만 추려냄
-
-            //info_img에 확장자 포함되어있음
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath()+
-                    File.separator+info_img;
-
-            String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/resources/profile_image"+File.separator+info_img;
 
             /*
             파싱이 완료된 StringBuffer객체 String으로 변환하여 반환
@@ -280,7 +283,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
              */
             textNICK.setText(info_nick);
             textTime.setText(info_time);
-            textBLOCK.setText(reported_count);
+            //textBLOCK.setText(reported_count);
             textATTN.setText(info_attend);
 
             //imgINFO.setImageBitmap(url);
@@ -303,7 +306,6 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
         }
     }
 }

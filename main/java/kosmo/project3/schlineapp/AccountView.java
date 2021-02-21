@@ -95,10 +95,13 @@ public class AccountView extends AppCompatActivity {
                     JSONObject jsonObject2 = attenlists.getJSONObject(i);
                     rnum.add(jsonObject2.getString("rnum"));
                     if(jsonObject2.getString("attendance_flag").equals("2")){
-                        attendance_flag.add("O");
+                        attendance_flag.add("출석");
+                    }
+                    if(jsonObject2.getString("attendance_flag").equals("1")){
+                        attendance_flag.add("강의 시청중");
                     }
                     else {
-                        attendance_flag.add("X");
+                        attendance_flag.add("결석");
                     }
                     //attendance_flag.add(jsonObject2.getString("attendance_flag"));
                 }
