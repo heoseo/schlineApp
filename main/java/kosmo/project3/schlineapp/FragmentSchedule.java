@@ -1,32 +1,47 @@
 package kosmo.project3.schlineapp;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 
 
 public class FragmentSchedule extends Fragment {
 
     private static final String TAG = "juhee";
+    //일정
     public WebView mWebView;
     private  WebSettings mWebSettings;
-    String user_id = StaticUserInformation.userID;
+    ImageButton btnCalendar;
+
+    String user_id = StaticUserInformation.userID.toString();
+    ProgressDialog progressDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
         return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 
@@ -34,7 +49,19 @@ public class FragmentSchedule extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mWebView = (WebView)view.findViewById(R.id.webView);
+
+        ImageButton btnCalendar = (ImageButton)view.findViewById(R.id.btn_calendar_main);
+
+        btnCalendar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(),CalendarActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
+        mWebView = (WebView)view.findViewById(R.id.webView_main);
 
         mWebView.setWebViewClient(new WebViewClient()); // 현재 앱을 나가서 새로운 브라우저를 열지 않도록 함.
         mWebSettings = mWebView.getSettings(); //웹뷰에서 webSettings를 사용할 수 있도록 함.
@@ -49,28 +76,24 @@ public class FragmentSchedule extends Fragment {
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 사용 재정의
         // value : LOAD_DEFAULT, LOAD_NORMAL,
         // LOAD_CACHE_ELSE_NETWORK, LOAD_NO_CACHE, or LOAD_CACHE_ONLY
-        mWebSettings.setDefaultFixedFontSize(14); //기본 고정 글꼴 크기, value : 1~72 사이의 숫자
-
-
-
-        StringBuffer receiveData = new StringBuffer();
+        mWebSettings.setDefaultFixedFontSize(12); //기본 고정 글꼴 크기, value : 1~72 사이의 숫자
 
         String str = null;
         try{
+
             str = "user_id=" + URLEncoder.encode(StaticUserInformation.userID, "UTF-8");
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
+        Log.d(TAG, "userID>>>>>>"+user_id);
 
-        //mWebView.loadUrl("http://"+StaticInfo.my_ip+"/schline/android/schedule.do", str);
-        //mWebView.loadUrl("http://172.30.1.1:9999/schline/android/schedule.do?user_id="+user_id);
-        mWebView.loadUrl("http://172.30.1.1:9999/schline/android/schedule.do?user_id="+user_id);
-        
-        //mWebView.loadUrl("http://"+StaticInfo.my_ip+"schline/android/schedule.do?user_id="+user_id);
+        mWebView.postUrl("http://"+StaticInfo.my_ip+"/schline/android/alertList.do", str.getBytes());
 
     }
+
+
 
 
 }
