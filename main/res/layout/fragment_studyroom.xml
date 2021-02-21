@@ -12,19 +12,20 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:orientation="vertical"
-        android:layout_marginTop="100sp">
+        android:layout_marginTop="10sp">
         <!--baselineAligned: 텍스트 하단 기준으로 정렬-->
         <!--XML로 프레그먼트 삽입-->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:textSize="20sp"
             android:text="랭킹 리스트(순위/닉네임/공부시간)"
             android:gravity="center"/>
         <!--랭킹-->
         <fragment
             android:id="@+id/frag_study_lank"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             class="kosmo.project3.schlineapp.FragmentStudyLank"/>
 
     </LinearLayout>
@@ -32,20 +33,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
-    <TextView
+        android:gravity="center"
+        />
+<!--    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="내 프로필"
         android:gravity="center"
-        android:layout_marginTop="30sp"
-        android:textSize="20sp"/>
+        android:layout_marginTop="20sp"
+        android:textSize="30sp"/>-->
         <!--   android:src="@drawable/user" -->
+        <!--scaleType : 이미지의 크기를 ImageView 영역어 어떻게 맞출지에 대한 속성-->
         <ImageView
             android:id="@+id/img_info"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
             android:layout_margin="30sp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
             android:src="@drawable/user"/>
             <!--
         android:srcCompat=""
@@ -56,12 +61,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50sp"
+            android:textSize="20sp"
+            android:layout_marginLeft="120sp"
             android:text="닉 네 임 : "/>
         <TextView
             android:id="@+id/text_nick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="닉네임" />
     </LinearLayout>
     <LinearLayout
@@ -70,12 +77,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="누적시간 : "
-            android:layout_marginLeft="50sp"/>
+            android:layout_marginLeft="120sp"/>
         <TextView
             android:id="@+id/text_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="누적시간" />
     </LinearLayout>
 
@@ -85,12 +94,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50sp"
+                android:layout_marginLeft="120sp"
+                android:textSize="20sp"
                 android:text="랭   킹 : "/>
         <TextView
             android:id="@+id/text_my_lank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="내랭킹" />
     </LinearLayout>
     <LinearLayout
@@ -99,16 +110,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50sp"
+            android:layout_marginLeft="120sp"
+            android:textSize="20sp"
             android:text="출석일 : "/>
         <TextView
             android:id="@+id/text_attend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginBottom="30sp"
             android:text="출석률" />
     </LinearLayout>
 
-    <LinearLayout
+<!--    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -120,34 +134,34 @@
             android:id="@+id/text_reported_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_editInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="프로필 수정"/>
-
+    </LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
-    <!--스터디룸 입장 버튼-->
-    <Button
-        android:id="@+id/btn_studyRoomGo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="입장하기"
-        android:textSize="30sp"
-        android:background="#00FFCC" />
+        <Button
+            android:id="@+id/btn_editInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="프로필 수정"
+            />
+        <!--스터디룸 입장 버튼-->
+        <Button
+            android:id="@+id/btn_studyRoomGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="입장하기"
+            android:textSize="20sp"
+            android:background="#00FFCC" />
 
-    <Button
-        android:id="@+id/btn_studyRoomGo2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="입장하기2"
-        android:textSize="30sp"
-        android:background="@color/cardview_shadow_end_color" />
+        <Button
+            android:id="@+id/btn_studyRoomGo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="입장하기2"
+            android:textSize="20sp"
+            android:background="@color/cardview_shadow_end_color" />
     </LinearLayout>
 
 </LinearLayout>

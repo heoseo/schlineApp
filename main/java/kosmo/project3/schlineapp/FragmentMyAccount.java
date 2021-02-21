@@ -1,7 +1,9 @@
 package kosmo.project3.schlineapp;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +35,9 @@ import java.util.ArrayList;
 public class FragmentMyAccount extends Fragment {
     String TAG = "FragmentMyAccount";
 
+    //로그아웃버튼
+    Button btnLogout;
+
     ArrayList<String> subjectName = new ArrayList<String>();
     ArrayList<String> professorName = new ArrayList<String>();
     ArrayList<String> subject_idx = new ArrayList<String>();
@@ -50,6 +55,23 @@ public class FragmentMyAccount extends Fragment {
                 "http://" + StaticInfo.my_ip + "/schline/android/usersublist.do",
                 "user_id=" + user_id
         );
+
+        //로그아웃버튼
+        btnLogout = (Button)viewGroup.findViewById(R.id.logoutBtn);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getActivity();
+
+                SharedPreferences preferences = context.getSharedPreferences("account",0x0000);
+                StaticUserInformation.resetDate(preferences);
+
+                // 로그인 페이지로 이동하면 메인액티비티(현재) 종료
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("back_login", "true");
+                startActivity(intent);
+            }
+        });
 
 
         Button button = (Button) viewGroup.findViewById(R.id.btn);

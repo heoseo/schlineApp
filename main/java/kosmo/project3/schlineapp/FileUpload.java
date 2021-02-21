@@ -19,7 +19,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-//파일업로드 파일은 하나로 쓰는게 좋을듯!!
 public class FileUpload {
 
     private static final String TAG = "FileUpload";
@@ -34,6 +33,7 @@ public class FileUpload {
     private OutputStream outputStream;
     int maxBufferSize = 1024;
 
+
     public FileUpload(String requestURL, String charset) throws IOException {
         this.charset = charset;
 
@@ -46,6 +46,7 @@ public class FileUpload {
         httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
     }
 
+    //url과 절대경로
     public JSONObject upload(HashMap<String, String> params, HashMap<String, String> files)
             throws IOException
     {
@@ -150,6 +151,7 @@ public class FileUpload {
         return jObj;
     }
 
+
     ///파일 없을때
     //url과 절대경로
     public JSONObject upload(HashMap<String, String> params)
@@ -236,4 +238,5 @@ public class FileUpload {
 
         return jObj;
     }
+
 }

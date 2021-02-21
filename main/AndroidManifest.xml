@@ -9,7 +9,17 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- 생체인식 -->
+
     <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS" />
+
+
+>>>>>>> 46ad806c720560288c344beaf07a7c6d881667e4
+    <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS" />
+
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE">
+    </uses-permission>
+
 
     <application
         android:allowBackup="true"
@@ -22,6 +32,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".TeamEditActivity"></activity>
         <activity android:name=".TeamWriteActivity" />
+        <activity android:name=".CalendarActivity"></activity>
         <activity android:name=".UserinfoActivity" />
         <activity android:name=".TotalgradeActivity" />
         <activity android:name=".AccountView" />
@@ -34,11 +45,9 @@
         <activity android:name=".FCM" />
         <activity android:name=".VideoPlay" />
         <activity android:name=".EditInfoActivity" />
-        <activity android:name=".ChatEnterActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".StudyroomChatActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".EmptyActivity" />
         <activity android:name=".Intro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,6 +55,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".MainActivity" />
 
         <service
@@ -56,6 +66,7 @@
                 <action android:name="com.google.firebase.MESSAGIN_EVENT" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>
