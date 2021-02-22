@@ -10,7 +10,9 @@ public class StaticInfo {
     //public static String my_ip = "192.168.219.120:9999";//성준학원
     //public static String my_ip = "192.168.0.9:9999";//다은
     //public static String my_ip = "192.168.25.47:9999";//다혜
-    public static String my_ip = "172.30.1.1:9999"; //주희
+    //public static String my_ip = "172.30.1.1:9999"; //주희
+    //주희학원
+    public static String my_ip = "192.168.0.155:9999";
     //public static String my_ip = "221.154.60.184:8080";
 
     // public static String my_ip = "192.168.0.6:8080"; 다은 본가
