@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView1"
-        android:text="[작성]"
+        android:text="[수정]"
         android:textSize="24sp"
         android:layout_margin="20dp"
         android:gravity="center"
@@ -35,7 +35,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/teamwritetitle"
+                android:id="@+id/teamEdittitle"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:hint="제목"
@@ -43,7 +43,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
             <EditText
-                android:id="@+id/teamwritecontent"
+                android:id="@+id/teamEditcontent"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:padding="10dp"
@@ -60,21 +60,21 @@
                     android:layout_weight="1"
                     android:text="파일 등록"
                     android:textSize="20dp"
-                    android:onClick="btnTeamUpload"/>
+                    android:onClick="btnTeamEditUpload"/>
                 <Button
                     android:id="@+id/taskup"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20dp"
-                    android:text="작성"
-                    android:onClick="btnTeamWrite"/>
+                    android:text="수정"
+                    android:onClick="btnTeamEdit"/>
             </LinearLayout>
             <TextView
-                android:id="@+id/teamfile"
+                android:id="@+id/teamEditfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="파일명:"
+                android:hint="파일명"
                 />
         </LinearLayout>
     </FrameLayout>

@@ -103,7 +103,6 @@ public class FragmentSchedule extends Fragment {
 
         String str = null;
         try{
-
             str = "user_id=" + URLEncoder.encode(StaticUserInformation.userID, "UTF-8");
         }
         catch (UnsupportedEncodingException e) {

@@ -9,15 +9,33 @@
     tools:context=".ChatActivity"
     android:id="@+id/chat_back">
 
+<GridLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
     <!--타이머-->
+
     <TextView
         android:id="@+id/time_out"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="2"
         android:gravity="center"
-        android:textSize="40sp"
-        android:textColor="#777777"
-        android:text="00:00:00" />
+        android:text="00:00:00"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <ImageButton
+        android:id="@+id/btn_bye"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_exit_to_app_black_18dp"
+        android:text="퇴실" />
+</GridLayout>
 
     <TextView
         android:id="@+id/record"
