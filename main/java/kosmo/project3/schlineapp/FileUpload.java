@@ -19,7 +19,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-//파일업로드 파일은 하나로 쓰는게 좋을듯!!
 public class FileUpload {
 
     private static final String TAG = "FileUpload";
@@ -34,6 +33,7 @@ public class FileUpload {
     private OutputStream outputStream;
     int maxBufferSize = 1024;
 
+
     public FileUpload(String requestURL, String charset) throws IOException {
         this.charset = charset;
 
@@ -46,6 +46,7 @@ public class FileUpload {
         httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
     }
 
+    //url과 절대경로
     public JSONObject upload(HashMap<String, String> params, HashMap<String, String> files)
             throws IOException
     {
@@ -149,4 +150,93 @@ public class FileUpload {
 
         return jObj;
     }
+
+
+    ///파일 없을때
+    //url과 절대경로
+    public JSONObject upload(HashMap<String, String> params)
+            throws IOException
+    {
+        String paramsPart = "";
+        //long fileLength = 0;
+
+        ArrayList<String> paramHeaders = new ArrayList<>();
+        for (Map.Entry<String, String> entry : params.entrySet()) {//파라미터
+
+            String param = TWOHYPEN + boundary + LINE_END
+                    + "Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + LINE_END
+                    + "Content-Type: text/plain; charset=" + charset + LINE_END
+                    + LINE_END
+                    + entry.getValue() + LINE_END;
+            paramsPart += param;
+            paramHeaders.add(param);
+        }
+
+        ArrayList<File> filesAL = new ArrayList<>();
+        ArrayList<String> fileHeaders = new ArrayList<>();
+
+        String partData = paramsPart;
+
+        //long requestLength = partData.getBytes(charset).length + fileLength + tail.getBytes(charset).length;//파라미터 데이터
+        //httpConn.setRequestProperty("Content-length", "" + requestLength);
+        //httpConn.setFixedLengthStreamingMode((int) requestLength);
+        httpConn.connect();//연결
+
+        outputStream = new BufferedOutputStream(httpConn.getOutputStream());
+        writer = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
+        //파라미터 넘기기
+        for (int i = 0; i < paramHeaders.size(); i++) {
+            writer.append(paramHeaders.get(i));
+            writer.flush();
+        }
+
+//        int totalRead = 0;
+        int bytesRead;
+        byte buf[] = new byte[maxBufferSize];
+        for (int i = 0; i < filesAL.size(); i++) {
+            writer.append(fileHeaders.get(i));
+            writer.flush();
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(filesAL.get(i)));
+            while ((bytesRead = bufferedInputStream.read(buf)) != -1) {
+
+                outputStream.write(buf, 0, bytesRead);
+                writer.flush();
+            }
+            outputStream.write(LINE_END.getBytes());
+            outputStream.flush();
+            bufferedInputStream.close();
+        }
+        writer.append(tail);
+        writer.flush();
+        writer.close();//파라미터 넘기기
+
+        JSONObject jObj = null;
+        StringBuilder sb = new StringBuilder();
+        // checks server's status code first
+        int status = httpConn.getResponseCode();
+        if (status == HttpURLConnection.HTTP_OK) {
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(httpConn.getInputStream(), "UTF-8"), 8);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(httpConn.getInputStream(), "UTF-8"),8
+            );
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+            reader.close();
+            //httpConn.disconnect();
+        } else {//입출력 예외
+            throw new IOException("Server returned non-OK status: " +
+                    status + " ");
+        }
+
+        try {
+            jObj = new JSONObject(sb.toString());
+        } catch (JSONException | NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return jObj;
+    }
+
 }

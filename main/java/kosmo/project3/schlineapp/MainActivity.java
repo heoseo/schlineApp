@@ -18,6 +18,10 @@ import android.widget.PopupMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 
@@ -37,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "id 정보 : "+StaticUserInformation.userID);
 
         activity = MainActivity.this;
-
-
-
 
 
         //안드로이드 아이디

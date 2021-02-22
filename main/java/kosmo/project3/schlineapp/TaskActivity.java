@@ -12,9 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -226,7 +224,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Log.i(TAG, "어떤값이 넘어오나요? : "+boardidxs.size());
-                    Intent intent = new Intent(adapterView.getContext(), TaskView.class);
+                    Intent intent = new Intent(adapterView.getContext(), TaskViewActivity.class);
                     intent.putExtra("board_idx", boardidxs.get(i));
                     intent.putExtra("subject_idx", list.get(i).getSubject_idx());
                     intent.putExtra("exam_name", list.get(i).getExam_name());

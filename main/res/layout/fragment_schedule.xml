@@ -3,17 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:layout_height="match_parent">
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#b3c7f3">
 
 
+        <ImageButton
+            android:id="@+id/btn_schedule_main"
+            android:layout_width="203dp"
+            android:layout_height="match_parent"
+            android:background="#b3c7f3"
+            android:src="@drawable/btn_schedule" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Page_1"
-        android:textSize="100dp"/>
+        <ImageButton
+            android:id="@+id/btn_calendar_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#b3c7f3"
+            android:onClick="onClicked"
+            android:src="@drawable/btn_calendar" />
+
+    </LinearLayout>
+
+    <WebView
+        android:id="@+id/webView_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
 
 
 </LinearLayout>
+
