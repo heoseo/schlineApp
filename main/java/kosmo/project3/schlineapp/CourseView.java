@@ -1,7 +1,10 @@
 package kosmo.project3.schlineapp;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,6 +14,7 @@ public class CourseView extends LinearLayout {
 
     TextView sub_idx;//과목번호
     TextView sub_name;//과목명
+    ImageView imageView;
 
 
     public CourseView(Context context) {
@@ -20,6 +24,17 @@ public class CourseView extends LinearLayout {
 
     sub_idx = findViewById(R.id.course_textView1);
     sub_name = findViewById(R.id.course_textView2);
+    imageView = findViewById(R.id.minilogo);
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            GradientDrawable drawable=
+                    (GradientDrawable) context.getDrawable(R.drawable.subject_img_round_corner);
+            imageView.setBackground(drawable);
+            imageView.setClipToOutline(true);
+
+        }
+
 
     }
     public void setIdx (String idx){

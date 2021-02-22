@@ -6,12 +6,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".TaskActivity">
-    <TextView
+    <!--상단바-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="과제 목록"
-        android:textSize="20dp"
-        android:gravity="center"/>
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="과제"
+            android:layout_margin="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp" />
+
+
+    </LinearLayout>
+    <!--상단바 end -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,49 +35,64 @@
         android:layout_height="match_parent"
         android:gravity="center">
     </ListView>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <!--    ExtendedFloatingActionButton -->
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floatlecture"
+            android:text="강의"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="230dp"
-            android:layout_marginRight="15sp"
-            android:src="@drawable/lecture"
+            android:layout_marginBottom="200dp"
+            android:theme="@style/MaterialTheme"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:icon="@drawable/lecture"
             android:visibility="invisible"
             app:backgroundTint="@color/colorPrimary"
             app:elevation="6dp"
             app:pressedTranslationZ="12dp" />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floattask"
+            android:text="과제"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="160dp"
-            android:layout_marginRight="15sp"
-            android:src="@drawable/task"
+            android:layout_marginBottom="140dp"
+            android:theme="@style/MaterialTheme"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:icon="@drawable/task"
             android:visibility="invisible"
             app:backgroundTint="@color/colorPrimary"
             app:elevation="6dp"
             app:pressedTranslationZ="12dp" />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floatteam"
+            android:text="협업"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="90dp"
-            android:layout_marginRight="15sp"
-            android:src="@drawable/handshake"
+            android:layout_marginBottom="80dp"
+            android:theme="@style/MaterialTheme"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:icon="@drawable/handshake"
             android:visibility="invisible"
             app:backgroundTint="@color/colorPrimary"
             app:elevation="6dp"
             app:pressedTranslationZ="12dp" />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="15sp"
-            android:src="@drawable/plusicon"
+            android:theme="@style/MaterialTheme"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:icon="@drawable/plusicon"
             app:backgroundTint="@color/colorPrimary" />
+
+        <!--    ExtendedFloatingActionButton -->
     </FrameLayout>
 </LinearLayout>

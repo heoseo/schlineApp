@@ -14,7 +14,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     //플로팅버튼 테스트
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab, floatteam, floattask, floatlecture;
+    private ExtendedFloatingActionButton fab, floatteam, floattask, floatlecture;
     String subject_idx;
 
     @Override
@@ -55,10 +56,10 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
-        fab = (FloatingActionButton)findViewById(R.id.fab);
-        floatteam = (FloatingActionButton)findViewById(R.id.floatteam);
-        floattask = (FloatingActionButton)findViewById(R.id.floattask);
-        floatlecture = (FloatingActionButton)findViewById(R.id.floatlecture);
+        fab = (ExtendedFloatingActionButton)findViewById(R.id.fab);
+        floatteam = (ExtendedFloatingActionButton)findViewById(R.id.floatteam);
+        floattask = (ExtendedFloatingActionButton)findViewById(R.id.floattask);
+        floatlecture = (ExtendedFloatingActionButton)findViewById(R.id.floatlecture);
 
         fab.setOnClickListener(this);
         floatteam.setOnClickListener(this);
