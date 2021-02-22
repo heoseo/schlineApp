@@ -155,7 +155,9 @@ public class EditInfoActivity extends AppCompatActivity implements Runnable{
     }
     //끝내기
     public void onBtnFinish(View v) {
-        finish();
+        Intent intent = new Intent(v.getContext(),MainActivity.class);
+        startActivity(intent);
+        //finish();
     }
 
     // 갤러리 리스트뷰에서 사진 데이터를 가져오는 방법
@@ -292,7 +294,7 @@ public class EditInfoActivity extends AppCompatActivity implements Runnable{
             //여기까지 오기전에 이미 널에러 발생
             if (jsonObject != null) {
                 //결과데이터를 텍스트뷰에 출력
-                tvHtml1.setText(jsonObject.toString());
+                tvHtml1.setText("");
                 try {
                     if (jsonObject.getInt("result") == 1) {//map에 저장된 값 받아오기
                         Toast.makeText(mContext, "프로필 수정 성공:)",

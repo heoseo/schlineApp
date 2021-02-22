@@ -81,7 +81,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
         textTime = (TextView)studyRoomView.findViewById(R.id.text_time);
         //textBLOCK = (TextView)studyRoomView.findViewById(R.id.text_reported_count);
         textATTN = (TextView)studyRoomView.findViewById(R.id.text_attend);
-        btnStudyGO = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo);
+        //btnStudyGO = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo);
 
         imgINFO = (ImageView)studyRoomView.findViewById(R.id.img_info);
 
@@ -99,18 +99,21 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                 "user_id="+StaticUserInformation.userID
         );
 
-        //채팅 이동
-        btnStudyGO.setOnClickListener(
+        //(웹뷰)채팅 이동
+/*        btnStudyGO.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(),
+       *//*                 Intent intent = new Intent(view.getContext(),
+                                TestCal.class);*//*
+                             Intent intent = new Intent(view.getContext(),
                                 StudyroomChatActivity.class);
                         //채팅을 띄워준다.
                         startActivity(intent);
                     }
                 }
-        );
+        );*/
+
         Button btnStudyGO2 = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo2);
         //채팅 이동2
         btnStudyGO2.setOnClickListener(

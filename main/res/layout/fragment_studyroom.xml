@@ -144,24 +144,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:background="#E8D9FF"
             android:text="프로필 수정"
             />
-        <!--스터디룸 입장 버튼-->
-        <Button
+        <!--웹뷰 입장 버튼-->
+<!--        <Button
             android:id="@+id/btn_studyRoomGo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="입장하기"
             android:textSize="20sp"
-            android:background="#00FFCC" />
-
+            android:background="#00FFCC" />-->
+        <!--공부방 입장-->
         <Button
             android:id="@+id/btn_studyRoomGo2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="입장하기2"
+            android:text="입장하기"
             android:textSize="20sp"
-            android:background="@color/cardview_shadow_end_color" />
+            android:background="#D1B2FF" />
     </LinearLayout>
 
 </LinearLayout>
