@@ -2,6 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/edge_color_primiary_background_effect"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -21,19 +25,19 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/edge">
+                android:background="@drawable/border_circle_color_primary_dark">
 
-            <TextView
-                android:id="@+id/lecture_tv_video_num"
-                android:gravity="center"
-                android:paddingVertical="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="1"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="30dp" />
+                <TextView
+                    android:id="@+id/lecture_tv_video_num"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="1"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="30dp" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/lecture_tv_video_title"
                 android:layout_gravity="center_vertical"

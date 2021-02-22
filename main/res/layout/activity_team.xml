@@ -23,29 +23,48 @@
             android:textSize="20dp" />
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryShadowEffect"/>
     <!--상단바 end -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
+
+        <!--    ExtendedFloatingActionButton -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <ListView
-            android:id="@+id/teamlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1">
-        </ListView>
-            <fragment
-                android:id="@+id/teamwritefragment"
+
+            <ListView
+                android:id="@+id/teamlist"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                class="kosmo.project3.schlineapp.TeamWriteFregment" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryBackground"
+                android:divider="#FFFFFF"
+                android:dividerHeight="0px"
+                android:gravity="center"></ListView>
+
         </LinearLayout>
-        <!--    ExtendedFloatingActionButton -->
+
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/teamwriteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top|right"
+            android:layout_margin="15sp"
+            android:theme="@style/MaterialTheme"
+            app:backgroundTint="@color/colorPrimary"
+            app:icon="@drawable/icon_plus" />
+
+
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floatlecture"
             android:text="강의"

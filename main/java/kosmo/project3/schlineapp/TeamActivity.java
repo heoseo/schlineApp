@@ -72,7 +72,7 @@ public class TeamActivity extends AppCompatActivity implements View.OnClickListe
 
 
         /////////////프레그먼트로 작성/////////////
-        Button teamwrite = (Button)findViewById(R.id.teamwriteBtn);
+        ExtendedFloatingActionButton teamwrite = (ExtendedFloatingActionButton)findViewById(R.id.teamwriteBtn);
 
         teamwrite.setOnClickListener(this);
 

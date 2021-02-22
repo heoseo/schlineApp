@@ -3,30 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/colorPrimaryBackground"
     tools:context=".TeamViewActivity">
-    <TextView
+
+    <!--상단바-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
-        android:text="[과제 제출]"
-        android:textSize="24sp"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:layout_gravity="center"/>
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="과제"
+            android:layout_margin="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp" />
+
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#BDBDBD"/>
+        android:background="@color/colorPrimaryShadowEffect"/>
+    <!--상단바 end -->
+
+
 
     <FrameLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.2"
-            android:src="@drawable/intro"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,43 +49,62 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:hint="제목"
+                android:background="@color/white"
                 android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
             <EditText
-                android:id="@+id/taskviewcontent"
+                android:id="@+id/taskview_content"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:padding="10dp"
+                android:background="@color/white"
+                android:layout_marginBottom="10dp"
                 android:hint="내용"
                 android:textSize="20dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="파일 등록"
-                android:textSize="20dp"
-                android:onClick="btnUpload"/>
-            <Button
-                android:id="@+id/taskup"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                android:text="제출"
-                android:onClick="btnTaskWrite"/>
+                android:orientation="horizontal">
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="10dp"
+                    android:theme="@style/MaterialTheme"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:icon="@drawable/icon_attached_file"
+                    android:onClick="btnUpload"/>
+
+                <TextView
+                    android:id="@+id/settingfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:hint="첨부파일"/>
             </LinearLayout>
-            <TextView
-                android:id="@+id/settingfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="등록된 파일명"/>
+
+
         </LinearLayout>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/taskup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="top|end"
+            android:layout_margin="10dp"
+            android:theme="@style/MaterialTheme"
+            app:backgroundTint="@color/colorPrimary"
+            app:icon="@drawable/icon_send"
+            android:onClick="btnTaskWrite"/>
     </FrameLayout>
 
 </LinearLayout>

@@ -4,11 +4,11 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/teamwriteBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:textStyle="bold"
-        android:text="작성"/>
+<!--    <Button-->
+<!--        android:id="@+id/teamwriteBtn"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/colorPrimary"-->
+<!--        android:textStyle="bold"-->
+<!--        android:text="작성"/>-->
 </LinearLayout>
