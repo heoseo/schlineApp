@@ -20,6 +20,8 @@ import com.google.firebase.FirebaseApp;
 
 //import com.google.firebase.database.DatabaseReference;
 //import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 
@@ -39,6 +41,18 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "id 정보 : "+StaticUserInformation.userID);
 
         activity = MainActivity.this;
+
+
+        //파베 테스트
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
+
+
+
+
 
         //안드로이드 아이디
         FirebaseApp.initializeApp(this);
