@@ -3,6 +3,7 @@ package kosmo.project3.schlineapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -40,12 +43,16 @@ public class CalendarActivity extends AppCompatActivity {
     public Button cha_Btn,del_Btn,save_Btn;
     public TextView diaryTextView,textView2,textView3, text_cal;
     public EditText contextEditText;
-    ArrayList<String> sc = new ArrayList<String>();
+
+
+
+    ArrayList<Calendar> sc = new ArrayList<Calendar>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
 
         calendarView=findViewById(R.id.calendarView);
         diaryTextView=findViewById(R.id.diaryTextView);
@@ -61,8 +68,13 @@ public class CalendarActivity extends AppCompatActivity {
         //이름 설정
         //textView3.setText(StaticUserInformation.userID+" 일정표");
 
+
+
+
+
         //날짜 변화가 생겼을때
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        calendarView.setOnDateChangeListener(
+                new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 diaryTextView.setVisibility(View.VISIBLE);
@@ -323,8 +335,19 @@ public class CalendarActivity extends AppCompatActivity {
                         int year = Integer.parseInt(a[0]);
                         String month = a[1];
                         String dayOfMonth = a[2];
-    
-                        sc.add(text);
+                        String cm = month.replace("0","");
+                        String cd = dayOfMonth.replace("0","");
+                        int rcm = Integer.parseInt(cm);
+                        int rcd = Integer.parseInt(cd);
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(year, rcm, rcd);
+                        //어레이리스트에 캘린더담기
+                        sc.add(cal);
+
+
+                        //calendarView.addDecorator(new EventDecorator(Color.RED, sc));
+
                         //text_cal.setText(text);
                         //text_cal.setVisibility(View.VISIBLE);
                         //MaterialCalendarView calendarView = findViewById(R.id.calendarView);
@@ -332,11 +355,7 @@ public class CalendarActivity extends AppCompatActivity {
                         //calendarView.addDecorator(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.today())));
 
                         //앞에 0 빼기
-                        String cm = month.replace("0","");
-                        String cd = dayOfMonth.replace("0","");
 
-                        int rcm = Integer.parseInt(cm);
-                        int rcd = Integer.parseInt(cd);
 
                         //checkDay(year, rcm, rcd, StaticUserInformation.userID, text);
 
@@ -363,6 +382,8 @@ public class CalendarActivity extends AppCompatActivity {
             파싱이 완료된 StringBuffer객체를 String으로 변환하여 반환한다.
             여기서 반환된 값은 onPostExecute()로 전달된다.
              */
+
+
             return receiveData.toString(); //onPostExecute전달
         }
 
@@ -382,29 +403,5 @@ public class CalendarActivity extends AppCompatActivity {
     }////AsyncHttpRequest 끝.
 
 
-    class CalAdapter extends BaseAdapter{
-        @Override
-        public int getCount() {
-            Log.i(TAG, "캘린더1");
-            return sc.size();
-        }
-
-        @Override
-        public long getItemId(int i) {
-            Log.i(TAG, "캘린더2"+i);
-            return i;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            Log.i(TAG, "캘린더3"+sc.get(i));
-            return sc.get(i);
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            return null;
-        }
-    }
 
 }

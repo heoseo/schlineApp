@@ -8,12 +8,27 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <!--캘린더 2-->
+<!--    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
+        app:mcv_selectionColor="#d2d2d2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />-->
+<!--
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        class="kosmo.project3.schlineapp.calendarFragment"
+        tools:ignore="MissingConstraints" />-->
+
     <!--캘린더 뷰-->
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
+        app:mcv_selectionColor="#D1B2FF"
         android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
         app:layout_constraintHorizontal_bias="0.488" android:layout_marginTop="8dp"
@@ -44,6 +59,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
         android:textSize="20dp"
         android:textColor="#A566FF"
         app:layout_constraintTop_toBottomOf="@+id/calendarView"
@@ -58,8 +74,9 @@
         android:inputType="textMultiLine"
         android:ems="10"
         app:layout_constraintTop_toBottomOf="@+id/diaryTextView"
-        android:layout_marginTop="16dp"
-        android:hint="개인일정을 입력하세요."
+        android:layout_marginTop="25dp"
+        android:hint="개인일정을 입력하세요"
+        android:textSize="15dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="8dp"
