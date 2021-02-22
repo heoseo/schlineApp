@@ -45,7 +45,6 @@ public class CalendarActivity extends AppCompatActivity {
     public EditText contextEditText;
 
 
-
     ArrayList<Calendar> sc = new ArrayList<Calendar>();
 
     @Override

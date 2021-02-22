@@ -1,12 +1,8 @@
 package kosmo.project3.schlineapp;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,34 +11,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
-
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//파이어베이스 채팅
 public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatActivity";
@@ -51,27 +33,8 @@ public class ChatActivity extends AppCompatActivity {
     //int cur_Status = Init; //현재의 상태를 저장할변수를 초기화함.
     int myCount=1;
     long myBaseTime;
-    ListView list_chat;
-    EditText edit_chat;
-    Button btn_chat;
+    String today;
 
-    private RecyclerView mRecyclerView;
-    public  RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private List<ChatData> chatList;
-    private String nick;
-    private String id;
-    private String img;
-    private String today;
-
-    private EditText EditText_chat;
-    private Button Button_send;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
-
-    //파이어베이스 사용을 위한 코드추가
-    //private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    //private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -79,14 +42,18 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        ///데이타베이스 접속하고 파베쓰기
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
 
-        myRef.setValue("채팅!");
-
-        ////파베 읽어오기
+        //퇴장
+        ImageButton btn_bye = findViewById(R.id.btn_bye);
+        btn_bye.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
 
 
 
@@ -115,8 +82,8 @@ public class ChatActivity extends AppCompatActivity {
         today = simpleDateFormat.format(date);
         Log.i(TAG, "today="+today);
 
-
-        SimpleDateFormat CurHourFormat = new SimpleDateFormat("hh");
+        SimpleDateFormat CurHourFormat = new SimpleDateFormat("HH");
+        Log.i(TAG, "CurHourFormat"+CurHourFormat);
         int d = Integer.parseInt(CurHourFormat.format(date));
 
         Log.i(TAG, "현재시간"+d);
