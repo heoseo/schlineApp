@@ -43,17 +43,6 @@ public class MainActivity extends AppCompatActivity {
         activity = MainActivity.this;
 
 
-        //파베 테스트
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");
-
-
-
-
-
         //안드로이드 아이디
         FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {

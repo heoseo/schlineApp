@@ -112,7 +112,7 @@ public class StudyroomChatActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         chatWebView.postUrl("http://"+StaticInfo.my_ip+"/schline/android/class/Chat.do", str.getBytes());
-    }
+    }/////끝
 
     class CustomWebViewClient extends WebViewClient{
         @Override

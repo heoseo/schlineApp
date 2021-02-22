@@ -3,6 +3,8 @@ package kosmo.project3.schlineapp;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,14 +14,20 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -29,11 +37,16 @@ public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatActivity";
 
+    WebView chatWebView;
+    WebSettings chatWebSetting;
+
     TextView time_out, myRec;
     //int cur_Status = Init; //현재의 상태를 저장할변수를 초기화함.
     int myCount=1;
     long myBaseTime;
     String today;
+    String str;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -43,17 +56,6 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
 
-        //퇴장
-        ImageButton btn_bye = findViewById(R.id.btn_bye);
-        btn_bye.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                }
-        );
 
 
 
@@ -88,7 +90,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Log.i(TAG, "현재시간"+d);
         //(4~7):b1, (7~11)b2, (11~17)b3, (17~22)b4, (22~4):b5
-        if(d>=4 && d<7) {
+/*        if(d>=4 && d<7) {
             cb.setBackground(getDrawable(R.drawable.b1));
         }
         else if(d>=7 && d<11) {
@@ -102,7 +104,7 @@ public class ChatActivity extends AppCompatActivity {
         }
         else {
             cb.setBackground(getDrawable(R.drawable.b5));
-        }
+        }*/
 
         //10초에 한번씩 db연결 공부시간저장
         Timer timer = new Timer();
@@ -125,71 +127,73 @@ public class ChatActivity extends AppCompatActivity {
                 "today="+today
         );
 
+        //웹뷰시작
+        chatWebView = (WebView) findViewById(R.id.chatWebView);
 
-        /////////////FireBase//////////////
-        /*Intent intent = getIntent();//인텐트로 정보 가져오기
-        nick = intent.getStringExtra("info_nick");//유저닉네임
-        img = intent.getStringExtra("info_img");
-        id = StaticUserInformation.userID;
+        // 컨텐츠가 웹뷰보다 클 경우 스크린 크기에 맞게 조정
+        chatWebView.setVerticalScrollBarEnabled(true);   //세로 스크롤
+        //클릭시 새창 안뜨게.
+        //chatWebView.setWebViewClient(new WebViewClient());
+        //세부 세팅 등록.
+        chatWebSetting = chatWebView.getSettings();
+        //웹페이지 자바스크를비트 허용 여부.
+        chatWebSetting.setJavaScriptEnabled(true);
+        //새창띄우기 허용여부.
+        chatWebSetting.setSupportMultipleWindows(true);
+        //자바스크립트 새창 띄우기(멀티뷰) 허용 여부.
+        chatWebSetting.setJavaScriptCanOpenWindowsAutomatically(true);
+        //메타태그 허용 여부.
+        chatWebSetting.setLoadWithOverviewMode(true); // 컨텐츠가 웹뷰보다 클 경우 스크린 크기에 맞게 조정
+        //화면 사이즈 맞추기 허용 여부.
+        chatWebSetting.setUseWideViewPort(false); // wide viewport를 사용하도록 설정
+        //화면 줌 허용 여부.
+        chatWebSetting.setSupportZoom(false);
+        //화면 확대 축소 허용 여부.
+        chatWebSetting.setBuiltInZoomControls(false);
+        //컨텐츠 사이즈 맞추기
+        chatWebSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        //브라우저 캐시 허용 여부.
+        chatWebSetting.setCacheMode(WebSettings.LOAD_NORMAL);
+        //로컬저장소 허용 여부.
+        chatWebSetting.setDomStorageEnabled(true);
 
-        Button_send = findViewById(R.id.Button_send);
-        EditText_chat = findViewById(R.id.EditText_chat);
 
-        //전송버튼
-       Button_send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String msg = EditText_chat.getText().toString(); //msg
+        String user_id = StaticUserInformation.userID;
 
-                if(msg != null) {
-                    ChatData chat = new ChatData();
-                    chat.setNickname(nick);
-                    chat.setMsg(msg);
-                    //chat.setImg(img);//추가
-                    myRef.push().setValue(chat);
-                }
-            }
-        });
 
-        mRecyclerView = findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        //웹뷰에 표시할 웹사이트 주소, 웹뷰 시작.
+        chatWebView.loadUrl("http://"+StaticInfo.my_ip+"/schline/android/class/Chat.do");
 
-        chatList = new ArrayList<>();
-        mAdapter = new ChatAdapter(chatList, ChatActivity.this, nick);
-
-        mRecyclerView.setAdapter(mAdapter);
-
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
-
-        //caution!!!
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("CHATCHAT", dataSnapshot.getValue().toString());
-                ChatData chat = dataSnapshot.getValue(ChatData.class);
-                ((ChatAdapter) mAdapter).addChat(chat);
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-*/
+        //웹뷰 파라미터 넘기기
+        try {
+            str = "user_id=" + URLEncoder.encode(StaticUserInformation.userID, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        chatWebView.postUrl("http://"+StaticInfo.my_ip+"/schline/android/class/Chat.do", str.getBytes());
 
 
     }////onCreate 끝
+
+
+    class CustomWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
+        }
+    }
+
+    //퇴장
+    public void bye_chat(View view){
+        Intent intent = new Intent(view.getContext(), MainActivity.class);
+        startActivity(intent);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 
 
     Handler myTimer = new Handler(){
