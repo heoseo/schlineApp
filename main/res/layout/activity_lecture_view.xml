@@ -91,7 +91,7 @@
         android:theme="@style/MaterialTheme"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        app:icon="@drawable/plusicon"
+        app:icon="@drawable/icon_etc"
         app:backgroundTint="@color/colorPrimary" />
 
     <!--    ExtendedFloatingActionButton -->
