@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -58,9 +59,10 @@ public class TaskViewActivity extends AppCompatActivity {
 
     public void btnUpload(View view){
 
-        Intent it = new Intent(Intent.ACTION_PICK);
+        Intent it = new Intent();
         it.setType("application/*");
-        it.setAction(Intent.ACTION_GET_CONTENT); startActivityForResult(it, 1);
+        it.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(it, 1);
     }
 
     @Override
@@ -86,14 +88,15 @@ public class TaskViewActivity extends AppCompatActivity {
     }
 
     //
-    private String getRealPathFromURI(Uri contentUri) {
-        int column_index=0;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if(cursor.moveToFirst()){
-            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        }
-        return cursor.getString(column_index);
+    private String getRealPathFromURI(Uri uri) {
+        Cursor returnCursor =
+                getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        returnCursor.moveToFirst();
+        String path = returnCursor.getString(returnCursor.getColumnIndex("_data"));
+
+        Log.i(TAG, "경로는:" + path);
+        return path;
     }
 
     public void btnTaskWrite(View view){

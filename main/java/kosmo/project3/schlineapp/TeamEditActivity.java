@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -80,9 +81,10 @@ public class TeamEditActivity extends AppCompatActivity {
 
     public void btnTeamEditUpload(View view){
 
-        Intent it = new Intent(Intent.ACTION_PICK);
+        Intent it = new Intent();
         it.setType("application/*");
-        it.setAction(Intent.ACTION_GET_CONTENT); startActivityForResult(it, 1);
+        it.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(it, 1);
     }
 
     @Override
@@ -107,12 +109,15 @@ public class TeamEditActivity extends AppCompatActivity {
         teamEditfile.setText(filename);
     }
 
-    private String getRealPathFromURI(Uri contentUri) {
+    private String getRealPathFromURI(Uri uri) {
 
-        Cursor cursor = getContentResolver().query(contentUri, null, null, null, null );
-        cursor.moveToNext();
-        String path = cursor.getString( cursor.getColumnIndex( "_data" ) );
-        cursor.close();
+        Cursor returnCursor =
+                getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        returnCursor.moveToFirst();
+        String path = returnCursor.getString(returnCursor.getColumnIndex("_data"));
+
+        Log.i(TAG, "경로는:" + path);
         return path;
     }
 
