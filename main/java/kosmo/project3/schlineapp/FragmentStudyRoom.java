@@ -100,20 +100,18 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
         );
 
         //(웹뷰)채팅 이동
-/*        btnStudyGO.setOnClickListener(
+  /*      btnStudyGO.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-       *//*                 Intent intent = new Intent(view.getContext(),
-                                TestCal.class);*//*
                              Intent intent = new Intent(view.getContext(),
                                 StudyroomChatActivity.class);
                         //채팅을 띄워준다.
                         startActivity(intent);
                     }
                 }
-        );*/
-
+        );
+*/
         Button btnStudyGO2 = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo2);
         //채팅 이동2
         btnStudyGO2.setOnClickListener(

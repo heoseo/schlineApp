@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class LectureView extends AppCompatActivity implements View.OnClickListen
     //플로팅버튼 테스트
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab, floatteam, floattask, floatlecture;
+    private ExtendedFloatingActionButton fab, floatteam, floattask, floatlecture;
 
     RetrofitAPI retrofitAPI;
     @Override
@@ -54,10 +54,10 @@ public class LectureView extends AppCompatActivity implements View.OnClickListen
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
-        fab = (FloatingActionButton)findViewById(R.id.fab);
-        floatteam = (FloatingActionButton)findViewById(R.id.floatteam);
-        floattask = (FloatingActionButton)findViewById(R.id.floattask);
-        floatlecture = (FloatingActionButton)findViewById(R.id.floatlecture);
+        fab = (ExtendedFloatingActionButton)findViewById(R.id.fab);
+        floatteam = (ExtendedFloatingActionButton)findViewById(R.id.floatteam);
+        floattask = (ExtendedFloatingActionButton)findViewById(R.id.floattask);
+        floatlecture = (ExtendedFloatingActionButton)findViewById(R.id.floatlecture);
 
         fab.setOnClickListener(this);
         floatteam.setOnClickListener(this);
@@ -138,8 +138,9 @@ public class LectureView extends AppCompatActivity implements View.OnClickListen
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             lectureLayout lectureLayout = new lectureLayout(getApplicationContext());
+            lectureLayout.setVideo_num(""+(i+1)+"");
+            lectureLayout.setVideo_title(video_title.get(i));
             lectureLayout.setVideo_end(video_end.get(i));
-            lectureLayout.setVideo_title(i+1+"."+video_title.get(i));
 
             return lectureLayout;
 
