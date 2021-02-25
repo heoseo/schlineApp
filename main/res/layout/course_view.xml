@@ -2,37 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:padding="15dp"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView
+        android:id="@+id/minilogo"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:id="@+id/minilogo"
-        app:srcCompat="@drawable/courseicon"/>
+        app:srcCompat="@drawable/course_icon_circle"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/course_textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="24dp"
-            android:layout_marginLeft="10dp"
-            />
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/course_textView2"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="자바"
             android:textColor="@android:color/black"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:layout_marginLeft="10dp"/>
+        <TextView
+            android:id="@+id/course_textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="#00FFFFFF"
+            android:textSize="24dp"
+            android:layout_marginLeft="10dp"
+            />
+
     </LinearLayout>
 </LinearLayout>

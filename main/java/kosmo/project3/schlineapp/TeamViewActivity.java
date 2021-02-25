@@ -1,51 +1,35 @@
 package kosmo.project3.schlineapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.webkit.DownloadListener;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-
-import kosmo.project3.schlineapp.R;
-import kosmo.project3.schlineapp.StaticInfo;
-import kosmo.project3.schlineapp.StaticUserInformation;
 
 public class TeamViewActivity extends AppCompatActivity {
 
@@ -54,8 +38,8 @@ public class TeamViewActivity extends AppCompatActivity {
 
     private long enqueue;
     private DownloadManager dm;
-    Button teamdelBtn;
-    Button teamEditBtn;
+    ExtendedFloatingActionButton teamdelBtn;
+    ExtendedFloatingActionButton teamEditBtn;
     String user_id;
     String board_file;
     String board_idx;
@@ -72,8 +56,8 @@ public class TeamViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         board_idx = intent.getStringExtra("board_idx");
 
-        teamEditBtn = (Button)findViewById(R.id.teamEditBtn);
-        teamdelBtn = (Button)findViewById(R.id.teamdelBtn);
+        teamEditBtn = (ExtendedFloatingActionButton)findViewById(R.id.teamEditBtn);
+        teamdelBtn = (ExtendedFloatingActionButton)findViewById(R.id.teamdelBtn);
 
 
         teamdelBtn.setOnClickListener(new View.OnClickListener() {
@@ -192,8 +176,8 @@ public class TeamViewActivity extends AppCompatActivity {
                 }
 
                 TextView teamviewtitle = findViewById(R.id.teamviewtitle);
-                TextView teamviewuser = findViewById(R.id.teamviewuser);
-                TextView teamviewteamnum = findViewById(R.id.teamviewteamnum);
+                TextView teamviewuser = findViewById(R.id.tv_team_view_user);
+                TextView teamviewteamnum = findViewById(R.id.tv_team_view_team_num);
                 TextView teamviewpostdate = findViewById(R.id.teamviewpostdate);
                 TextView teamviewcontent = findViewById(R.id.teamviewcontent);
                 TextView teamviewfilename = findViewById(R.id.teamviewfilename);
@@ -205,7 +189,7 @@ public class TeamViewActivity extends AppCompatActivity {
                 teamviewpostdate.setText(board_postdate);
                 teamviewfilename.setText(board_file);
 
-                Button btn = (Button)findViewById(R.id.teamviewfiledown);
+                ImageButton btn = (ImageButton)findViewById(R.id.teamviewfiledown);
                 if(board_file.equals("")){
                     btn.setVisibility(View.INVISIBLE);
                 }

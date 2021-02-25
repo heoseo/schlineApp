@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,10 +14,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +26,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
-
-import kosmo.project3.schlineapp.R;
-import kosmo.project3.schlineapp.StaticInfo;
-import kosmo.project3.schlineapp.StaticUserInformation;
-import kosmo.project3.schlineapp.FileUpload;
 
 public class TaskViewActivity extends AppCompatActivity {
 
@@ -58,9 +51,10 @@ public class TaskViewActivity extends AppCompatActivity {
 
     public void btnUpload(View view){
 
-        Intent it = new Intent(Intent.ACTION_PICK);
+        Intent it = new Intent();
         it.setType("application/*");
-        it.setAction(Intent.ACTION_GET_CONTENT); startActivityForResult(it, 1);
+        it.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(it, 1);
     }
 
     @Override
@@ -86,21 +80,22 @@ public class TaskViewActivity extends AppCompatActivity {
     }
 
     //
-    private String getRealPathFromURI(Uri contentUri) {
-        int column_index=0;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if(cursor.moveToFirst()){
-            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        }
-        return cursor.getString(column_index);
+    private String getRealPathFromURI(Uri uri) {
+        Cursor returnCursor =
+                getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        returnCursor.moveToFirst();
+        String path = returnCursor.getString(returnCursor.getColumnIndex("_data"));
+
+        Log.i(TAG, "경로는:" + path);
+        return path;
     }
 
     public void btnTaskWrite(View view){
 
         Intent intent = getIntent();
         title = findViewById(R.id.taskviewtitle);
-        content = findViewById(R.id.taskviewcontent);
+        content = findViewById(R.id.taskview_content);
 
         HashMap<String, String> param1 = new HashMap<>();
         param1.put("user_id", StaticUserInformation.userID);

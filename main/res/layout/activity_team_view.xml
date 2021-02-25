@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryBackground"
     android:orientation="vertical"
     tools:context=".TeamViewActivity">
-    <TextView
+    <!--상단바-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
-        android:text="[협업 게시판]"
-        android:textSize="24sp"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:layout_gravity="center"/>
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal"
+            android:text="과제"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#BDBDBD"/>
+        android:background="@color/colorPrimaryShadowEffect" />
+    <!--상단바 end -->
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.2"
-            android:src="@drawable/intro"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,99 +49,147 @@
                 android:id="@+id/teamviewtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:hint="제목"
                 android:padding="10dp"
-                android:text="제목"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#BDBDBD" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/teamviewuser"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10sp"
-                    android:text="작성자"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/teamviewteamnum"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:gravity="right"
-                    android:text="팀"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-            <TextView
-                android:id="@+id/teamviewpostdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10sp"
-                android:text="작성일"
-                android:textSize="15sp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#BDBDBD" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-            <TextView
-                android:id="@+id/teamviewfilename"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="파일"
-                android:layout_weight="4"
-                android:textSize="15sp"/>
-            <Button
-                android:id="@+id/teamviewfiledown"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:text="다운로드"
-                android:background="@color/colorPrimary"
-                android:textSize="12sp" />
-        </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#BDBDBD" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_team_view_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="작성자"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/tv_team_view_team_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="팀"
+                        android:textSize="20dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="작성일"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/teamviewpostdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="작성일"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
             <TextView
                 android:id="@+id/teamviewcontent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@color/white"
                 android:text="내용"
                 android:textSize="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <View
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/teamviewfilename"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_weight="4"
+                        android:text="파일"
+                        android:textSize="20dp" />
+
+                    <ImageButton
+                        android:id="@+id/teamviewfiledown"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icon_download"
+                        android:text="다운로드"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom">
-        <Button
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/teamEditBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="수정"/>
-        <Button
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|left"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="7dp"
+            android:theme="@style/MaterialTheme"
+            app:backgroundTint="@color/colorPrimary"
+            app:icon="@drawable/icon_edit" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/teamdelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="삭제"/>
-        </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="60dp"
+            android:layout_gravity="bottom|left"
+            android:theme="@style/MaterialTheme"
+            app:backgroundTint="@color/colorPrimary"
+            app:icon="@drawable/icon_delete" />
     </FrameLayout>
 
 </LinearLayout>

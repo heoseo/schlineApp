@@ -10,9 +10,9 @@ public class StaticUserInformation {
 
     public static HashSet<String> roomSet = new HashSet<String>();
 
-    public static void loadData(SharedPreferences preferences) {
+    public static String loadID(SharedPreferences preferences) {
 
-        kosmo.project3.schlineapp.StaticUserInformation.userID = preferences.getString("userID", null);
+        return preferences.getString("userID", null);
     }
 
     public static void resetDate(SharedPreferences preferences){

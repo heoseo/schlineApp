@@ -3,20 +3,20 @@
 
     <item
         android:id="@+id/navigation_1"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/bottom_nav_course_icon"
         android:title="강의실" />
 
     <item
         android:id="@+id/navigation_2"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/bottom_nav_schedule_icon"
         android:title="일정" />
 
     <item
         android:id="@+id/navigation_3"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/bottom_nav_studyroom_icon"
         android:title="공부방" />
     <item
         android:id="@+id/navigation_4"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/bottom_nav_my_account_icon"
         android:title="계정" />
 </menu>
