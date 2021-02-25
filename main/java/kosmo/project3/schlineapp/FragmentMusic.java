@@ -77,7 +77,6 @@ public class FragmentMusic extends Fragment {
         return musicView;
     }
 
-
     public void playAudio() {
         try {
             closePlayer();
@@ -93,7 +92,6 @@ public class FragmentMusic extends Fragment {
             e.printStackTrace();
         }
     }
-
     public void pauseAudio() {
         if (player != null) {
             position = player.getCurrentPosition();
@@ -102,7 +100,6 @@ public class FragmentMusic extends Fragment {
             Toast.makeText(getContext(), "일시정지", Toast.LENGTH_LONG).show();
         }
     }
-
     public void resumeAudio() {
         if (player != null && !player.isPlaying()) { // position 값도 확인 해야함
             player.seekTo(position);
@@ -111,7 +108,6 @@ public class FragmentMusic extends Fragment {
             Toast.makeText(getContext(), "재생", Toast.LENGTH_LONG).show();
         }
     }
-
     public void stopAudio() {
         if (player != null && player.isPlaying()) { // position 값도 확인 해야함
             player.stop();
@@ -119,7 +115,6 @@ public class FragmentMusic extends Fragment {
             Toast.makeText(getContext(), "중지", Toast.LENGTH_LONG).show();
         }
     }
-
     public void closePlayer() {
         if (player != null) {
             player.release();

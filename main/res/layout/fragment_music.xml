@@ -10,7 +10,7 @@
         android:layout_margin="10sp">
         <!--png 배경 투명하게 해주기 : #00FF0000(투명색) or transparent-->
         <ImageButton
-            android:id="@+id/btn_play"
+            android:id="@+id/btn_play1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -19,7 +19,7 @@
             android:text="처음부터 재생"/>
 
         <ImageButton
-            android:id="@+id/btn_replay"
+            android:id="@+id/btn_replay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,7 +28,7 @@
             android:text="재생"/>
 
         <ImageButton
-            android:id="@+id/btn_pause"
+            android:id="@+id/btn_pause1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -37,7 +37,7 @@
             android:text="일시정지"/>
 
         <ImageButton
-            android:id="@+id/btn_stop"
+            android:id="@+id/btn_stop1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

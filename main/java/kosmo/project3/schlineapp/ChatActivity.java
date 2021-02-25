@@ -3,9 +3,13 @@ package kosmo.project3.schlineapp;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +25,8 @@ import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -30,10 +36,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ChatActivity extends AppCompatActivity {
+
+    public static Activity AActivity;
+
 
     private static final String TAG = "ChatActivity";
 
@@ -41,12 +51,17 @@ public class ChatActivity extends AppCompatActivity {
     WebSettings chatWebSetting;
 
     TextView time_out, myRec;
-    //int cur_Status = Init; //현재의 상태를 저장할변수를 초기화함.
     int myCount=1;
     long myBaseTime;
     String today;
     String str;
+    Timer timer;
 
+    //음악
+    public final static String url = "https://t1.daumcdn.net/cfile/tistory/213E9D465854DA2301?original";//애뮬에서 소리조정
+    private MediaPlayer player;
+    private int position = 0;
+    View musicView;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -55,9 +70,8 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-
-
-
+        //현재 액티비티 완전종료를 위한 선언
+        AActivity = ChatActivity.this;
 
         //타이머
         time_out = (TextView)findViewById(R.id.time_out);
@@ -107,7 +121,7 @@ public class ChatActivity extends AppCompatActivity {
         }*/
 
         //10초에 한번씩 db연결 공부시간저장
-        Timer timer = new Timer();
+        timer = new Timer();
         TimerTask TT = new TimerTask() {
             @Override public void run() {
                 new syncTimeServer().execute(
@@ -173,6 +187,43 @@ public class ChatActivity extends AppCompatActivity {
         chatWebView.postUrl("http://"+StaticInfo.my_ip+"/schline/android/class/Chat.do", str.getBytes());
 
 
+        ///음악
+        //오디오 자동재생
+        playAudio();
+
+        ImageButton btnPlay = (ImageButton) findViewById(R.id.btn_play);
+
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playAudio();
+            }
+        });
+
+        ImageButton btnPause = (ImageButton) findViewById(R.id.btn_pause);
+        btnPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pauseAudio();
+            }
+        });
+
+        ImageButton btnReplay = (ImageButton) findViewById(R.id.btn_replay);
+        btnReplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resumeAudio();
+            }
+        });
+
+        ImageButton btnStop = (ImageButton) findViewById(R.id.btn_stop);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopAudio();
+            }
+        });
+
     }////onCreate 끝
 
 
@@ -183,12 +234,29 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    //퇴장
+    //퇴장버튼
     public void bye_chat(View view){
-        Intent intent = new Intent(view.getContext(), MainActivity.class);
-        startActivity(intent);
-
+        //Intent intent = new Intent(view.getContext(), MainActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        //startActivity(intent);
+        //ActivityCompat.finishAffinity(this);//어플이 완전 종료됨
+        //System.exit(0);
+        timer.cancel();
+        stopAudio();
+        finish();//액티비티 종료
     }
+
+    //뒤로가기 눌렀을때
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        timer.cancel();
+        stopAudio();
+        //FragmentMusic mu = new FragmentMusic();
+        //mu.stopAudio();
+    }
+
 
     @Override
     protected void onStop() {
@@ -309,5 +377,53 @@ public class ChatActivity extends AppCompatActivity {
         long outTime = now - myBaseTime;
         String easy_outTime = String.format("%02d:%02d", outTime/1000 / 60, (outTime/1000)%60);
         return easy_outTime;
+    }
+
+
+
+    //플레이어
+    public void playAudio() {
+        try {
+            closePlayer();
+
+            player = new MediaPlayer();
+            player.setDataSource(url); // 음악 파일의 위치를 지정
+            //player.setDataSource(R.raw.music); // 이눔 왜 안돼
+            player.prepare();
+            player.start();
+
+            Toast.makeText(this, "음악시작", Toast.LENGTH_LONG).show();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void pauseAudio() {
+        if (player != null) {
+            position = player.getCurrentPosition();
+            player.pause();
+
+            Toast.makeText(this, "일시정지", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void resumeAudio() {
+        if (player != null && !player.isPlaying()) { // position 값도 확인 해야함
+            player.seekTo(position);
+            player.start();
+
+            Toast.makeText(this, "재생", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void stopAudio() {
+        if (player != null && player.isPlaying()) { // position 값도 확인 해야함
+            player.stop();
+
+            Toast.makeText(this, "중지", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void closePlayer() {
+        if (player != null) {
+            player.release();
+            player = null;
+        }
     }
 }
