@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ChatActivity"
-    android:background="#E8D9FF"
+    android:background="@color/colorPrimary"
     android:id="@+id/chat_back">
 
 <GridLayout

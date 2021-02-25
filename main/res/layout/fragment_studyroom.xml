@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textSize="20sp"
-            android:text="랭킹 리스트(순위/닉네임/공부시간)"
+            android:text="▶ 랭킹 리스트(순위/닉네임/공부시간)"
             android:gravity="center"/>
         <!--랭킹-->
         <fragment
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginRight="30dp"
-            android:background="#E8D9FF"
+            android:background="@color/colorAccent"
             android:text="수정"
             />
         <!--웹뷰 입장 버튼-->
@@ -162,7 +162,7 @@
             android:layout_height="wrap_content"
             android:text="입장"
             android:textSize="20sp"
-            android:background="#D1B2FF" />
+            android:background="@color/colorPrimary" />
     </LinearLayout>
 
 </LinearLayout>

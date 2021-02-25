@@ -417,7 +417,7 @@ public class ChatActivity extends AppCompatActivity {
         if (player != null && player.isPlaying()) { // position 값도 확인 해야함
             player.stop();
 
-            Toast.makeText(this, "중지", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "음악중지", Toast.LENGTH_LONG).show();
         }
     }
     public void closePlayer() {
