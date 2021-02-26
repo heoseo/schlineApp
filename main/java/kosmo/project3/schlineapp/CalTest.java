@@ -2,29 +2,22 @@ package kosmo.project3.schlineapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.annotation.SuppressLint;
+
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.DayViewDecorator;
-import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -32,217 +25,83 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.List;
 
+public class CalTest extends AppCompatActivity {
 
-public class CalendarActivity extends AppCompatActivity {
-
-    String TAG = "CalendarActivity";
-
-    String user_id = StaticUserInformation.userID.toString();
-
+    String TAG = "CalTest";
+    TextView text_cal;//일정출력 텍스트뷰
     String clickDate;//체크한 날짜
-    public String fname=null;
-    public String str=null;
-    public CalendarView calendarView;
-    public Button cha_Btn,del_Btn,save_Btn;
-    public TextView diaryTextView,textView2,textView3, text_cal;
-    public EditText contextEditText;
-
-
     ArrayList<Calendar> sc = new ArrayList<Calendar>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
+        setContentView(R.layout.activity_cal_test);
 
+        text_cal = findViewById(R.id.text_cal2);
 
-        calendarView=findViewById(R.id.calendarView);
-        diaryTextView=findViewById(R.id.diaryTextView);
-        save_Btn=findViewById(R.id.save_Btn);
-        del_Btn=findViewById(R.id.del_Btn);
-        cha_Btn=findViewById(R.id.cha_Btn);
-        textView2=findViewById(R.id.textView2);
-        textView3=findViewById(R.id.textView3);
-        contextEditText=findViewById(R.id.contextEditText);
-        //추가부분
-        text_cal = findViewById(R.id.text_cal);
+        //선택한 날짜 색깔부여
+        MaterialCalendarView materialCalendarView = findViewById(R.id.calendarView);
+        materialCalendarView.setSelectedDate(CalendarDay.today());
 
-        //이름 설정
-        //textView3.setText(StaticUserInformation.userID+" 일정표");
+        //주말 색상부여
+        materialCalendarView.addDecorators(
+                new SundayDecorator(),
+                new SaturdayDecorator()
+        );
 
+        //선택한날짜
+        materialCalendarView.setOnDateChangedListener(
+                new OnDateSelectedListener() {
+                    @Override
+                    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
 
+                        int year = date.getYear();
+                        int month = date.getMonth();
+                        int dayOfMonth = date.getDay();
 
-        //날짜 변화가 생겼을때
-        calendarView.setOnDateChangeListener(
-                new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                diaryTextView.setVisibility(View.VISIBLE);
-                save_Btn.setVisibility(View.VISIBLE);
-                contextEditText.setVisibility(View.VISIBLE);
+                        //diaryTextView.setText(String.format("%d / %d / %d", year, month + 1, dayOfMonth));
 
-                text_cal.setVisibility(View.VISIBLE);
-
-                textView2.setVisibility(View.INVISIBLE);
-                cha_Btn.setVisibility(View.INVISIBLE);
-                del_Btn.setVisibility(View.INVISIBLE);
-
-                diaryTextView.setText(String.format("%d / %d / %d", year, month + 1, dayOfMonth));
-
-                contextEditText.setText("");
-                //checkDay(year,month,dayOfMonth,StaticUserInformation.userID,"안녕");
-                if(month<9) {
-                    if(dayOfMonth<10) {
-                        clickDate = String.format("%d-0%d-0%d", year, month + 1, dayOfMonth);//체크한날
-                    }else{
-                        clickDate = String.format("%d-0%d-%d", year, month + 1, dayOfMonth);//체크한날
+                        //checkDay(year,month,dayOfMonth,StaticUserInformation.userID,"안녕");
+                        if(month<9) {
+                            if(dayOfMonth<10) {
+                                clickDate = String.format("%d-0%d-0%d", year, month + 1, dayOfMonth);//체크한날
+                            }else{
+                                clickDate = String.format("%d-0%d-%d", year, month + 1, dayOfMonth);//체크한날
+                            }
+                        }
+                        else{
+                            clickDate = String.format("%d-%d-%d", year, month + 1, dayOfMonth);//체크한날
+                            if(dayOfMonth<10) {
+                                clickDate = String.format("%d-0%d-0%d", year, month + 1, dayOfMonth);//체크한날
+                            }else{
+                                clickDate = String.format("%d-0%d-%d", year, month + 1, dayOfMonth);//체크한날
+                            }
+                        }
+                        //db연결
+                        new AsyncHttpServer().execute(
+                                "http://"+StaticInfo.my_ip+"/schline/android/examList.do",
+                                "user_id="+StaticUserInformation.userID,
+                                "year="+year,
+                                "month="+(month+1),
+                                "day="+dayOfMonth
+                        );
+                        Log.i(TAG, "날짜="+year+(month+1)+dayOfMonth);
                     }
                 }
-                else{
-                    clickDate = String.format("%d-%d-%d", year, month + 1, dayOfMonth);//체크한날
-                    if(dayOfMonth<10) {
-                        clickDate = String.format("%d-0%d-0%d", year, month + 1, dayOfMonth);//체크한날
-                    }else{
-                        clickDate = String.format("%d-0%d-%d", year, month + 1, dayOfMonth);//체크한날
-                    }
-                }
-                Log.i(TAG, "체크날1="+clickDate);
-                //서버의 spring mybatis로 인해 쿼리실행후 결과값받아옴.
-                new AsyncHttpServer().execute(
-                        "http://"+StaticInfo.my_ip+"/schline/android/examList.do",
-                        "user_id="+StaticUserInformation.userID,
-                        "year="+year,
-                        "month="+(month+1),
-                        "day="+dayOfMonth
-                );
-            }
-        });
+        );
 
 
-        //저장 버튼 눌렀을때
-        save_Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //특정날짜 점표시
+        materialCalendarView.setSelectedDate(CalendarDay.today());
+        materialCalendarView.addDecorator(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.today())));
 
-                saveDiary(fname);
-                str=contextEditText.getText().toString();
-                textView2.setText(str);
-                save_Btn.setVisibility(View.INVISIBLE);
-                cha_Btn.setVisibility(View.VISIBLE);
-                del_Btn.setVisibility(View.VISIBLE);
-                contextEditText.setVisibility(View.INVISIBLE);
-                textView2.setVisibility(View.VISIBLE);
-            }
-        });
-    }
+        //민우님
+        //materialCalendarView.addDecorator(new EventDecorator(Color.RED, calendarDays, (Activity) getContext()));
+    }///oncreate끝
 
 
-
-    public void  checkDay(int cYear,int cMonth,int cDay,String userID, String text){
-        fname=""+userID+cYear+"-"+(cMonth+1)+""+"-"+cDay+".txt";//저장할 파일 이름설정
-        FileInputStream fis=null;//FileStream fis 변수*/
-
-
-        Log.i(TAG, "넘어온 text"+text);
-        Log.i(TAG, "넘어온 cYear"+cYear+cMonth+cDay);
-
-
-        try{
-        fis=openFileInput(fname);
-
-        byte[] fileData=new byte[fis.available()];
-        fis.read(fileData);
-        fis.close();
-
-        str=new String(fileData);
-
-        contextEditText.setVisibility(View.INVISIBLE);
-        textView2.setVisibility(View.VISIBLE);
-        textView2.setText(str);//기존 저장된 값 불러오기
-
-  /*          String k ="";
-            for(int i=0; i<text.length ; i++){
-                k += text[i]+"\n";
-                text_cal.setText(k);
-            }*/
-
-            //왜 작동을 안하지????
-            //text_cal.setVisibility(View.VISIBLE);
-            //text_cal.setText(text);
-
-        save_Btn.setVisibility(View.INVISIBLE);
-        cha_Btn.setVisibility(View.VISIBLE);
-        del_Btn.setVisibility(View.VISIBLE);
-
-        cha_Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                contextEditText.setVisibility(View.VISIBLE);
-                textView2.setVisibility(View.INVISIBLE);
-                contextEditText.setText(str);
-
-                save_Btn.setVisibility(View.VISIBLE);
-                cha_Btn.setVisibility(View.INVISIBLE);
-                del_Btn.setVisibility(View.INVISIBLE);
-                textView2.setText(contextEditText.getText());
-            }
-        });
-
-        //삭제버튼
-            del_Btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    textView2.setVisibility(View.INVISIBLE);
-                    contextEditText.setText("");
-                    contextEditText.setVisibility(View.VISIBLE);
-                    save_Btn.setVisibility(View.VISIBLE);
-                    cha_Btn.setVisibility(View.INVISIBLE);
-                    del_Btn.setVisibility(View.INVISIBLE);
-                    removeDiary(fname);
-                }
-            });
-            if(textView2.getText()==null){
-                textView2.setVisibility(View.INVISIBLE);
-                diaryTextView.setVisibility(View.VISIBLE);
-                save_Btn.setVisibility(View.VISIBLE);
-                cha_Btn.setVisibility(View.INVISIBLE);
-                del_Btn.setVisibility(View.INVISIBLE);
-                contextEditText.setVisibility(View.VISIBLE);
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    @SuppressLint("WrongConstant")
-    public void removeDiary(String readDay){
-        FileOutputStream fos=null;
-
-        try{
-            fos=openFileOutput(readDay,MODE_NO_LOCALIZED_COLLATORS);
-            String content="";
-            fos.write((content).getBytes());
-            fos.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    @SuppressLint("WrongConstant")
-    public void saveDiary(String readDay){
-        FileOutputStream fos=null;
-
-        try{
-            fos=openFileOutput(readDay,MODE_NO_LOCALIZED_COLLATORS);
-            String content=contextEditText.getText().toString();
-            fos.write((content).getBytes());
-            fos.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     /////////////캘린더 서버연결
     class AsyncHttpServer extends AsyncTask<String, Void, String>
@@ -318,9 +177,6 @@ public class CalendarActivity extends AppCompatActivity {
 
                     if(jsonObject.getString("exam_date").equals(clickDate)){//날짜 넣어주기..
                         Log.i(TAG, "jsonObject.getString(exam_date)2 > " + jsonObject.getString("exam_date"));
-
-                        //////이게맞나 ??
-                        //diaryTextView.setText("일정있음");
 
 
                         //////여기에 값 넣어주기

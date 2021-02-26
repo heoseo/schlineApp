@@ -9,13 +9,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- 생체인식 -->
-
+    <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS" />
     <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS" />
 
-
-    <uses-permission-sdk-23 android:name="android.permission.UPDATE_DEVICE_STATS" />
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -26,12 +23,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".TeamEditActivity"></activity>
+        <activity android:name=".CalTest"></activity>
+        <activity android:name=".TeamEditActivity" />
         <activity android:name=".TeamWriteActivity" />
-        <activity android:name=".CalendarActivity"></activity>
-<!--        <activity android:name=".CalendarActivity" />
-        <activity android:name=".TeamWrite" />-->
+        <activity android:name=".CalendarActivity" />
+        <!--
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".TeamWrite" />
+        -->
         <activity android:name=".UserinfoActivity" />
         <activity android:name=".TotalgradeActivity" />
         <activity android:name=".AccountView" />
@@ -44,11 +43,10 @@
         <activity android:name=".FCM" />
         <activity android:name=".VideoPlay" />
         <activity android:name=".EditInfoActivity" />
-
-        <activity android:name=".ChatActivity"
+        <activity
+            android:name=".ChatActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"/>
-
+            android:label="@string/app_name" />
         <activity android:name=".StudyroomChatActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".Intro">
@@ -58,7 +56,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".MainActivity" />
 
         <service
