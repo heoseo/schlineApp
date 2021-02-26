@@ -33,6 +33,10 @@ public class LectureView extends AppCompatActivity implements View.OnClickListen
     ArrayList<String> video_end = new ArrayList<String>();
     ArrayList<String> video_title = new ArrayList<String>();
     ArrayList<String> server_saved = new ArrayList<String>();
+    ArrayList<String> play_time = new ArrayList<String>();
+    ArrayList<String> currenttime = new ArrayList<String>();
+    ArrayList<String> attendance_flag = new ArrayList<String>();
+    String user_id = StaticUserInformation.userID;
 
     //플로팅버튼 테스트
     private Animation fab_open, fab_close;
@@ -66,7 +70,7 @@ public class LectureView extends AppCompatActivity implements View.OnClickListen
         ///////////////////////////////////////////////////////////////
 
 
-        Call<Post> call = retrofitAPI.doGetUserList(subject_idx);
+        Call<Post> call = retrofitAPI.doGetUserList(subject_idx,user_id);
         call.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
@@ -78,6 +82,9 @@ public class LectureView extends AppCompatActivity implements View.OnClickListen
                     video_title.add(datum.video_title);
                     video_end.add(datum.video_end);
                     server_saved.add(datum.server_saved);
+                    play_time.add(datum.play_time);
+                    currenttime.add(datum.currenttime);
+                    attendance_flag.add(datum.attendance_flag);
 
                 }
                 ListView listView = (ListView) findViewById(R.id.LectureListview);
@@ -95,6 +102,9 @@ public class LectureView extends AppCompatActivity implements View.OnClickListen
                         intent.putExtra("saved",server_saved.get(i));
                         intent.putExtra("vid_idx",video_idx.get(i));
                         intent.putExtra("title",video_title.get(i));
+                        intent.putExtra("play_time",play_time.get(i));
+                        intent.putExtra("currenttime",currenttime.get(i));
+                        intent.putExtra("attendance_flag",attendance_flag.get(i));
 
                         startActivity(intent);
 

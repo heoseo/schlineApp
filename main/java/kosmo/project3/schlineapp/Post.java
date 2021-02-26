@@ -25,6 +25,38 @@ public class Post {
         public String video_end;
         @SerializedName("server_saved")
         public String server_saved;
+        @SerializedName("play_time")
+        public String play_time;
+        @SerializedName("currenttime")
+        public String currenttime;
+        @SerializedName("attendance_flag")
+        public String attendance_flag;
+
+
+        public String getPlay_time() {
+            return play_time;
+        }
+
+        public void setPlay_time(String play_time) {
+            this.play_time = play_time;
+        }
+
+        public String getCurrenttime() {
+            return currenttime;
+        }
+
+        public void setCurrenttime(String currenttime) {
+            this.currenttime = currenttime;
+        }
+
+        public String getAttendance_flag() {
+            return attendance_flag;
+        }
+
+        public void setAttendance_flag(String attendance_flag) {
+            this.attendance_flag = attendance_flag;
+        }
+
         public String getVideo_idx() {
             return video_idx;
         }
