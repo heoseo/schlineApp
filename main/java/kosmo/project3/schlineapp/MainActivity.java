@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.app.Activity;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,15 +24,24 @@ import com.google.firebase.FirebaseApp;
 //import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 
 public class MainActivity extends AppCompatActivity {
 
     String TAG = "MainActivity";
-
+    String token;
     private BottomNavigationView mBottomNV;
 
     public static Activity activity;
-
+    RetrofitAPI retrofitAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "id 정보 : "+StaticUserInformation.userID);
 
         activity = MainActivity.this;
+
+
 
 
         //안드로이드 아이디
@@ -50,11 +63,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // 토큰을 읽고, 콘솔에 찍기
-            String token = task.getResult().getToken();
+            token = task.getResult().getToken();
             Log.d("토큰: ", token);
+            String user_id = StaticUserInformation.userID;
+            new syncCourseServer().execute(
+                    "http://"+ StaticInfo.my_ip +"/schline/android/token.do",
+                    "token="+token,
+                    "user_id="+user_id
+            );
+
 
         });
-
 
 
         mBottomNV = findViewById(R.id.nav_view);
@@ -73,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     private void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
         String tag = String.valueOf(id);
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -108,9 +128,53 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    class syncCourseServer extends AsyncTask<String,Void,String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            StringBuffer receiveData = new StringBuffer();
+            try {
+                URL url = new URL(strings[0]);
+                HttpURLConnection
+                        conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+                OutputStream out = conn.getOutputStream();
+                out.write(strings[1].getBytes());
+                out.write("&".getBytes());
+                out.write(strings[2].getBytes());
+                out.flush();
+                out.close();
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(
+                            new
+                                    InputStreamReader(conn.getInputStream(), "UTF-8")
+                    );
+                    String responseData;
+                    while ((responseData = reader.readLine()) != null) {
+                        receiveData.append(responseData + "\n\r");
+                    }
+                    reader.close();
+                } else {
+                    Log.i(TAG, "HTTP_OK 안됨, 연결실패");
+                }
+                Log.i(TAG, receiveData.toString());
 
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+
+            return receiveData.toString();
+        }
+
+    }
 
 
 

@@ -27,6 +27,12 @@ public interface RetrofitAPI {
         return retrofit;
     }
 
+
     @GET("time.do?")
-    Call<Post> doGetUserList(@Query("subject_idx") String subject_idx);
+    Call<Post> doGetUserList(@Query("subject_idx") String subject_idx,@Query("user_id") String user_id);
+
+    @GET("atupdate.do?")
+    Call<Void> dbupdate (@Query("idx") String vid_idx,@Query("user_id") String user_id,
+                        @Query("play")String play, @Query("current") Long current, @Query("attend") String attend);
+
 }
