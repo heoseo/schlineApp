@@ -6,14 +6,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -76,9 +82,10 @@ public class TeamWriteActivity extends AppCompatActivity {
 
     public void btnTeamUpload(View view){
 
-        Intent it = new Intent(Intent.ACTION_PICK);
+        Intent it = new Intent();
         it.setType("application/*");
-        it.setAction(Intent.ACTION_GET_CONTENT); startActivityForResult(it, 1);
+        it.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(it, 1);
     }
 
     @Override
@@ -87,14 +94,14 @@ public class TeamWriteActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 Uri uri = data.getData();
-                showfile(uri);
                 Log.i(TAG, "URI는:"+uri.toString());
+                showfile(uri);
             }
         }
     }
 
     private void showfile(Uri imageUri) {
-        // 절대경로를 획득한다!!! 중요~
+
         filePath1 = getRealPathFromURI(imageUri);//사용자정의함수
         Log.i(TAG, "path1:" + filePath1);
         String[] filenames = filePath1.split("/");
@@ -104,24 +111,34 @@ public class TeamWriteActivity extends AppCompatActivity {
         settingfile.setText(filename);
     }
 
-    private String getRealPathFromURI(Uri contentUri) {
+    private String getRealPathFromURI(Uri uri) {
 
-        Cursor cursor = getContentResolver().query(contentUri, null, null, null, null );
-        cursor.moveToNext();
-        String path = cursor.getString( cursor.getColumnIndex( "_data" ) );
-        cursor.close();
+        Cursor returnCursor =
+                getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        returnCursor.moveToFirst();
+        String path = returnCursor.getString(returnCursor.getColumnIndex("_data"));
+
+        Log.i(TAG, "경로는:" + path);
         return path;
 
-        /*
-        int column_index=0;
+
+/*        Cursor cursor = getContentResolver().query(contentUri, null, null, null, null );
+        cursor.moveToNext();
+        String path = cursor.getString( cursor.getColumnIndex( "_data" ) );
+
+        cursor.close();
+        return path;*/
+
+        /*int column_index=0;
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
         if(cursor.moveToFirst()){
             column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         }
-        return cursor.getString(column_index);
-        */
+        return cursor.getString(column_index);*/
     }
+
 
 
     class AsyncTeamWrite extends AsyncTask<Object, Integer, JSONObject>{

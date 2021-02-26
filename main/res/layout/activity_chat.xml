@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ChatActivity"
-    android:background="#E8D9FF"
+    android:background="@color/colorPrimary"
     android:id="@+id/chat_back">
 
 <GridLayout
@@ -15,6 +15,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_gravity="fill_vertical"
+    android:paddingTop="20sp"
     >
     <!--타이머-->
     <TextView
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_row="0"
         android:layout_column="2"
+        android:paddingLeft="10dp"
         android:gravity="center"
         android:layout_marginTop="5dp"
         android:text="00:00:00"
@@ -30,25 +32,65 @@
         android:textSize="20sp" />
 
     <!--음악-->
-    <fragment
+<!--    <fragment
         android:layout_marginTop="10dp"
         android:id="@+id/frag_study_music"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_columnWeight="3"
         class="kosmo.project3.schlineapp.FragmentMusic"
-        />
+        />-->
+
+        <!--png 배경 투명하게 해주기 : #00FF0000(투명색) or transparent-->
+        <ImageButton
+            android:id="@+id/btn_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:src="@drawable/baseline_replay_black_18dp"
+            android:background="@android:color/transparent"
+            android:text="처음부터 재생"/>
+
+        <ImageButton
+            android:id="@+id/btn_replay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:src="@drawable/baseline_play_circle_outline_black_18dp"
+            android:background="#00FF0000"
+            android:text="재생"/>
+
+        <ImageButton
+            android:id="@+id/btn_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:src="@drawable/baseline_pause_circle_outline_black_18dp"
+            android:background="@android:color/transparent"
+            android:text="일시정지"/>
+
+        <ImageButton
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:src="@drawable/baseline_stop_black_18dp"
+            android:background="#00FF0000"
+            android:text="정지"/>
+
+
 
     <!--퇴실버튼-->
-    <ImageButton
+<!--    <ImageButton
         android:id="@+id/btn_bye"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+
         android:layout_gravity="right"
         android:onClick="bye_chat"
         android:background="@android:color/transparent"
         android:src="@drawable/baseline_exit_to_app_black_18dp"
-        android:text="퇴실" />
+        android:text="퇴실" />-->
 </GridLayout>
 
     <TextView

@@ -9,9 +9,7 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
 import java.util.Calendar;
 
-/**
- * Highlight Saturdays and Sundays with a background
- */
+
 public class SaturdayDecorator implements DayViewDecorator {
 
     private final Calendar calendar = Calendar.getInstance();
@@ -28,6 +26,7 @@ public class SaturdayDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
+
         view.addSpan(new ForegroundColorSpan(Color.BLUE));
     }
 }
