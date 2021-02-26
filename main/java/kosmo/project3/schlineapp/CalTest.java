@@ -3,6 +3,7 @@ package kosmo.project3.schlineapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +27,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Executors;
 
 public class CalTest extends AppCompatActivity {
 
@@ -32,8 +36,8 @@ public class CalTest extends AppCompatActivity {
     TextView text_cal;//일정출력 텍스트뷰
     String clickDate;//체크한 날짜
     ArrayList<Calendar> sc = new ArrayList<Calendar>();
-
-
+    MaterialCalendarView materialCalendarView;
+    ArrayList<String> regidate = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +46,32 @@ public class CalTest extends AppCompatActivity {
         text_cal = findViewById(R.id.text_cal2);
 
         //선택한 날짜 색깔부여
-        MaterialCalendarView materialCalendarView = findViewById(R.id.calendarView);
+        materialCalendarView = findViewById(R.id.calendarView);
         materialCalendarView.setSelectedDate(CalendarDay.today());
 
         //주말 색상부여
         materialCalendarView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator()
+        );
+
+        Log.i("TestDay", CalendarDay.today().toString());
+
+        //달이바꼈을때 이벤트 감지
+        materialCalendarView.setOnMonthChangedListener(
+                new OnMonthChangedListener() {
+                    @Override
+                    public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+                        int pmon = date.getMonth();
+                        //점찍기위한 디비연결
+                        new checkDay().execute(
+                                "http://" + StaticInfo.my_ip + "/schline/android/examList.do",
+                                "user_id=" + StaticUserInformation.userID,
+                                "year=" + date.getYear(),
+                                "month=" + (pmon+1)
+                        );
+                    }
+                }
         );
 
         //선택한날짜
@@ -87,6 +110,14 @@ public class CalTest extends AppCompatActivity {
                                 "month="+(month+1),
                                 "day="+dayOfMonth
                         );
+
+/*                        new checkDay().execute(
+                                "http://"+StaticInfo.my_ip+"/schline/android/examList.do",
+                                "user_id="+StaticUserInformation.userID,
+                                "year="+year,
+                                "month="+(month+1),
+                                "day="+dayOfMonth
+                        );*/
                         Log.i(TAG, "날짜="+year+(month+1)+dayOfMonth);
                     }
                 }
@@ -94,11 +125,18 @@ public class CalTest extends AppCompatActivity {
 
 
         //특정날짜 점표시
-        materialCalendarView.setSelectedDate(CalendarDay.today());
-        materialCalendarView.addDecorator(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.today())));
+        //materialCalendarView.setSelectedDate(CalendarDay.today());
+        //materialCalendarView.addDecorator(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.today())));
 
-        //민우님
-        //materialCalendarView.addDecorator(new EventDecorator(Color.RED, calendarDays, (Activity) getContext()));
+/*        int pmon = materialCalendarView.getSelectedDate().getMonth();
+        //점찍기위한 디비연결
+        new checkDay().execute(
+                "http://" + StaticInfo.my_ip + "/schline/android/examList.do",
+                "user_id=" + StaticUserInformation.userID,
+                "year=" + materialCalendarView.getSelectedDate().getYear(),
+                "month=" + (pmon+1),
+                "day=" + materialCalendarView.getSelectedDate().getDay()
+        );*/
     }///oncreate끝
 
 
@@ -174,10 +212,8 @@ public class CalTest extends AppCompatActivity {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     Log.i("TAG","체크날3="+clickDate);
                     Log.i(TAG, "jsonObject.getString(exam_date)1 > " + jsonObject.getString("exam_date"));
-
                     if(jsonObject.getString("exam_date").equals(clickDate)){//날짜 넣어주기..
                         Log.i(TAG, "jsonObject.getString(exam_date)2 > " + jsonObject.getString("exam_date"));
-
 
                         //////여기에 값 넣어주기
                         String text = jsonObject.getString("exam_name");//시험내용
@@ -204,7 +240,6 @@ public class CalTest extends AppCompatActivity {
                         cal.set(year, rcm, rcd);
                         //어레이리스트에 캘린더담기
                         sc.add(cal);
-
 
                         //calendarView.addDecorator(new EventDecorator(Color.RED, sc));
 
@@ -262,4 +297,111 @@ public class CalTest extends AppCompatActivity {
             text_cal.setText(s);
         }
     }////AsyncHttpRequest 끝.
+
+
+
+    ////빨간도트 찍기
+    class checkDay extends AsyncTask<String, Void, List<CalendarDay>> {
+
+        ArrayList<CalendarDay> dates = new ArrayList<>();
+
+        @Override
+        protected List<CalendarDay> doInBackground(String... strings) {
+
+
+            Log.d("checkDay", "캘린더 doInBackground진입함.");
+            //스프링 서버에서 반환하는 JSON데이터를 저장할 변수
+            StringBuffer receiveData = new StringBuffer();
+
+            try {
+                URL url = new URL(strings[0]);// 파라미터1 : 요청URL
+                Log.i("checkDay", "url > " + url);
+                HttpURLConnection conn =
+                        (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST"); // URL 요청에 대한 메소드 설정 : POST.
+                conn.setDoOutput(true);
+
+                OutputStream out = conn.getOutputStream();
+                out.write(strings[1].getBytes("UTF-8")); //파라미터2 :사용자아이디.
+                out.write("&".getBytes("UTF-8"));//&를 사용하여 쿼리스트링 형태로 만들어준다.
+                out.write(strings[2].getBytes("UTF-8")); //파라미터3 : 사용자가클릭한 년월.
+                out.write("&".getBytes("UTF-8"));//&를 사용하여 쿼리스트링 형태로 만들어준다.
+                out.write(strings[3].getBytes("UTF-8")); //파라미터4 : 사용자가클릭한 년월.
+                out.flush();// 출력 스트림을 플러시(비운다)하고 버퍼링 된 모든 출력 바이트를 강제 실행.
+                out.close();// 출력 스트림을 닫고 모든 시스템 자원을 해제.
+
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+                    Log.i("checkDay", "캘린더 HTTP OK 성공");
+
+                    //스프링 서버에 연결성공한 경우 JSON데이터를 읽어서 저장한다.
+                    // [2-4]. 읽어온 결과물 리턴.
+                    // 요청한 URL의 출력물을 BufferedReader로 받는다.
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream(), "UTF-8")
+                    );
+                    // 출력물의 라인과 그 합에 대한 변수.
+                    String responseData;
+                    // 라인을 받아와 합친다.
+                    while ((responseData = reader.readLine()) != null) {
+                        receiveData.append(responseData + "\r\n");
+                        Log.i("checkDay","캘린더receiveData="+receiveData.toString());
+                    }
+                    reader.close();
+
+                } else {
+                    Log.d("checkDay", "HTTP_OK 안됨. 연결실패.");
+                }
+
+                //################성공후##################################
+                //읽어온 JSON데이터를 로그로 출력
+                Log.i("checkDay",receiveData.toString());
+                //먼저 JSON배열로 파싱.
+                JSONArray jsonArray = new JSONArray(receiveData.toString());
+                //StringBuffer 객체를 비움
+
+                receiveData.setLength(0);
+
+                //배열 크기만큼 반복
+                for(int i=0; i<jsonArray.length(); i++) {
+                    //배열의 요소는 객체이므로 JSON객체로 파싱
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Log.i("checkDay", "jsonObject.getString(exam_date)1 > " + jsonObject.getString("exam_date"));
+                    regidate.add(jsonObject.getString("exam_date"));
+                }
+
+                Calendar calendar = Calendar.getInstance();
+
+                for (int i = 0; i <regidate.size(); i++) {
+                    CalendarDay day = CalendarDay.from(calendar);
+                    Log.i(TAG, regidate.get(i));
+                    String[] time = regidate.get(i).split("-");
+                    int year = Integer.parseInt(time[0]);
+                    int month = Integer.parseInt(time[1]);
+                    int dayy = Integer.parseInt(time[2]);
+
+                    dates.add(day);
+                    calendar.set(year, month-1, dayy);
+                    Log.i("며칠이..?", Integer.toString(dayy));
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return dates;
+        }
+
+        @Override
+        protected void onPostExecute(List<CalendarDay> calendarDays) {
+            super.onPostExecute(calendarDays);
+
+            Log.i("결과값은?", calendarDays.get(0).toString());
+            materialCalendarView.addDecorator(new EventDecorator(Color.RED, calendarDays));
+        }
+
+    }
+
+
+
 }

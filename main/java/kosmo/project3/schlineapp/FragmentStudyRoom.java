@@ -98,7 +98,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                 "user_id="+StaticUserInformation.userID
         );
 
-        //캘린더테스트///삭제
+/*        //캘린더테스트///삭제
         btnStudyGO = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo);
         btnStudyGO.setOnClickListener(
                 new View.OnClickListener() {
@@ -109,7 +109,7 @@ public class FragmentStudyRoom extends Fragment implements Runnable{
                         startActivity(intent);
                     }
                 }
-        );
+        );*/
 
         Button btnStudyGO2 = (Button)studyRoomView.findViewById(R.id.btn_studyRoomGo2);
         //채팅 이동2
