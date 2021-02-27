@@ -6,31 +6,62 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="421dp"
-        android:layout_height="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="수강중인 과목"
-            android:textSize="30dp"></TextView>
-
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:text="팝업메뉴"
-            />
-
-        <!--로그아웃 버튼 -->
-        <Button
-            android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="vertical">
+        <!--baselineAligned: 텍스트 하단 기준으로 정렬-->
+        <!--상단바-->
+        <LinearLayout
+            android:paddingVertical="5dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="로그아웃"  />
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="과목별 성적"
+                android:layout_marginLeft="160dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <ImageButton
+                android:id="@+id/btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="7dp"
+                android:background="#004E7381"
+                android:scaleType="centerInside"
+                android:src="@drawable/classroom_menu"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryShadowEffect"/>
+        <!--상단바 end -->
+        <!--랭킹-->
+
+
     </LinearLayout>
 
+
+        <!--로그아웃 버튼 -->
+<!--        <Button-->
+<!--            android:id="@+id/logoutBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="로그아웃"  />-->
+
     <ListView
+        android:dividerHeight="0px"
+        android:divider="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/acconutlist">

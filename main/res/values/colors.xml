@@ -7,11 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#B4D1DD</color>
+    <color name="colorPrimary">#A6C7D5</color>
     <color name="colorPrimaryDark">#4E7381</color>
     <color name="colorAccent">#6AA3BA</color>
     <color name="colorPrimaryShadowEffect">#B3D1DD</color>
-    <color name="colorPrimaryBackground">#DDE4E6</color>
+    <color name="colorPrimaryBackground">#ACC2CC</color>
     <color name="grey">#353535</color>
     <color name="windowBackground">#4D595F</color>
 </resources>
