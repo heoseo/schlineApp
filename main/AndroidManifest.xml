@@ -24,10 +24,10 @@
         android:theme="@style/Theme.SchLineApp"
         android:usesCleartextTraffic="true">
 
-
-        <activity android:name=".TeamEditActivity"></activity>
+        <activity android:name=".CalTest"></activity>
+        <activity android:name=".TeamEditActivity" />
         <activity android:name=".TeamWriteActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
 <!--        <activity android:name=".CalendarActivity" />
         <activity android:name=".TeamWrite" />-->
         <activity android:name=".UserinfoActivity" />

@@ -1,8 +1,10 @@
 package kosmo.project3.schlineapp;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -43,6 +46,11 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,6 +76,7 @@ public class VideoPlay extends AppCompatActivity {
 
     private Boolean isRunning = true;
 
+    String now;
 
     boolean flag = false;
 
@@ -97,7 +106,7 @@ public class VideoPlay extends AppCompatActivity {
     String title;
     String vid_idx;
     String currenttime;
-    String play_time;
+    int play_time;
     String attendance_flag;
 
 
@@ -111,16 +120,17 @@ public class VideoPlay extends AppCompatActivity {
         Intent intent = getIntent();
         TimeTextView = (TextView) findViewById(R.id.timeView);
         AttendTextView = (TextView) findViewById(R.id.attendView);
-        retrofitAPI = RetrofitAPI.getClient().create(RetrofitAPI.class);
+
 
 
         saved = intent.getStringExtra("saved");
         vid_idx = intent.getStringExtra("vid_idx");
         title = intent.getStringExtra("title");
         attendance_flag = intent.getStringExtra("attendance_flag");
-        play_time = intent.getStringExtra("play_time");
+        play_time = Integer.parseInt(intent.getStringExtra("play_time"));
         currenttime = intent.getStringExtra("currenttime");
         if (!attendance_flag.equals("0")) {
+            attendance_flag = "1";
             AttendTextView.setText(attendance_flag);
         }
 
@@ -272,14 +282,24 @@ public class VideoPlay extends AppCompatActivity {
         super.onStart();
         timeThread = new Thread(new timeThread());
         timeThread.start();
-        timer.schedule(TT, 0, 10000); //Timer 실행
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         releasePlayer();
-        timer.cancel();
+        String play_timee = Integer.toString(play_time);
+        Log.d("디비"," 플레이"+Integer.toString(play_time)+" current: "+now+
+                " attend: "+attendance_flag+" 아이디: "+user_id);
+        new syncCourseServer().execute(
+                "http://"+ StaticInfo.my_ip +"/schline/android/atupdate.do",
+                "idx="+vid_idx,
+                "user_id"+user_id,
+                "play"+play_timee,
+                "current"+now,
+                "attend"+attendance_flag
+        );
     }
 
 
@@ -337,49 +357,92 @@ public class VideoPlay extends AppCompatActivity {
     public class timeThread implements Runnable {
         @Override
         public void run() {
-            int i = Integer.parseInt(play_time);
-
+            int i = play_time;
+            int timeMs = (int) player.getDuration();
+            int totalSeconds = timeMs / 1000;
             while (true) {
                 while (isRunning) { //일시정지를 누르면 멈춤
                     Message msg = new Message();
                     msg.arg1 = i++;
-                    play_time = msg.toString();
+                    play_time ++;
+                    now = Long.toString(player.getCurrentPosition());
                     handler.sendMessage(msg);
-
+                    if(totalSeconds != 0){
+                        if ((totalSeconds* 0.4) <=play_time) {
+                            attendance_flag = "2";
+                        }
+                    }
                     try {
                         Thread.sleep(1100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                TimeTextView.setText("");
-                                TimeTextView.setText("0:00:00");
-                            }
-                        });
                         return; // 인터럽트 받을 경우 return
                     }
                 }
             }
         }
     }
-    TimerTask TT = new TimerTask() {
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        timeThread.interrupt();
+
+    }
+    class syncCourseServer extends AsyncTask<String,Void,String> {
         @Override
-        public void run() {
-            int timeMs = (int) player.getDuration();
-            int totalSeconds = timeMs / 1000;
-            Log.d("디비","듀레이션:"+totalSeconds+" 현재:"+player.getCurrentPosition());
-            /*if ((totalSeconds* 0.4) <= player.getCurrentPosition()) {
-                attendance_flag = "2";
-                AttendTextView.setText(attendance_flag);
-
-            } currentposition duration 둘다 0뜸 이거 고쳐야해*/
-
-            Call<Void> call = retrofitAPI.dbupdate(vid_idx, user_id, play_time, player.getCurrentPosition(),attendance_flag);
-
-
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
-    };
+        @Override
+        protected String doInBackground(String... strings) {
+
+            StringBuffer receiveData = new StringBuffer();
+            try {
+                URL url = new URL(strings[0]);
+                HttpURLConnection
+                        conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+                OutputStream out = conn.getOutputStream();
+                out.write(strings[1].getBytes());
+                out.write("&".getBytes());
+                out.write(strings[2].getBytes());
+                out.write("&".getBytes());
+                out.write(strings[3].getBytes());
+                out.write("&".getBytes());
+                out.write(strings[4].getBytes());
+                out.write("&".getBytes());
+                out.write(strings[5].getBytes());
+                out.flush();
+                out.close();
+                Log.d("디비","conn: "+conn.getResponseCode()+"http_ok: "+HttpURLConnection.HTTP_OK);
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(
+                            new
+                                    InputStreamReader(conn.getInputStream(), "UTF-8")
+                    );
+                    String responseData;
+                    while ((responseData = reader.readLine()) != null) {
+                        receiveData.append(responseData + "\n\r");
+                    }
+                    reader.close();
+                } else {
+                    Log.i("디비", "HTTP_OK 안됨, 연결실패");
+                    Log.d("디비", String.valueOf(conn.getErrorStream()));
+                }
+                Log.i("디비", receiveData.toString());
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            return receiveData.toString();
+        }
+
+    }
+
 }
 
