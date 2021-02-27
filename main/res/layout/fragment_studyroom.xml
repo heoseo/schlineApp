@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginRight="30dp"
-            android:background="#E8D9FF"
+            android:background="@color/colorAccent"
             android:text="수정"
             />
         <!--웹뷰 입장 버튼-->
@@ -162,7 +162,7 @@
             android:layout_height="wrap_content"
             android:text="입장"
             android:textSize="20sp"
-            android:background="#D1B2FF" />
+            android:background="@color/colorAccent" />
     </LinearLayout>
 
 </LinearLayout>
