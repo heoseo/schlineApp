@@ -38,28 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="작성자"
-                android:textColor="@color/black"
-                android:textSize="15dp"/>
-            <TextView
-                android:id="@+id/taskuser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="작성자"
-                android:textColor="@color/black"
-                android:textSize="15dp"/>
-
         </LinearLayout>
 
-
         <LinearLayout
-            android:id="@+id/teamuser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -69,10 +50,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
             <TextView
+                android:id="@+id/teamuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="작성일"
+                android:text="작성자"
                 android:textSize="15dp"/>
             <TextView
                 android:id="@+id/teampostdate"

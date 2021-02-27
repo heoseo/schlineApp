@@ -72,7 +72,8 @@ public class FragmentSchedule extends Fragment {
         btnCalendarMain.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),CalendarActivity.class);
+                //Intent intent = new Intent(view.getContext(),CalendarActivity.class);
+                Intent intent = new Intent(view.getContext(),CalTest.class);
 
                 startActivity(intent);
             }

@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import org.json.JSONArray;
@@ -72,8 +74,6 @@ public class CalendarActivity extends AppCompatActivity {
 
 
 
-
-
         //날짜 변화가 생겼을때
         calendarView.setOnDateChangeListener(
                 new CalendarView.OnDateChangeListener() {
@@ -119,6 +119,7 @@ public class CalendarActivity extends AppCompatActivity {
                 );
             }
         });
+
 
         //저장 버튼 눌렀을때
         save_Btn.setOnClickListener(new View.OnClickListener() {
@@ -368,6 +369,7 @@ public class CalendarActivity extends AppCompatActivity {
                                 jsonObject.getString("exam_name")+"\n");
                         receiveData.append("마감일 : " +
                                 jsonObject.getString("exam_date")+"\n");
+
                     }
                     ArrayList<String> getExam_date;
                     ArrayList<String> getExam_name;
@@ -394,7 +396,7 @@ public class CalendarActivity extends AppCompatActivity {
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
         }
-        
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -404,7 +406,4 @@ public class CalendarActivity extends AppCompatActivity {
             text_cal.setText(s);
         }
     }////AsyncHttpRequest 끝.
-
-
-
 }
