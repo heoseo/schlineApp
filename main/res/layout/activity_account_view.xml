@@ -3,28 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="출석 현황"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <GridView
-        android:id="@+id/accountlistview"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:numColumns="2"></GridView>
+        <TextView
+            android:background="@color/colorPrimary"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="출석 현황"/>
+
+        <GridView
+            android:layout_margin="10dp"
+            android:id="@+id/accountlistview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:numColumns="2"></GridView>
+    </LinearLayout>
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="과제 점수"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:background="@color/colorPrimary"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="과제 점수"/>
 
-    <GridView
-        android:id="@+id/accountlistview2"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:numColumns="2"></GridView>
+        <GridView
+            android:layout_margin="10dp"
+            android:id="@+id/accountlistview2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:numColumns="2"></GridView>
+
+    </LinearLayout>
 
 
 </LinearLayout>

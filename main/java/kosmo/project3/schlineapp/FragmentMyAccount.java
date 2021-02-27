@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -56,25 +57,25 @@ public class FragmentMyAccount extends Fragment {
                 "user_id=" + user_id
         );
 
-        //로그아웃버튼
-        btnLogout = (Button)viewGroup.findViewById(R.id.logoutBtn);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = getActivity();
+//        //로그아웃버튼
+//        btnLogout = (Button)viewGroup.findViewById(R.id.logoutBtn);
+//        btnLogout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Context context = getActivity();
+//
+//                SharedPreferences preferences = context.getSharedPreferences("account",0x0000);
+//                StaticUserInformation.resetDate(preferences);
+//
+//                // 로그인 페이지로 이동하면 메인액티비티(현재) 종료
+//                Intent intent = new Intent(getActivity(), LoginActivity.class);
+//                intent.putExtra("back_login", "true");
+//                startActivity(intent);
+//            }
+//        });
 
-                SharedPreferences preferences = context.getSharedPreferences("account",0x0000);
-                StaticUserInformation.resetDate(preferences);
 
-                // 로그인 페이지로 이동하면 메인액티비티(현재) 종료
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                intent.putExtra("back_login", "true");
-                startActivity(intent);
-            }
-        });
-
-
-        Button button = (Button) viewGroup.findViewById(R.id.btn);
+        ImageButton button = (ImageButton) viewGroup.findViewById(R.id.btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +88,19 @@ public class FragmentMyAccount extends Fragment {
                             //Toast.makeText(getActivity(), "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), TotalgradeActivity.class);
                             startActivity(intent);
-                        } else {
+                        }
+                        else if (menuItem.getItemId() == R.id.action_menu3) {
+                            Context context = getActivity();
+
+                            SharedPreferences preferences = context.getSharedPreferences("account", 0x0000);
+                            StaticUserInformation.resetDate(preferences);
+
+                            // 로그인 페이지로 이동하면 메인액티비티(현재) 종료
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            intent.putExtra("back_login", "true");
+                            startActivity(intent);
+                        }
+                        else {
                             //Toast.makeText(getActivity(), "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), UserinfoActivity.class);
                             startActivity(intent);
