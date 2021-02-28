@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "548620065983",
+    "project_id": "schlinenoti",
+    "storage_bucket": "schlinenoti.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548620065983:android:065d346f80bc03fa7e3a0a",
+        "android_client_info": {
+          "package_name": "kosmo.project3.schlineapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548620065983-dbnvjmdh2j516gnf3g3n8ao2qc20a3ui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMnbCFqs8tehNa5gEZ3HowBb39oAK9r7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548620065983-dbnvjmdh2j516gnf3g3n8ao2qc20a3ui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
