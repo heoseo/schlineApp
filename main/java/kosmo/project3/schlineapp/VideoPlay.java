@@ -289,7 +289,7 @@ public class VideoPlay extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         releasePlayer();
-        String play_timee = Integer.toString(play_time);
+        String play_timee = Integer.toString(play_time/1000);
         Log.d("디비"," 플레이"+Integer.toString(play_time)+" current: "+now+
                 " attend: "+attendance_flag+" 아이디: "+user_id);
         new syncCourseServer().execute(
