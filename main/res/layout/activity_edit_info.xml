@@ -20,6 +20,8 @@
             android:textSize="30sp"
             android:background="@color/colorPrimary"
             android:text="내 프로필"/>
+
+        
         <!-- 안드로이드에서 선택한 이미지가 업로드 되기전 임시로 출력 -->
         <ImageView
             android:id="@+id/img_change"
